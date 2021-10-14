@@ -1,0 +1,13 @@
+.input {
+    background-color: #f8f9fa;
+    border: 1px solid #333333;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #333333;
+
+}
+.input:focus {
+    outline: none !important;
+    border: 2px solid #C49B66;
+}
