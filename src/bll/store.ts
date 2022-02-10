@@ -1,9 +1,10 @@
-import {combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore} from "redux";
 import {loginReducer} from "./loginReducer";
 import {enterNewPasswordReducer} from "./enterNewPasswordReducer";
 import {profileReducer} from "./profileReducer";
 import {restorePasswordReducer} from "./restorePasswordReducer";
 import {registrationReducer} from "./registrationReducer";
+import thunkMiddleware from "redux-thunk";
 
 
 const reducers = combineReducers({
@@ -14,7 +15,7 @@ const reducers = combineReducers({
     registration: registrationReducer
 })
 
-const store = createStore(reducers)
+const store = createStore(reducers, applyMiddleware(thunkMiddleware))
 
 export default store
 

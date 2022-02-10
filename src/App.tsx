@@ -3,17 +3,21 @@ import './App.css';
 import Header from "./components/header/Header";
 import {HashRouter} from "react-router-dom";
 import Routes from "./components/routes/Routes";
+import {Provider} from "react-redux";
+import store from "./bll/store";
 
 function App() {
     return (
         //hr, provider
-
+        <Provider store={store}>
         <HashRouter>
+
             <div className="App">
                 <Header/>
                 <Routes/>
             </div>
         </HashRouter>
+        </Provider>
     );
 }
 
