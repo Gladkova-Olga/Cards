@@ -17,14 +17,25 @@ type UserDataType = {
 }
 
 export const authAPI = {
-    login( email: string, password: string, rememberMe: boolean) {
+    login(email: string, password: string, rememberMe: boolean) {
         const payload = {
             email,
             password,
             rememberMe
         };
         return (
-            instance.post<{email:string, password: string, rememberMe: boolean}, AxiosResponse<UserDataType>>("auth/login", payload)
+            instance.post<typeof payload, AxiosResponse<UserDataType>>("auth/login", payload)
         )
     },
+    signUp(email: string, password: string) {
+        const payload = {
+            email,
+            password
+        };
+        return (
+            instance.post<typeof payload, AxiosResponse<any>>('auth/register', payload)
+        )
+
+},
+
 }

@@ -8,10 +8,10 @@ function Header() {
         <div className={style.headerBlock}>
             <nav className={style.nav}>
                 <div className = {style.item}>
-                    <NavLink to={PATH.LOGIN} activeClassName={style.activeLink}>Login</NavLink>
+                    <NavLink to={PATH.LOGIN} activeClassName={style.activeLink}>Log In</NavLink>
                 </div>
                 <div className = {style.item}>
-                    <NavLink to={PATH.REGISTRATION} activeClassName={style.activeLink}>Registration</NavLink>
+                    <NavLink to={PATH.SIGN_UP} activeClassName={style.activeLink}>Sign Up</NavLink>
                 </div>
                 <div className = {style.item}>
                     <NavLink to={PATH.PROFILE} activeClassName={style.activeLink}>Profile</NavLink>
