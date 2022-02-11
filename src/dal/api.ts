@@ -51,5 +51,13 @@ export const authAPI = {
         }
         return instance.post<typeof payload, AxiosResponse<any>>('/auth/forgot', payload)
     },
+  setNewPassword(password: string, resetPasswordToken: string) {
+        const payload = {
+            password,
+            resetPasswordToken
+        }
+        return instance.post<typeof payload, AxiosResponse<any> >('/auth/set-new-password', payload)
+  },
+
 
 }

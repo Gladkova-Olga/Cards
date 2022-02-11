@@ -3,7 +3,7 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import EnterNewPassword from "../enterNewPassword/EnterNewPassword";
 import Login from "../login/Login";
 import Profile from "../profile/Profile";
-import SignUp from "../registration/SignUp";
+import SignUp from "../signUp/SignUp";
 import RestorePassword from "../restorePassword/RestorePassword";
 import Test from "../test/Test";
 import Error404 from "../error404/Error404";

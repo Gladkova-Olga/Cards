@@ -3,7 +3,6 @@ import style from './RestorePassword.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
 import {useFormik} from "formik";
-import {login} from "../../bll/loginReducer";
 import {restorePassword} from "../../bll/restorePasswordReducer";
 
 type FormikErrorType = {
