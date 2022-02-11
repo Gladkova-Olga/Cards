@@ -22,7 +22,6 @@ export const loginReducer = (state: InitialStateType = initialState, action: Act
             return {...state, isLoggedIn: action.isLoggedIn}
         }
         case "LOGIN/SET-BUTTON-DISABLED":
-            console.log(action.isButtonDisabled)
             return {...state, isButtonDisabled: action.isButtonDisabled}
 
         default: {
@@ -59,5 +58,19 @@ export const login = (email: string, password: string, rememberMe: boolean) => {
             }
             )
         setButtonDisabled(false)
+    }
+}
+
+export const logout = () => {
+    return async (dispatch: ThunkDispatch) => {
+        try {
+            await authAPI.logout();
+            dispatch(setIsLoggedIn(false))
+        }
+        catch (e: any)  {
+            const error = e.response ? e.response.data.error : "Some unknown mistake";
+            console.log(error)
+        }
+
     }
 }

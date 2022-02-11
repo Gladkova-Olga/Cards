@@ -69,8 +69,11 @@ function Login() {
                 </div>
                 <button type={"submit"} disabled={isButtonDisabled}>Sign in</button>
             </form>
-            <div className = {style.item}>
+            <div >
                 <NavLink to={PATH.SIGN_UP} >Sign Up</NavLink>
+            </div>
+            <div >
+                <NavLink to={PATH.RESTORE_PASSWORD}>Forgot your password?</NavLink>
             </div>
         </div>
     )

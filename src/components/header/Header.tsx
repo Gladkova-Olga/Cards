@@ -1,9 +1,20 @@
 import React from 'react'
-import {NavLink} from 'react-router-dom'
+import {NavLink, useHistory} from 'react-router-dom'
 import style from './Header.module.css'
 import {PATH} from "../routes/Routes";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStoreType} from "../../bll/store";
+import {logout} from "../../bll/loginReducer";
 
 function Header() {
+    const dispatch = useDispatch();
+    const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.login.isLoggedIn)
+    const history = useHistory()
+    const onCLickLogoutHandler = () => {
+        dispatch(logout());
+        // history.push('/login')
+
+    }
     return (
         <div className={style.headerBlock}>
             <nav className={style.nav}>
@@ -25,6 +36,7 @@ function Header() {
                 <div className = {style.item}>
                     <NavLink to={PATH.TEST} activeClassName={style.activeLink}>Test</NavLink>
                 </div>
+                {isLoggedIn && <button onClick={onCLickLogoutHandler}>Log out</button>}
 
 
             </nav>
