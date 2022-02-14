@@ -1,8 +1,8 @@
 import axios, {AxiosResponse} from "axios"
 
 const instance = axios.create({
-    baseURL: "https://neko-back.herokuapp.com/2.0/",
-    // baseURL: "http://localhost:7542/2.0/",
+    // baseURL: "https://neko-back.herokuapp.com/2.0/",
+    baseURL: "http://localhost:7542/2.0/",
     withCredentials: true
 })
 
@@ -48,7 +48,7 @@ export const authAPI = {
                         password recovery link: 
 <!--                        <a href='https://Gladkova-Olga.github.io/Cards/#/enter-new-password/$token$'>-->
                         <a href='localhost:3000//Cards/#/enter-new-password/$token$'>
-                        link gh-pages</a></div>`
+                        Link</a></div>`
         }
         return instance.post<typeof payload, AxiosResponse<any>>('/auth/forgot', payload)
     },
@@ -57,8 +57,16 @@ export const authAPI = {
             password,
             resetPasswordToken
         }
-        return instance.post<typeof payload, AxiosResponse<any> >('/auth/set-new-password', payload)
+        return instance.post<typeof payload, AxiosResponse<any>>('/auth/set-new-password', payload)
   },
-
+    me() {
+        return instance.post<{}, AxiosResponse<UserDataType>>('auth/me')
+    },
+    updateUserData(name: string, avatar: string) {
+        const payload = {
+            name, avatar
+        }
+        return instance.put<typeof payload, AxiosResponse<{updatedUser: UserDataType}>>('auth/me', payload)
+    }
 
 }

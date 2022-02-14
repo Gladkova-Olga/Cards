@@ -1,14 +1,13 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../dal/api";
+import {setUserDataAC, SetUserDataAType} from "./profileReducer";
 
 type ThunkDispatch = Dispatch<ActionsLoginType>
 type InitialStateType = typeof initialState;
 
 type SetIsLoggedInType = ReturnType<typeof setIsLoggedIn>
 type SetButtonDisabledType = ReturnType<typeof setButtonDisabled>
-type ActionsLoginType = SetIsLoggedInType | SetButtonDisabledType
-
-
+type ActionsLoginType = SetIsLoggedInType | SetButtonDisabledType | SetUserDataAType
 
 
 const initialState = {
@@ -16,7 +15,7 @@ const initialState = {
     isButtonDisabled: false
 };
 
-export const loginReducer = (state: InitialStateType = initialState, action: ActionsLoginType): InitialStateType =>{
+export const loginReducer = (state: InitialStateType = initialState, action: ActionsLoginType): InitialStateType => {
     switch (action.type) {
         case "LOGIN/SET-IS-LOGGED-IN": {
             return {...state, isLoggedIn: action.isLoggedIn}
@@ -30,7 +29,7 @@ export const loginReducer = (state: InitialStateType = initialState, action: Act
     }
 }
 
-const setIsLoggedIn = (isLoggedIn: boolean) => {
+export const setIsLoggedIn = (isLoggedIn: boolean) => {
     return ({
         type: "LOGIN/SET-IS-LOGGED-IN",
         isLoggedIn
@@ -49,14 +48,15 @@ export const login = (email: string, password: string, rememberMe: boolean) => {
         dispatch(setButtonDisabled(true));
         authAPI.login(email, password, rememberMe)
             .then(res => {
-            dispatch(setIsLoggedIn(true))
+                dispatch(setIsLoggedIn(true));
+                dispatch(setUserDataAC(res.data._id, res.data.name, res.data.publicCardPacksCount,
+                    res.data.avatar ? res.data.avatar : ""))
 
-        })
+            })
             .catch(e => {
                 const error = e.response ? e.response.data.error : "Some unknown mistake";
                 console.log(error)
-            }
-            )
+            })
         setButtonDisabled(false)
     }
 }
@@ -65,9 +65,8 @@ export const logout = () => {
     return async (dispatch: ThunkDispatch) => {
         try {
             await authAPI.logout();
-            dispatch(setIsLoggedIn(false))
-        }
-        catch (e: any)  {
+            dispatch(setIsLoggedIn(false));
+        } catch (e: any) {
             const error = e.response ? e.response.data.error : "Some unknown mistake";
             console.log(error)
         }
