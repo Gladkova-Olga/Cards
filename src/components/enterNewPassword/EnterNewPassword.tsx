@@ -1,9 +1,8 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import style from './EnterNewPassword.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
 import {useFormik} from "formik";
-import {restorePassword} from "../../bll/restorePasswordReducer";
 import {setNewPassword} from "../../bll/enterNewPasswordReducer";
 import {Redirect, useParams} from "react-router-dom";
 
@@ -11,12 +10,14 @@ type FormikErrorType = {
     password?: string
 }
 
+
 function EnterNewPassword() {
 
-    const dispatch = useDispatch();
+
     const isRequestSuccess = useSelector<AppStoreType, boolean>(state => state.enterNewPassword.isRequestSuccess);
     const isButtonDisabled = useSelector<AppStoreType, boolean>(state => state.enterNewPassword.isButtonDisabled);
-    const {token} = useParams<{ token: string }>()
+    const {token} = useParams<{token: string}>()
+    const dispatch = useDispatch();
 
     const formik = useFormik({
         initialValues: {
@@ -33,7 +34,7 @@ function EnterNewPassword() {
         },
         onSubmit: values => {
             dispatch(setNewPassword(values.password, token))
-            formik.resetForm();
+
         }
     })
 

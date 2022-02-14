@@ -46,7 +46,8 @@ export const authAPI = {
             from:  "test-front-admin <olga_gladkova@tut.by>",
             message: `<div style="background-color: #a3c486; padding: 10px">
                         password recovery link: 
-                        <a href='https://Gladkova-Olga.github.io/Cards/#/enter-new-password/$token$'>
+<!--                        <a href='https://Gladkova-Olga.github.io/Cards/#/enter-new-password/$token$'>-->
+                        <a href='localhost:3000//Cards/#/enter-new-password/$token$'>
                         link gh-pages</a></div>`
         }
         return instance.post<typeof payload, AxiosResponse<any>>('/auth/forgot', payload)

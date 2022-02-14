@@ -35,7 +35,7 @@ function RestorePassword() {
 
     if (isRequestSuccess) {
         return (
-            <div>Check yor e-mail! We've sent instruction how to recover your password there.</div>
+            <div>Check your e-mail! We've sent instruction how to recover your password there.</div>
         )
     } else {
         return (

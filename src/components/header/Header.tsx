@@ -18,24 +18,24 @@ function Header() {
     return (
         <div className={style.headerBlock}>
             <nav className={style.nav}>
-                <div className = {style.item}>
+                {!isLoggedIn && <div className = {style.item}>
                     <NavLink to={PATH.LOGIN} activeClassName={style.activeLink}>Log In</NavLink>
-                </div>
-                <div className = {style.item}>
+                </div>}
+                {!isLoggedIn && <div className = {style.item}>
                     <NavLink to={PATH.SIGN_UP} activeClassName={style.activeLink}>Sign Up</NavLink>
-                </div>
-                <div className = {style.item}>
+                </div>}
+                {isLoggedIn && <div className = {style.item}>
                     <NavLink to={PATH.PROFILE} activeClassName={style.activeLink}>Profile</NavLink>
-                </div>
-                <div className = {style.item}>
-                    <NavLink to={PATH.RESTORE_PASSWORD} activeClassName={style.activeLink}>Restore password</NavLink>
-                </div>
-                <div className = {style.item}>
-                    <NavLink to={PATH.ENTER_NEW_PASSWORD} activeClassName={style.activeLink}>Enter new password</NavLink>
-                </div>
-                <div className = {style.item}>
-                    <NavLink to={PATH.TEST} activeClassName={style.activeLink}>Test</NavLink>
-                </div>
+                </div>}
+                {/*<div className = {style.item}>*/}
+                {/*    <NavLink to={PATH.RESTORE_PASSWORD} activeClassName={style.activeLink}>Restore password</NavLink>*/}
+                {/*</div>*/}
+                {/*<div className = {style.item}>*/}
+                {/*    <NavLink to={PATH.ENTER_NEW_PASSWORD} activeClassName={style.activeLink}>Enter new password</NavLink>*/}
+                {/*</div>*/}
+                {/*<div className = {style.item}>*/}
+                {/*    <NavLink to={PATH.TEST} activeClassName={style.activeLink}>Test</NavLink>*/}
+                {/*</div>*/}
                 {isLoggedIn && <button onClick={onCLickLogoutHandler}>Log out</button>}
 
 

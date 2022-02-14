@@ -9,7 +9,7 @@ import Test from "../test/Test";
 import Error404 from "../error404/Error404";
 
 export const PATH = {
-    ENTER_NEW_PASSWORD: '/enter-new-password',
+    ENTER_NEW_PASSWORD: '/enter-new-password/:token',
     LOGIN: '/login',
     PROFILE: '/profile',
     SIGN_UP: '/sign-up',
