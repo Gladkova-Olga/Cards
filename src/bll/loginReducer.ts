@@ -66,6 +66,7 @@ export const logout = () => {
         try {
             await authAPI.logout();
             dispatch(setIsLoggedIn(false));
+            dispatch(setUserDataAC("", "", 0, ''))
         } catch (e: any) {
             const error = e.response ? e.response.data.error : "Some unknown mistake";
             console.log(error)

@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
 import style from './Profile.module.css'
+import styleBtn from '../common/styles/Bottom.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
 import {setUserData, setUserDataAC, updateUserData} from "../../bll/profileReducer";
 import {Redirect} from "react-router-dom";
-import { setIsLoggedIn} from "../../bll/loginReducer";
+import {setIsLoggedIn} from "../../bll/loginReducer";
 import {useFormik} from "formik";
 
 function Profile() {
@@ -24,22 +25,22 @@ function Profile() {
                 dispatch(updateUserData(values.name, values.avatar));
                 setEditMode(false);
             }
-    }
+        }
     )
 
     const editProfile = () => {
         setEditMode(true);
     }
 
-if(!isLoggedIn){
-    dispatch(setUserData());
-    if(_id) {
-        return <Redirect to={'/login'}/>
-    } else {
-        dispatch(setIsLoggedIn(true))
+    if (!isLoggedIn) {
+        dispatch(setUserData());
+        if (!_id) {
+            return <Redirect to={'/login'}/>
+        } else {
+            dispatch(setIsLoggedIn(true))
+        }
     }
-}
-    if(editMode) {
+    if (editMode) {
         return (
             <div>
                 <form onSubmit={formik.handleSubmit}>
@@ -58,13 +59,16 @@ if(!isLoggedIn){
         )
     }
     return (
-        <div className={style.ProfileBlock}>
+        <div className={style.profileBlock}>
             <div>
-                <img src={avatar} alt={name} />
+                <img src={avatar} alt={name}/>
             </div>
-            <div>{name}</div>
-            <div>{publicCardPacksCount} public packs</div>
-            <button onClick={editProfile}>Edit profile</button>
+            <div className={style.items}>
+                <div className={style.titleText}>{name}</div>
+                <div className={style.text}>{publicCardPacksCount} public packs</div>
+                <button className={styleBtn.btn} onClick={editProfile}>Edit profile</button>
+            </div>
+
         </div>
     )
 }
