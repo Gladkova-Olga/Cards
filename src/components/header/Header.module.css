@@ -1,7 +1,7 @@
 .headerBlock {
     display: flex;
     justify-content: flex-end;
-    padding: 10px 20px;
+    padding: 10px 10px;
     align-items: center;
     background-color: #f1f1f5;
 }
@@ -10,6 +10,7 @@
     width: 600px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-family: 'Josefin Sans', sans-serif;
     font-size: 14px;
     font-weight: 600;

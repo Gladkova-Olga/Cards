@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import style from './Login.module.css'
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
@@ -42,15 +42,15 @@ function Login() {
             formik.resetForm();
         }
     })
+
     if (isLoggedIn) {
         return (
-            <Redirect to={'/profile'}/>
+            <Redirect to={PATH.PROFILE}/>
         )
     }
 
     return (
         <div className={style.loginBlock}>
-            <div>Sign in</div>
             <form onSubmit={formik.handleSubmit}>
                 <div>
                     <input

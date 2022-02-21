@@ -1,12 +1,15 @@
 import React, {useState} from 'react'
 import style from './Profile.module.css'
 import styleBtn from '../common/styles/Bottom.module.css'
+import styleInp from '../common/styles/Input.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
-import {setUserData, setUserDataAC, updateUserData} from "../../bll/profileReducer";
+import {setUserData, updateUserData} from "../../bll/profileReducer";
 import {Redirect} from "react-router-dom";
 import {setIsLoggedIn} from "../../bll/loginReducer";
 import {useFormik} from "formik";
+import {PATH} from "../routes/Routes";
+
 
 function Profile() {
     const dispatch = useDispatch();
@@ -31,11 +34,14 @@ function Profile() {
     const editProfile = () => {
         setEditMode(true);
     }
+    const onCancelEditProfileClick = () => {
+        setEditMode(false)
+    }
 
     if (!isLoggedIn) {
         dispatch(setUserData());
         if (!_id) {
-            return <Redirect to={'/login'}/>
+            return <Redirect to={PATH.LOGIN}/>
         } else {
             dispatch(setIsLoggedIn(true))
         }
@@ -43,17 +49,22 @@ function Profile() {
     if (editMode) {
         return (
             <div>
-                <form onSubmit={formik.handleSubmit}>
-                    <div>
+                <form onSubmit={formik.handleSubmit} className={style.editProfileBlock}>
+                    <div className={style.editProfileItem}>
                         <input
                             id={"name"} name={"name"} type={"text"} placeholder={"Name"}
-                            onChange={formik.handleChange} value={formik.values.name}/>
+                            onChange={formik.handleChange} value={formik.values.name} className={styleInp.input}/>
+                    </div>
+                    <div className={style.editProfileItem}>
                         <input
                             id={"avatar"} name={"avatar"} type={"text"} placeholder={" URL avatar"}
-                            onChange={formik.handleChange} value={formik.values.avatar}/>
-
+                            onChange={formik.handleChange} value={formik.values.avatar} className={styleInp.input}/>
                     </div>
-                    <button type={"submit"}>Save</button>
+                    <div className={style.btnContainer}>
+                        <button type={"submit"} className={styleBtn.btn}>Save</button>
+                        <button onClick={onCancelEditProfileClick} className={styleBtn.btn}>Cancel</button>
+                    </div>
+
                 </form>
             </div>
         )

@@ -1,0 +1,16 @@
+.input {
+    background-color: #f9f9f9;
+    border: 1px solid #333333;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #334e6f;
+    width: 40%;
+    border-radius: 4px;
+
+
+}
+.input:focus {
+    outline: none !important;
+    border: 1px solid #28b8dc;
+}
