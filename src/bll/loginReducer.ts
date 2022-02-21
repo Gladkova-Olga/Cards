@@ -1,13 +1,14 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../dal/api";
 import {setUserDataAC, SetUserDataAType} from "./profileReducer";
+import {setAppStatus, SetAppStatusType, setError, SetErrorType} from "./appReducer";
 
 type ThunkDispatch = Dispatch<ActionsLoginType>
 type InitialStateType = typeof initialState;
 
 type SetIsLoggedInType = ReturnType<typeof setIsLoggedIn>
 type SetButtonDisabledType = ReturnType<typeof setButtonDisabled>
-type ActionsLoginType = SetIsLoggedInType | SetButtonDisabledType | SetUserDataAType
+type ActionsLoginType = SetIsLoggedInType | SetButtonDisabledType | SetUserDataAType | SetAppStatusType | SetErrorType
 
 
 const initialState = {
@@ -46,31 +47,39 @@ const setButtonDisabled = (isButtonDisabled: boolean) => {
 export const login = (email: string, password: string, rememberMe: boolean) => {
     return (dispatch: ThunkDispatch) => {
         dispatch(setButtonDisabled(true));
+        dispatch(setAppStatus('loading'));
         authAPI.login(email, password, rememberMe)
             .then(res => {
                 dispatch(setIsLoggedIn(true));
                 dispatch(setUserDataAC(res.data._id, res.data.name, res.data.publicCardPacksCount,
-                    res.data.avatar ? res.data.avatar : ""))
+                    res.data.avatar ? res.data.avatar : ""));
+                dispatch(setButtonDisabled(false));
+                dispatch(setAppStatus('idle'));
 
             })
             .catch(e => {
                 const error = e.response ? e.response.data.error : "Some unknown mistake";
-                console.log(error)
+                dispatch(setError(error));
+                dispatch(setButtonDisabled(false));
+                dispatch(setAppStatus('idle'));
             })
-        setButtonDisabled(false)
+
     }
 }
 
 export const logout = () => {
     return async (dispatch: ThunkDispatch) => {
+        dispatch(setAppStatus('loading'));
         try {
             await authAPI.logout();
             dispatch(setIsLoggedIn(false));
-            dispatch(setUserDataAC("", "", 0, ''))
+            dispatch(setUserDataAC("", "", 0, ''));
+            dispatch(setAppStatus('idle'));
+
         } catch (e: any) {
             const error = e.response ? e.response.data.error : "Some unknown mistake";
-            console.log(error)
+            dispatch(setError(error));
+            dispatch(setAppStatus('idle'));
         }
-
     }
 }

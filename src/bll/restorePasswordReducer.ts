@@ -1,12 +1,13 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../dal/api";
+import {setAppStatus, SetAppStatusType, setError, SetErrorType} from "./appReducer";
 
 type InitialStateType = typeof initialState;
 type ThunkDispatch = Dispatch<ActionsRestorePasswordType>
 
 type CompleteRequestType = ReturnType<typeof completeRequest>
 type SetButtonDisabled = ReturnType<typeof setButtonDisabled>
-type ActionsRestorePasswordType =  CompleteRequestType | SetButtonDisabled
+type ActionsRestorePasswordType =  CompleteRequestType | SetButtonDisabled | SetAppStatusType | SetErrorType
 
 const initialState = {
     isRequestSuccess: false,
@@ -44,17 +45,18 @@ const setButtonDisabled = (isButtonDisabled: boolean) => {
 
 export const restorePassword = (email: string) => {
     return async (dispatch: ThunkDispatch) => {
+        dispatch(setAppStatus('loading'));
         dispatch(setButtonDisabled(true))
         try {
             await authAPI.restorePassword(email);
             dispatch(completeRequest(true));
+            dispatch(setAppStatus('idle'));
         }
         catch (e:any) {
             dispatch(completeRequest(false));
             const error = e.response ? e.response.data.error : "Some unknown mistake";
-            console.log(error)
-        }
-        finally {
+            dispatch(setError(error));
+            dispatch(setAppStatus('idle'));
             dispatch(setButtonDisabled(false))
         }
     }

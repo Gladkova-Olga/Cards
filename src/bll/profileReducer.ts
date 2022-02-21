@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../dal/api";
+import {setAppStatus, SetAppStatusType, setError, SetErrorType} from "./appReducer";
 
 type InitialStateType = typeof initialState;
 type ThunkDispatch = Dispatch<ActionsProfileType>
@@ -8,7 +9,7 @@ type ThunkDispatch = Dispatch<ActionsProfileType>
 export type SetUserDataAType = ReturnType<typeof setUserDataAC>
 export type UpdateUserDataAType = ReturnType<typeof updateUserDataAC>
 
-type ActionsProfileType = SetUserDataAType | UpdateUserDataAType
+type ActionsProfileType = SetUserDataAType | UpdateUserDataAType | SetAppStatusType | SetErrorType
 
 const initialState = {
     _id: "",
@@ -42,36 +43,38 @@ export const setUserDataAC = (_id: string, name: string, publicCardPacksCount: n
 } as const)
 
 export const updateUserDataAC = (name: string, avatar: string) => ({
-    type:"PROFILE/UPDATE-USER-DATA",
+    type: "PROFILE/UPDATE-USER-DATA",
     name, avatar
 } as const)
 
 
-
 export const setUserData = () => {
     return async (dispatch: ThunkDispatch) => {
+        dispatch(setAppStatus('loading'));
         try {
-           const res =  await authAPI.me();
-           dispatch(setUserDataAC(res.data._id, res.data.name, res.data.publicCardPacksCount,
-               res.data.avatar ? res.data.avatar : "" ))
-        }
-        catch (e:any) {
+            const res = await authAPI.me();
+            dispatch(setUserDataAC(res.data._id, res.data.name, res.data.publicCardPacksCount,
+                res.data.avatar ? res.data.avatar : ""))
+            dispatch(setAppStatus('idle'));
+        } catch (e: any) {
             const error = e.response ? e.response.data.error : "Some unknown mistake";
-            console.log(error)
+            dispatch(setError(error));
+            dispatch(setAppStatus('idle'));
         }
     }
 }
 export const updateUserData = (name: string, avatar: string) => {
-    return async  (dispatch: ThunkDispatch) => {
+    return async (dispatch: ThunkDispatch) => {
+        dispatch(setAppStatus('loading'));
         try {
             const res = await authAPI.updateUserData(name, avatar);
             dispatch(setUserDataAC(res.data.updatedUser._id, res.data.updatedUser.name,
-                res.data.updatedUser.publicCardPacksCount, res.data.updatedUser.avatar ? res.data.updatedUser.avatar : "" ));
-
-        }
-        catch (e:any) {
+                res.data.updatedUser.publicCardPacksCount, res.data.updatedUser.avatar ? res.data.updatedUser.avatar : ""));
+            dispatch(setAppStatus('idle'));
+        } catch (e: any) {
             const error = e.response ? e.response.data.error : "Some unknown mistake";
-            console.log(error)
+            dispatch(setError(error));
+            dispatch(setAppStatus('idle'));
         }
     }
 }

@@ -1,12 +1,13 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../dal/api";
+import {setAppStatus, SetAppStatusType, setError, SetErrorType} from "./appReducer";
 
 type InitialStateType = typeof initialState;
 type ThunkDispatch = Dispatch<ActionsSignUpType>
 
 type SignUpSuccessType = ReturnType<typeof signUpSuccess>
 type SetButtonDisabledType = ReturnType<typeof setButtonDisabled>
-type ActionsSignUpType = SignUpSuccessType | SetButtonDisabledType
+type ActionsSignUpType = SignUpSuccessType | SetButtonDisabledType | SetAppStatusType | SetErrorType
 
 const initialState = {
     isSignedUp: false,
@@ -44,19 +45,19 @@ const setButtonDisabled = (isButtonDisabled: boolean) => {
 export const signUp = (email: string, password: string) => {
     return (dispatch: ThunkDispatch) => {
         dispatch(setButtonDisabled(true));
+        dispatch(setAppStatus('loading'));
         authAPI.signUp(email, password)
             .then(res => {
-                dispatch(signUpSuccess(true))
+                dispatch(signUpSuccess(true));
+                dispatch(setAppStatus('idle'));
             })
-            .catch( e => {
+            .catch(e => {
                 const error = e.response ? e.response.data.error : "Some unknown mistake";
-                console.log(error)
-                dispatch(signUpSuccess(false))
+                dispatch(setError(error));
+                dispatch(setAppStatus('idle'));
+                dispatch(signUpSuccess(false));
+                dispatch(setButtonDisabled(false))
             })
-            .finally(() => dispatch(setButtonDisabled(false)))
-
-
-
     }
 
 }
