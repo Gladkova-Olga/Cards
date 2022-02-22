@@ -3,18 +3,23 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
 import {PackType} from "../../dal/api";
 import {useEffect} from "react";
-import {fetchPacks} from "../../bll/packsReducer";
+import {fetchPacks, setMyPacks} from "../../bll/packsReducer";
 
 const Packs = () => {
     const cardsPacks = useSelector<AppStoreType, PackType[]>(state => state.packs.cardPacks);
+    const isMyPacks = useSelector<AppStoreType, boolean>(state => state.packs.isMyPacks);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchPacks())
     }, []);
+    const onChangeMyPacks = () => {
+        dispatch(setMyPacks(!isMyPacks));
+        dispatch(fetchPacks());
+    }
 
     return (
         <div>
-            <input type={"checkbox"}/> <label>my packs</label>
+            <input type={"checkbox"} onChange={onChangeMyPacks}/> <label>my packs</label>
             <button>Add</button>
             <div>
                 {cardsPacks.map((pack) => {

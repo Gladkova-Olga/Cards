@@ -1,8 +1,8 @@
 import axios, {AxiosResponse} from "axios"
 
 const instance = axios.create({
-    // baseURL: "https://neko-back.herokuapp.com/2.0/",
-    baseURL: "http://localhost:7542/2.0/",
+    baseURL: "https://neko-back.herokuapp.com/2.0/",
+    // baseURL: "http://localhost:7542/2.0/",
     withCredentials: true
 })
 
@@ -60,11 +60,11 @@ export const authAPI = {
         const payload = {
             email,
             from: "test-front-admin <olga_gladkova@tut.by>",
-            message: `<div style="background-color: #a3c486; padding: 10px">
+            message: `<div style="padding: 10px">
                         password recovery link: 
-<!--                        <a href='https://Gladkova-Olga.github.io/Cards/#/enter-new-password/$token$'>-->
-                        <a href='localhost:3000//Cards/#/enter-new-password/$token$'>
-                        Link</a></div>`
+                        <a href='https://Gladkova-Olga.github.io/Cards/#/enter-new-password/$token$'>
+<!--                        <a href='localhost:3000//Cards/#/enter-new-password/$token$'>-->
+                        Click here</a></div>`
         }
         return instance.post<typeof payload, AxiosResponse<any>>('/auth/forgot', payload)
     },
@@ -87,8 +87,12 @@ export const authAPI = {
 
 }
 export const packsApi = {
-    getPacks() {
-        const payload = {}
-        return instance.get<typeof payload, AxiosResponse<PacksResponseType>>('cards/pack', payload)
+    getPacks(user_id: string, isMyPacks: boolean) {
+        let user_idToUrl = '';
+        if (isMyPacks){
+            user_idToUrl = `&user_id=${user_id}`
+        }
+        const pageCount = 1000;
+        return instance.get<{}, AxiosResponse<PacksResponseType>>(`cards/pack?pageCount=${pageCount}` + user_idToUrl)
     },
 }
