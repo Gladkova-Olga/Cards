@@ -6,6 +6,7 @@ import {restorePasswordReducer} from "./restorePasswordReducer";
 import {signUpReducer} from "./signUpReducer";
 import thunkMiddleware from "redux-thunk";
 import {appReducer} from "./appReducer";
+import {packsReducer} from "./packsReducer";
 
 
 const reducers = combineReducers({
@@ -14,7 +15,8 @@ const reducers = combineReducers({
     enterNewPassword: enterNewPasswordReducer,
     profile: profileReducer,
     restorePassword: restorePasswordReducer,
-    signUp: signUpReducer
+    signUp: signUpReducer,
+    packs: packsReducer,
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware))

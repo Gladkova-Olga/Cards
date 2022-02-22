@@ -15,6 +15,22 @@ type UserDataType = {
     rememberMe: boolean,
     avatar?: string
 }
+export type PackType = {
+    _id: string
+    user_id: string
+    name: string
+    cardsCount: number
+    created: string
+    updated: string
+}
+export type PacksResponseType = {
+    cardPacks: PackType[]
+    cardPacksTotalCount: number
+    maxCardsCount: number
+    minCardsCount: number
+    page: number
+    pageCount: number
+}
 
 export const authAPI = {
     login(email: string, password: string, rememberMe: boolean) {
@@ -36,14 +52,14 @@ export const authAPI = {
             instance.post<typeof payload, AxiosResponse<any>>('auth/register', payload)
         )
 
-},
-    logout(){
+    },
+    logout() {
         return instance.delete<{}, AxiosResponse<any>>('/auth/me')
     },
     restorePassword(email: string) {
         const payload = {
             email,
-            from:  "test-front-admin <olga_gladkova@tut.by>",
+            from: "test-front-admin <olga_gladkova@tut.by>",
             message: `<div style="background-color: #a3c486; padding: 10px">
                         password recovery link: 
 <!--                        <a href='https://Gladkova-Olga.github.io/Cards/#/enter-new-password/$token$'>-->
@@ -52,13 +68,13 @@ export const authAPI = {
         }
         return instance.post<typeof payload, AxiosResponse<any>>('/auth/forgot', payload)
     },
-  setNewPassword(password: string, resetPasswordToken: string) {
+    setNewPassword(password: string, resetPasswordToken: string) {
         const payload = {
             password,
             resetPasswordToken
         }
         return instance.post<typeof payload, AxiosResponse<any>>('/auth/set-new-password', payload)
-  },
+    },
     me() {
         return instance.post<{}, AxiosResponse<UserDataType>>('auth/me')
     },
@@ -66,7 +82,13 @@ export const authAPI = {
         const payload = {
             name, avatar
         }
-        return instance.put<typeof payload, AxiosResponse<{updatedUser: UserDataType}>>('auth/me', payload)
+        return instance.put<typeof payload, AxiosResponse<{ updatedUser: UserDataType }>>('auth/me', payload)
     }
 
+}
+export const packsApi = {
+    getPacks() {
+        const payload = {}
+        return instance.get<typeof payload, AxiosResponse<PacksResponseType>>('cards/pack', payload)
+    },
 }

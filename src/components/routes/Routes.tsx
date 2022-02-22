@@ -7,6 +7,7 @@ import SignUp from "../signUp/SignUp";
 import RestorePassword from "../restorePassword/RestorePassword";
 import Test from "../test/Test";
 import Error404 from "../error404/Error404";
+import Packs from "../packs/Packs";
 
 export const PATH = {
     ENTER_NEW_PASSWORD: '/enter-new-password/:token',
@@ -15,6 +16,7 @@ export const PATH = {
     SIGN_UP: '/sign-up',
     RESTORE_PASSWORD: '/restore-password',
     TEST: '/test',
+    PACKS: '/packs'
 }
 
 function Routes() {
@@ -27,6 +29,7 @@ function Routes() {
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
                 <Route path={PATH.SIGN_UP} render={() => <SignUp/>}/>
                 <Route path={PATH.RESTORE_PASSWORD} render={() => <RestorePassword/>}/>
+                <Route path={PATH.PACKS} render={() => <Packs/>}/>
                 <Route path={PATH.TEST} render={() => <Test/>}/>
                 <Route render={() => <Error404/>}/>
 

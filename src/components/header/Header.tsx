@@ -29,6 +29,9 @@ function Header() {
                 {isLoggedIn && <div className = {style.item}>
                     <NavLink to={PATH.PROFILE} activeClassName={style.activeLink}>Profile</NavLink>
                 </div>}
+                {isLoggedIn && <div className = {style.item}>
+                    <NavLink to={PATH.PACKS} activeClassName={style.activeLink}>Packs</NavLink>
+                </div>}
                 {/*<div className = {style.item}>*/}
                 {/*    <NavLink to={PATH.RESTORE_PASSWORD} activeClassName={style.activeLink}>Restore password</NavLink>*/}
                 {/*</div>*/}
