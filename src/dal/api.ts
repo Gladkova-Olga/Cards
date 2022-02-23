@@ -102,7 +102,9 @@ export const packsApi = {
                 private: isPrivate
             }
         }
-        console.log(payload)
         return instance.post<typeof payload, AxiosResponse<PackType>>('cards/pack', payload)
     },
+    deletePack(_id: string) {
+        return instance.delete<{}, AxiosResponse<PackType>>(`cards/pack?id=${_id}`)
+    }
 }

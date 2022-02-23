@@ -2,7 +2,7 @@ import style from './Packs.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
 import {PackType} from "../../dal/api";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {fetchPacks, setMyPacks} from "../../bll/packsReducer";
 import ModalAddPack from "./ModalAddPack";
 import {Redirect} from "react-router-dom";
@@ -40,8 +40,11 @@ const Packs = () => {
                         minute: "numeric",
                     });
                     const time = options.format(date);
+                    const onClickDelete = () => {
 
-                    return <div className={style.packsBlock}>
+                    }
+
+                    return <div className={style.packsBlock} key={pack._id}>
                         <div>  {pack.name} </div>
                         <div>  {pack.cardsCount} </div>
                         <div>  {time} </div>

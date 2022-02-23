@@ -1,11 +1,11 @@
 import {packsApi, PackType} from "../dal/api";
 import {setAppStatus, SetAppStatusType, setError, SetErrorType} from "./appReducer";
 import {AppStoreType} from "./store";
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
 
 type GetPacksType = ReturnType<typeof getPacks>
 type SetMyPacksType = ReturnType<typeof setMyPacks>
-type ActionPacksType = GetPacksType | SetMyPacksType |SetAppStatusType | SetErrorType
+type ActionPacksType = GetPacksType | SetMyPacksType | SetAppStatusType | SetErrorType
 
 type ThunkDispatchType = ThunkDispatch<AppStoreType, unknown, ActionPacksType>
 type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionPacksType>
@@ -44,7 +44,7 @@ const getPacks = (cardPacks: PackType[]) => {
     } as const)
 }
 export const setMyPacks = (isMyPack: boolean) => {
-    return({
+    return ({
         type: "PACKS/SET-MY-PACKS",
         isMyPack
     } as const)
@@ -59,7 +59,7 @@ export const fetchPacks = (): ThunkType => {
             const res = await packsApi.getPacks(user_id, isMyPacks);
             dispatch(getPacks(res.data.cardPacks))
             dispatch(setAppStatus('idle'));
-        } catch (e: any){
+        } catch (e: any) {
             const error = e.response ? e.response.data.error : "Some unknown mistake";
             dispatch(setError(error));
             dispatch(setAppStatus('idle'));
@@ -67,7 +67,7 @@ export const fetchPacks = (): ThunkType => {
     }
 }
 
-export const addPack = (name: string, isPrivate: boolean) => {
+export const addPack = (name: string, isPrivate: boolean): ThunkType => {
     return async (dispatch: ThunkDispatchType) => {
         dispatch(setAppStatus('loading'));
         try {
@@ -80,7 +80,20 @@ export const addPack = (name: string, isPrivate: boolean) => {
             dispatch(setAppStatus('idle'));
         }
     }
-
+}
+export const deletePack = (_id: string): ThunkType => {
+    return async (dispatch: ThunkDispatchType) => {
+        dispatch(setAppStatus('loading'));
+        try {
+            await packsApi.deletePack(_id);
+            dispatch(fetchPacks());
+            dispatch(setAppStatus('idle'));
+        } catch (e: any) {
+            const error = e.response ? e.response.data.error : "Some unknown mistake";
+            dispatch(setError(error));
+            dispatch(setAppStatus('idle'));
+        }
+    }
 }
 
 
