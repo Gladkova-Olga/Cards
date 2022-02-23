@@ -1,13 +1,14 @@
 import {packsApi, PackType} from "../dal/api";
-import {Dispatch} from "redux";
 import {setAppStatus, SetAppStatusType, setError, SetErrorType} from "./appReducer";
 import {AppStoreType} from "./store";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 type GetPacksType = ReturnType<typeof getPacks>
 type SetMyPacksType = ReturnType<typeof setMyPacks>
 type ActionPacksType = GetPacksType | SetMyPacksType |SetAppStatusType | SetErrorType
 
-type ThunkDispatch = Dispatch<ActionPacksType>
+type ThunkDispatchType = ThunkDispatch<AppStoreType, unknown, ActionPacksType>
+type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionPacksType>
 type InitialStateType = typeof initialState
 
 const initialState = {
@@ -28,6 +29,7 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
         case "PACKS/SET-MY-PACKS": {
             return {...state, isMyPacks: action.isMyPack}
         }
+
         default: {
             return state
         }
@@ -48,8 +50,8 @@ export const setMyPacks = (isMyPack: boolean) => {
     } as const)
 }
 
-export const fetchPacks = () => {
-    return async (dispatch: ThunkDispatch, getState: () => AppStoreType) => {
+export const fetchPacks = (): ThunkType => {
+    return async (dispatch: ThunkDispatchType, getState: () => AppStoreType) => {
         const user_id = getState().profile._id;
         const isMyPacks = getState().packs.isMyPacks;
         dispatch(setAppStatus('loading'));
@@ -62,9 +64,23 @@ export const fetchPacks = () => {
             dispatch(setError(error));
             dispatch(setAppStatus('idle'));
         }
-
-
     }
+}
+
+export const addPack = (name: string, isPrivate: boolean) => {
+    return async (dispatch: ThunkDispatchType) => {
+        dispatch(setAppStatus('loading'));
+        try {
+            await packsApi.addPack(name, isPrivate);
+            dispatch(fetchPacks());
+            dispatch(setAppStatus('idle'));
+        } catch (e: any) {
+            const error = e.response ? e.response.data.error : "Some unknown mistake";
+            dispatch(setError(error));
+            dispatch(setAppStatus('idle'));
+        }
+    }
+
 }
 
 

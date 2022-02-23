@@ -95,4 +95,14 @@ export const packsApi = {
         const pageCount = 1000;
         return instance.get<{}, AxiosResponse<PacksResponseType>>(`cards/pack?pageCount=${pageCount}` + user_idToUrl)
     },
+    addPack(name: string, isPrivate: boolean) {
+        const payload = {
+            cardsPack: {
+                name,
+                private: isPrivate
+            }
+        }
+        console.log(payload)
+        return instance.post<typeof payload, AxiosResponse<PackType>>('cards/pack', payload)
+    },
 }
