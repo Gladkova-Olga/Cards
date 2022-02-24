@@ -7,6 +7,7 @@ import {fetchPacks, setMyPacks} from "../../bll/packsReducer";
 import ModalAddPack from "./ModalAddPack";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../routes/Routes";
+import ModalDeletePack from "./ModalDeletePack";
 
 const Packs = () => {
     const cardsPacks = useSelector<AppStoreType, PackType[]>(state => state.packs.cardPacks);
@@ -40,15 +41,12 @@ const Packs = () => {
                         minute: "numeric",
                     });
                     const time = options.format(date);
-                    const onClickDelete = () => {
-
-                    }
 
                     return <div className={style.packsBlock} key={pack._id}>
                         <div>  {pack.name} </div>
                         <div>  {pack.cardsCount} </div>
                         <div>  {time} </div>
-                        <div>  <button>delete</button> </div>
+                        <ModalDeletePack name={pack.name} _id={pack._id}/>
                         <div>  <button>update</button> </div>
                         <div>  Cards </div>
                     </div>

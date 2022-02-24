@@ -19,7 +19,6 @@ const ModalAddPack = () => {
     }
     const onClickYes = () => {
         dispatch(addPack(title, isPrivate));
-
         setActiveAddPack(false);
         setTitle("");
         setIsPrivate(false);
