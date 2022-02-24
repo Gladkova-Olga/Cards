@@ -4,7 +4,7 @@ import {AppStoreType} from "../../bll/store";
 import {PackType} from "../../dal/api";
 import {useEffect} from "react";
 import {fetchPacks, setMyPacks} from "../../bll/packsReducer";
-import ModalAddPack from "./ModalAddPack";
+import ModalAddUpdatePack from "./ModalAddUpdatePack";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import ModalDeletePack from "./ModalDeletePack";
@@ -29,7 +29,7 @@ const Packs = () => {
     return (
         <div>
             <input type={"checkbox"} onChange={onChangeMyPacks} checked={isMyPacks}/> <label>my packs</label>
-            <ModalAddPack/>
+            <ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}/>
             <div>
                 {cardsPacks.map((pack) => {
                     let date = new Date(pack.updated);
@@ -47,7 +47,8 @@ const Packs = () => {
                         <div>  {pack.cardsCount} </div>
                         <div>  {time} </div>
                         <ModalDeletePack name={pack.name} _id={pack._id}/>
-                        <div>  <button>update</button> </div>
+                        <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
+                                            nameInit={pack.name} isPrivateInit={pack.private}/>
                         <div>  Cards </div>
                     </div>
 

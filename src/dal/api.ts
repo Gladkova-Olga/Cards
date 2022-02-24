@@ -22,6 +22,7 @@ export type PackType = {
     cardsCount: number
     created: string
     updated: string
+    private: boolean
 }
 export type PacksResponseType = {
     cardPacks: PackType[]
@@ -89,7 +90,7 @@ export const authAPI = {
 export const packsApi = {
     getPacks(user_id: string, isMyPacks: boolean) {
         let user_idToUrl = '';
-        if (isMyPacks){
+        if (isMyPacks) {
             user_idToUrl = `&user_id=${user_id}`
         }
         const pageCount = 1000;
@@ -106,5 +107,14 @@ export const packsApi = {
     },
     deletePack(_id: string) {
         return instance.delete<{}, AxiosResponse<PackType>>(`cards/pack?id=${_id}`)
+    },
+    updatePack(_id: string, name: string, isPrivate: boolean) {
+        const payload = {
+            // _id,
+            name,
+            private: isPrivate
+        }
+        return instance.put<typeof payload, AxiosResponse<PackType>>(`cards/pack?id=${_id}`, payload)
+
     }
 }

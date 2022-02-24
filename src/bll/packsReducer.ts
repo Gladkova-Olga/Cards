@@ -96,4 +96,19 @@ export const deletePack = (_id: string): ThunkType => {
     }
 }
 
+export const updatePack = (_id: string, name: string, isPrivate: boolean): ThunkType => {
+    return async (dispatch: ThunkDispatchType) => {
+        dispatch(setAppStatus('loading'));
+        try {
+            await packsApi.updatePack(_id, name, isPrivate);
+            dispatch(fetchPacks);
+            dispatch(setAppStatus('idle'))
+        } catch (e: any) {
+            const error = e.response ? e.response.data.error : "Some unknown mistake";
+            dispatch(setError(error));
+            dispatch(setAppStatus('idle'));
+        }
+    }
+}
+
 

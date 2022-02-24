@@ -1,13 +1,20 @@
-import {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import Modal from "../common/modal/Modal";
 import {useDispatch} from "react-redux";
 import {addPack} from "../../bll/packsReducer";
 
-const ModalAddPack = () => {
+type PropsType = {
+    buttonName: "Add" | "Update"
+    nameInit: string
+    _id: string
+    isPrivateInit: boolean
+}
+
+const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit, isPrivateInit}) => {
     const dispatch = useDispatch();
     const [activeAddPack, setActiveAddPack] = useState(false);
-    const [title, setTitle] = useState("");
-    const [isPrivate, setIsPrivate] = useState(false)
+    const [title, setTitle] = useState(nameInit);
+    const [isPrivate, setIsPrivate] = useState(isPrivateInit);
     const onClickAddPackHandler = () => {
         setActiveAddPack(true);
     }
@@ -17,13 +24,13 @@ const ModalAddPack = () => {
     const onChangeIsPrivate = () => {
         setIsPrivate(!isPrivate);
     }
-    const onClickYes = () => {
+    const onClickSave = () => {
         dispatch(addPack(title, isPrivate));
         setActiveAddPack(false);
         setTitle("");
         setIsPrivate(false);
     }
-    const onClickNo = () => {
+    const onClickCancel = () => {
         setActiveAddPack(false);
         setTitle("");
         setIsPrivate(false);
@@ -31,18 +38,17 @@ const ModalAddPack = () => {
 
     return (
         <div>
-            <button onClick={onClickAddPackHandler}>Add</button>
+            <button onClick={onClickAddPackHandler}>{buttonName}</button>
             <Modal active={activeAddPack} setActive={setActiveAddPack}>
                 <div><input placeholder={"Packs title"} value={title} onChange={onChangeTitle}/></div>
                 <div><input checked={isPrivate} type={"checkbox"} onChange={onChangeIsPrivate}/><label>private
                     pack</label></div>
                 <div>
-                    <button onClick={onClickYes}>Yes</button>
-                    <button onClick={onClickNo}>No</button>
+                    <button onClick={onClickSave}>Save</button>
+                    <button onClick={onClickCancel}>Cancel</button>
                 </div>
-
             </Modal>
         </div>
     )
 }
-export default ModalAddPack;
+export default ModalAddUpdatePack;
