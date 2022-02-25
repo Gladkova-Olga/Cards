@@ -109,12 +109,14 @@ export const packsApi = {
         return instance.delete<{}, AxiosResponse<PackType>>(`cards/pack?id=${_id}`)
     },
     updatePack(_id: string, name: string, isPrivate: boolean) {
-        const payload = {
-            // _id,
-            name,
-            private: isPrivate
-        }
-        return instance.put<typeof payload, AxiosResponse<PackType>>(`cards/pack?id=${_id}`, payload)
+            const payload = {
+                cardsPack: {
+                    _id,
+                    name,
+                    private: isPrivate
+                }
+            }
+        return instance.put<typeof payload, AxiosResponse<PackType>>(`cards/pack`, payload)
 
     }
 }

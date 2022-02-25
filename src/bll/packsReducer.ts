@@ -101,7 +101,7 @@ export const updatePack = (_id: string, name: string, isPrivate: boolean): Thunk
         dispatch(setAppStatus('loading'));
         try {
             await packsApi.updatePack(_id, name, isPrivate);
-            dispatch(fetchPacks);
+            dispatch(fetchPacks());
             dispatch(setAppStatus('idle'))
         } catch (e: any) {
             const error = e.response ? e.response.data.error : "Some unknown mistake";

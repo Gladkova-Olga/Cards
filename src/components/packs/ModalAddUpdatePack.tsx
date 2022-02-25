@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import Modal from "../common/modal/Modal";
 import {useDispatch} from "react-redux";
-import {addPack} from "../../bll/packsReducer";
+import {addPack, updatePack} from "../../bll/packsReducer";
 
 type PropsType = {
     buttonName: "Add" | "Update"
@@ -25,7 +25,11 @@ const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit, isP
         setIsPrivate(!isPrivate);
     }
     const onClickSave = () => {
-        dispatch(addPack(title, isPrivate));
+        if(buttonName === 'Add'){
+            dispatch(addPack(title, isPrivate));
+        } else {
+            dispatch(updatePack(_id, title, isPrivate))
+        }
         setActiveAddPack(false);
         setTitle("");
         setIsPrivate(false);
