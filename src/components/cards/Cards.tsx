@@ -7,6 +7,7 @@ import {Redirect, useParams} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import {CardType} from "../../dal/api";
 import {fetchCards} from "../../bll/cardsReducer";
+import ModalAddUpdateCard from "./ModalAddUpdateCard";
 // import ModalDeletePack from "./ModalDeletePack";
 
 const Cards = () => {
@@ -26,6 +27,8 @@ const Cards = () => {
 
     return (
         <div>
+            <ModalAddUpdateCard buttonName={"Add"} questionInit={""} answerInit={""} _id={""}
+                                cardsPack_id={cardsPack_id} gradeInit={0}/>
             <div>
                 {cards.map((c) => {
                     const date = new Date(c.updated);

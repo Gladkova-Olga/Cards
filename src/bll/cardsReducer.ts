@@ -36,8 +36,8 @@ const getCards = (cards: CardType[]) => {
 export const fetchCards = (cardsPack_id: string): ThunkType => {
     return async (dispatch: ThunkDispatchType) => {
         dispatch(setAppStatus('loading'));
-        const res = await cardsAPI.getCards(cardsPack_id);
         try {
+            const res = await cardsAPI.getCards(cardsPack_id);
             dispatch(getCards(res.data.cards));
             dispatch(setAppStatus('idle'));
         } catch (e: any) {
@@ -47,6 +47,22 @@ export const fetchCards = (cardsPack_id: string): ThunkType => {
         }
     }
 }
+
+export const addCard = (cardsPack_id: string, question: string, answer: string, grade: number): ThunkType => {
+    return async (dispatch: ThunkDispatchType) => {
+        dispatch(setAppStatus('loading'));
+        try {
+            await cardsAPI.addCard(cardsPack_id, question, answer, grade);
+            dispatch(fetchCards(cardsPack_id));
+            dispatch(setAppStatus('idle'));
+        } catch (e: any) {
+            const error = e.response ? e.response.data.error : "Some unknown mistake";
+            dispatch(setError(error));
+            dispatch(setAppStatus('idle'));
+        }
+    }
+}
+
 
 
 
