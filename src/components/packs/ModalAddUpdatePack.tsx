@@ -44,7 +44,7 @@ const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit, isP
         <div>
             <button onClick={onClickAddPackHandler}>{buttonName}</button>
             <Modal active={activeAddPack} setActive={setActiveAddPack}>
-                <div><input placeholder={"Packs title"} value={title} onChange={onChangeTitle}/></div>
+                <div><input placeholder={"Cards title"} value={title} onChange={onChangeTitle}/></div>
                 <div><input checked={isPrivate} type={"checkbox"} onChange={onChangeIsPrivate}/><label>private
                     pack</label></div>
                 <div>
@@ -55,4 +55,5 @@ const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit, isP
         </div>
     )
 }
+
 export default ModalAddUpdatePack;

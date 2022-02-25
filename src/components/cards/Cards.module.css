@@ -1,0 +1,7 @@
+.packsBlock {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: repeat(6, 200px);
+    grid-auto-rows: 100px;
+    gap: 10px;
+}

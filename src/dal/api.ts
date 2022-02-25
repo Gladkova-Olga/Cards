@@ -32,6 +32,28 @@ export type PacksResponseType = {
     page: number
     pageCount: number
 }
+export type CardType = {
+    answer: string
+    question: string
+    cardsPack_id: string
+    grade: number
+    rating: number
+    shots: number
+    type: string
+    user_id: string
+    created: string
+    updated: string
+    _id: string
+}
+export type CardsResponseType = {
+    cards: CardType[]
+    cardsTotalCount: number
+    maxGrade: number
+    minGrade: number
+    page: number
+    pageCount: number
+    packUserId: string
+}
 
 export const authAPI = {
     login(email: string, password: string, rememberMe: boolean) {
@@ -118,5 +140,11 @@ export const packsApi = {
             }
         return instance.put<typeof payload, AxiosResponse<PackType>>(`cards/pack`, payload)
 
+    }
+}
+
+export const cardsAPI = {
+    getCards(cardsPack_id: string) {
+        return instance.get<{}, AxiosResponse<CardsResponseType>>(`cards/card&cardsPack_id=${cardsPack_id}`)
     }
 }

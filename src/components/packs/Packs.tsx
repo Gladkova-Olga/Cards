@@ -5,7 +5,7 @@ import {PackType} from "../../dal/api";
 import {useEffect} from "react";
 import {fetchPacks, setMyPacks} from "../../bll/packsReducer";
 import ModalAddUpdatePack from "./ModalAddUpdatePack";
-import {Redirect} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import ModalDeletePack from "./ModalDeletePack";
 
@@ -14,14 +14,18 @@ const Packs = () => {
     const isMyPacks = useSelector<AppStoreType, boolean>(state => state.packs.isMyPacks);
     const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.login.isLoggedIn);
     const dispatch = useDispatch();
+    const history = useHistory();
+
     useEffect(() => {
         dispatch(fetchPacks())
     }, []);
+
     const onChangeMyPacks = () => {
         dispatch(setMyPacks(!isMyPacks));
         dispatch(fetchPacks());
     }
-    if(!isLoggedIn) {
+
+    if (!isLoggedIn) {
         return <Redirect to={PATH.LOGIN}/>
     }
 
@@ -32,6 +36,7 @@ const Packs = () => {
             <ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}/>
             <div>
                 {cardsPacks.map((pack) => {
+
                     let date = new Date(pack.updated);
                     let options = new Intl.DateTimeFormat("en", {
                         year: "numeric",
@@ -41,6 +46,10 @@ const Packs = () => {
                         minute: "numeric",
                     });
                     const time = options.format(date);
+                    const onClickCards = () => {
+                        history.push(PATH.CARDS+pack._id)
+                        console.log(PATH.CARDS+pack._id)
+                    }
 
                     return <div className={style.packsBlock} key={pack._id}>
                         <div>  {pack.name} </div>
@@ -49,12 +58,13 @@ const Packs = () => {
                         <ModalDeletePack name={pack.name} _id={pack._id}/>
                         <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
                                             nameInit={pack.name} isPrivateInit={pack.private}/>
-                        <div>  Cards </div>
+                        <div>
+                            <button onClick={onClickCards}>Cards</button>
+                        </div>
                     </div>
 
                 })}
             </div>
-
 
 
         </div>
