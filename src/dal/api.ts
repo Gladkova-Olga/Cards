@@ -145,6 +145,6 @@ export const packsApi = {
 
 export const cardsAPI = {
     getCards(cardsPack_id: string) {
-        return instance.get<{}, AxiosResponse<CardsResponseType>>(`cards/card&cardsPack_id=${cardsPack_id}`)
+        return instance.get<{}, AxiosResponse<CardsResponseType>>(`cards/card?cardsPack_id=${cardsPack_id}`)
     }
 }

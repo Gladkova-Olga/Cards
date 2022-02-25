@@ -3,9 +3,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
 import {useEffect} from "react";
 // import ModalAddUpdatePack from "./ModalAddUpdatePack";
-import {Redirect} from "react-router-dom";
+import {Redirect, useParams} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import {CardType} from "../../dal/api";
+import {fetchCards} from "../../bll/cardsReducer";
 // import ModalDeletePack from "./ModalDeletePack";
 
 const Cards = () => {
@@ -13,28 +14,47 @@ const Cards = () => {
 
     const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.login.isLoggedIn);
     const cards = useSelector<AppStoreType, CardType[]>(state => state.cards.cards);
+    const {cardsPack_id} = useParams<{ cardsPack_id: string }>()
 
-    return(
+    useEffect(() => {
+        dispatch(fetchCards(cardsPack_id))
+    }, []);
+
+    if (!isLoggedIn) {
+        return <Redirect to={PATH.LOGIN}/>
+    }
+
+    return (
         <div>
+            <div>
+                {cards.map((c) => {
+                    const date = new Date(c.updated);
+                    let options = new Intl.DateTimeFormat('en', {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "numeric",
+                    });
+                    const timeUpd = options.format(date);
+                    const grade = +c.grade.toFixed(2)
+                    return (
+                        <div className={style.cardsBlock} key={c._id}>
+                            <div>{c.question}</div>
+                            <div>{c.answer}</div>
+                            <div>{grade}</div>
+                            <div>{timeUpd}</div>
+                            <div>delete</div>
+                            <div>upd</div>
+                        </div>
+                    )
+                })}
 
+            </div>
         </div>
     )
-//     const cardsPacks = useSelector<AppStoreType, PackType[]>(state => state.packs.cardPacks);
-//     const isMyPacks = useSelector<AppStoreType, boolean>(state => state.packs.isMyPacks);
-//     const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.login.isLoggedIn);
-//     const dispatch = useDispatch();
-//     useEffect(() => {
-//         dispatch(fetchPacks())
-//     }, []);
-//     const onChangeMyPacks = () => {
-//         dispatch(setMyPacks(!isMyPacks));
-//         dispatch(fetchPacks());
-//     }
-//     if(!isLoggedIn) {
-//         return <Redirect to={PATH.LOGIN}/>
-//     }
-//
-//
+
+
 //     return (
 //         <div>
 //             <input type={"checkbox"} onChange={onChangeMyPacks} checked={isMyPacks}/> <label>my packs</label>

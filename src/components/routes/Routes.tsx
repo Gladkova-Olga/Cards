@@ -18,7 +18,7 @@ export const PATH = {
     RESTORE_PASSWORD: '/restore-password',
     TEST: '/test',
     PACKS: '/packs',
-    CARDS:'/cards/',
+    CARDS:'/cards/:cardsPack_id',
 }
 
 function Routes() {

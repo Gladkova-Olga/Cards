@@ -47,8 +47,7 @@ const Packs = () => {
                     });
                     const time = options.format(date);
                     const onClickCards = () => {
-                        history.push(PATH.CARDS+pack._id)
-                        console.log(PATH.CARDS+pack._id)
+                        history.push(`/cards/${pack._id}`)
                     }
 
                     return <div className={style.packsBlock} key={pack._id}>
