@@ -1,11 +1,24 @@
-.button {
-    background-color: #f8f9fa;
-    border: 1px solid #C49B66;
-    height: 40px;
+.buttonPrimary {
+    background-color: #28b8dc;
+    border: none;
+    border-radius: 24px;
     width: 100px;
     letter-spacing: 1px;
     font-weight: 700;
-    color: #C49B66;
+    color: #f1f1f5;
     font-size: 14px;
-    font-family: 'Open Sans', sans-serif;;
+    font-family: 'Open Sans', sans-serif;
+    padding: 6px;
+}
+.buttonSecondary {
+    background-color: #f9f9f9;
+    border: 1px solid #28b8dc;
+    border-radius: 24px;
+    width: 80px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #28b8dc;
+    font-size: 13px;
+    font-family: 'Open Sans', sans-serif;
+    padding: 4px;
 }
