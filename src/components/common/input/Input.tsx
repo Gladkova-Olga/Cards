@@ -1,15 +1,16 @@
-import React from 'react';
+import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes} from 'react';
 import style from "./Input.module.css"
 
-type InputPropsType = {
-    inputName: string
-    placeholder: string
+type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+
+type InputPropsType = DefaultInputPropsType & {
+
 }
 
-function Input(props: InputPropsType) {
+function Input({type, onChange, ...rest}: InputPropsType) {
 
     return (
-        <input className={style.input} type={"text"} name={props.inputName} placeholder={props.placeholder}/>
+        <input className={style.input} type={"text"} onChange={onChange} {...rest} />
     )
 
 }

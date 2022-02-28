@@ -1,19 +1,16 @@
-import React from 'react';
+import React, {ButtonHTMLAttributes, DetailedHTMLProps} from 'react';
 import style from "./Button.module.css"
 
-type ButtonPropsType = {
-    buttonName: string
+type ButtonPropsType = DefaultButtonPropsType &{
     buttonStyle: "primary" | "secondary"
-    onClickHandler: () => void
-    // children: any
 }
 
-const Button: React.FC<ButtonPropsType> = ({buttonName, buttonStyle, onClickHandler}) => {
+type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+
+const Button: React.FC<ButtonPropsType> = ({buttonStyle, ...rest}) => {
 
     return (
-        <button className={buttonStyle === "primary" ? style.button : style.buttonSecondary}  onClick={onClickHandler}>
-            {buttonName}
-        </button>
+        <button className={buttonStyle === "primary" ? style.buttonPrimary : style.buttonSecondary } {...rest} />
     )
 
 }

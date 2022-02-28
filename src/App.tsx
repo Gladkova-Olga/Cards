@@ -15,8 +15,8 @@ function App() {
             <HashRouter>
                 <div className="App">
                     <Header/>
-                    <Routes/>
                     <Preloader/>
+                    <Routes/>
                     <Error/>
                 </div>
             </HashRouter>

@@ -5,6 +5,8 @@ import {AppStoreType} from "../../bll/store";
 import {useFormik} from "formik";
 import {setNewPassword} from "../../bll/enterNewPasswordReducer";
 import {Redirect, useParams} from "react-router-dom";
+import Input from "../common/input/Input";
+import Button from "../common/button/Button";
 
 type FormikErrorType = {
     password?: string
@@ -48,12 +50,16 @@ function EnterNewPassword() {
                 <div>Enter new password</div>
                 <form onSubmit={formik.handleSubmit}>
                     <div>
-                        <input id={"password"} name={"password"} type={"password"} placeholder={"Password"}
+                        <Input id={"password"} name={"password"} type={"password"} placeholder={"Password"}
                                onChange={formik.handleChange} onBlur={formik.handleBlur}
                                value={formik.values.password}/>
+                        {/*<input id={"password"} name={"password"} type={"password"} placeholder={"Password"}*/}
+                        {/*       onChange={formik.handleChange} onBlur={formik.handleBlur}*/}
+                        {/*       value={formik.values.password}/>*/}
                         {formik.errors.password && formik.touched.password ? <div>{formik.errors.password}</div> : null}
                     </div>
-                    <button type={"submit"} disabled={isButtonDisabled}>Send</button>
+                    <Button buttonStyle={"primary"} type={"submit"} disabled={isButtonDisabled} children={"Send"}/>
+                    {/*<button type={"submit"} disabled={isButtonDisabled}>Send</button>*/}
                 </form>
             </div>
         )

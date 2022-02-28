@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import style from './Login.module.css'
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
@@ -6,6 +6,9 @@ import {AppStoreType} from "../../bll/store";
 import {login} from "../../bll/loginReducer";
 import {NavLink, Redirect} from "react-router-dom";
 import {PATH} from "../routes/Routes";
+import Button from "../common/button/Button";
+import Input from "../common/input/Input";
+import CheckBox from "../common/checkBox/CheckBox";
 
 type FormikErrorType = {
     email?: string
@@ -53,26 +56,27 @@ function Login() {
         <div className={style.loginBlock}>
             <form onSubmit={formik.handleSubmit}>
                 <div>
-                    <input
-                        id={"email"} name={"email"} type={"text"} placeholder={"E-mail"}
-                        onChange={formik.handleChange} value={formik.values.email} onBlur={formik.handleBlur}/>
+                    <Input id={"email"} name={"email"} type={"text"} placeholder={"E-mail"}
+                           onChange={formik.handleChange}
+                           value={formik.values.email} onBlur={formik.handleBlur}/>
                     {formik.errors.email && formik.touched.email ? <div>{formik.errors.email}</div> : null}
                 </div>
                 <div>
-                    <input id={"password"} name={"password"} type={"password"} placeholder={"Password"}
+                    <Input id={"password"} name={"password"} type={"password"} placeholder={"Password"}
                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password}/>
                     {formik.errors.password && formik.touched.password ? <div>{formik.errors.password}</div> : null}
                 </div>
                 <div>
-                    <input id={"rememberMe"} name={"rememberMe"} type={"checkbox"} onChange={formik.handleChange}
-                    /> <label>remember me</label>
+                    <CheckBox id={"rememberMe"} name={"rememberMe"} type={"checkbox"} onChange={formik.handleChange}
+                              children={"remember me"}/>
                 </div>
-                <button type={"submit"} disabled={isButtonDisabled}>Sign in</button>
+                <Button buttonStyle={"primary"} type={"submit"} disabled={isButtonDisabled} children={'Sign in'}/>
+
             </form>
-            <div >
-                <NavLink to={PATH.SIGN_UP} >Sign Up</NavLink>
+            <div>
+                <NavLink to={PATH.SIGN_UP}>Sign Up</NavLink>
             </div>
-            <div >
+            <div>
                 <NavLink to={PATH.RESTORE_PASSWORD}>Forgot your password?</NavLink>
             </div>
         </div>

@@ -1,17 +1,17 @@
-import React from 'react';
+import React, {DetailedHTMLProps, InputHTMLAttributes} from 'react';
 import style from "./CheckBox.module.css"
 
-type CheckBoxPropsType = {
-    id: string
-    checkBoxLabel: string
+type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+type CheckBoxPropsType = DefaultInputPropsType &{
+
 }
 
-function CheckBox(props: CheckBoxPropsType) {
+function CheckBox({type, id,  children, onChange,  ...rest}: CheckBoxPropsType) {
 
     return (
         <div>
-            <input className={style.checkBox} type={"checkbox"} id={props.id}/>
-            <label className={style.label} htmlFor={props.id}>{props.checkBoxLabel}</label>
+            <input className={style.checkBox} type={"checkbox"} id={id} onChange={onChange} {...rest}/>
+            <label className={style.label} htmlFor={id}>{children}</label>
         </div>
 
     )

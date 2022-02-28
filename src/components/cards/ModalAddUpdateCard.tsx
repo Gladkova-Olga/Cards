@@ -3,6 +3,7 @@ import Modal from "../common/modal/Modal";
 import {useDispatch} from "react-redux";
 import {addCard, updateCard} from "../../bll/cardsReducer";
 import Button from "../common/button/Button";
+import Input from "../common/input/Input";
 
 type PropsType = {
     buttonName: "Add" | "Update"
@@ -47,13 +48,14 @@ const ModalAddUpdatePack: React.FC<PropsType> =
 
         return (
             <div>
-                <Button buttonName={buttonName} buttonStyle={"secondary"} onClickHandler={onClickAddCardHandler}/>
+                <Button children={buttonName} buttonStyle={"secondary"} onClick={onClickAddCardHandler}/>
                 <Modal active={active} setActive={setActive}>
-                    <div><input placeholder={"Question"} value={question} onChange={onChangeQuestion}/></div>
-                    <div><input placeholder={"Answer"} value={answer} onChange={onChangeAnswer}/></div>
+                    <Input name={"question"} placeholder={"Question"} value={question}
+                           onChange={onChangeQuestion}/>
+                    <Input name={"answer"} placeholder={"Answer"} value={answer} onChange={onChangeAnswer}/>
                     <div>
-                        <Button buttonName={"Save"} buttonStyle={"secondary"} onClickHandler={onClickSave}/>
-                        <Button buttonName={"Cancel"} buttonStyle={"secondary"} onClickHandler={onClickCancel}/>
+                        <Button children={"Save"} buttonStyle={"secondary"} onClick={onClickSave}/>
+                        <Button children={"Cancel"} buttonStyle={"secondary"} onClick={onClickCancel}/>
                     </div>
                 </Modal>
             </div>

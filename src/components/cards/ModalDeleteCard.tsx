@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Modal from "../common/modal/Modal";
 import {useDispatch} from "react-redux";
 import {deleteCard} from "../../bll/cardsReducer";
+import Button from "../common/button/Button";
 
 
 type PropsType = {
@@ -28,12 +29,12 @@ const ModalDeletePCard: React.FC<PropsType> = ({_id, cardsPack_id}) => {
 
     return (
         <div>
-            <button onClick={onClickDeleteHandler}>Delete</button>
+            <Button children={"Delete"} buttonStyle={"secondary"} onClick={onClickDeleteHandler}/>
             <Modal active={active} setActive={onClickDeleteHandler}>
                 <div>Do you really want to delete this card?</div>
                 <div>
-                    <button onClick={onClickYes}>Yes</button>
-                    <button onClick={onClickNo}>No</button>
+                    <Button children={"Yes"} buttonStyle={'secondary'} onClick={onClickYes}/>
+                    <Button children={"No"} buttonStyle={'secondary'} onClick={onClickNo}/>
                 </div>
 
             </Modal>

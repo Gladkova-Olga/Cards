@@ -9,6 +9,7 @@ import {Redirect} from "react-router-dom";
 import {setIsLoggedIn} from "../../bll/loginReducer";
 import {useFormik} from "formik";
 import {PATH} from "../routes/Routes";
+import Input from "../common/input/Input";
 
 
 function Profile() {
@@ -51,9 +52,11 @@ function Profile() {
             <div>
                 <form onSubmit={formik.handleSubmit} className={style.editProfileBlock}>
                     <div className={style.editProfileItem}>
-                        <input
-                            id={"name"} name={"name"} type={"text"} placeholder={"Name"}
-                            onChange={formik.handleChange} value={formik.values.name} className={styleInp.input}/>
+                        <Input id={"name"} name={"name"} type={"text"} placeholder={"Name"}
+                               onChange={formik.handleChange} value={formik.values.name} className={styleInp.input}/>
+                        {/*<input*/}
+                        {/*    id={"name"} name={"name"} type={"text"} placeholder={"Name"}*/}
+                        {/*    onChange={formik.handleChange} value={formik.values.name} className={styleInp.input}/>*/}
                     </div>
                     <div className={style.editProfileItem}>
                         <input

@@ -4,6 +4,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
 import {useFormik} from "formik";
 import {restorePassword} from "../../bll/restorePasswordReducer";
+import Input from "../common/input/Input";
+import Button from "../common/button/Button";
 
 type FormikErrorType = {
     email?: string
@@ -43,12 +45,11 @@ function RestorePassword() {
                 <div>Restore password</div>
                 <form onSubmit={formik.handleSubmit}>
                     <div>
-                        <input
-                            id={"email"} name={"email"} type={"text"} placeholder={"E-mail"}
-                            onChange={formik.handleChange} value={formik.values.email} onBlur={formik.handleBlur}/>
+                        <Input id={"email"} name={"email"} type={"text"} placeholder={"E-mail"}
+                               onChange={formik.handleChange} value={formik.values.email} onBlur={formik.handleBlur}/>
                         {formik.errors.email && formik.touched.email ? <div>{formik.errors.email}</div> : null}
                     </div>
-                    <button type={"submit"} disabled={isButtonDisabled}>Send</button>
+                    <Button buttonStyle={"primary"} type={"submit"} disabled={isButtonDisabled} children={"Send"}/>
                 </form>
             </div>
         )

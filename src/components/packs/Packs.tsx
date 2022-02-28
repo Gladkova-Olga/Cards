@@ -8,6 +8,7 @@ import ModalAddUpdatePack from "./ModalAddUpdatePack";
 import {Redirect, useHistory} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import ModalDeletePack from "./ModalDeletePack";
+import CheckBox from "../common/checkBox/CheckBox";
 
 const Packs = () => {
     const cardsPacks = useSelector<AppStoreType, PackType[]>(state => state.packs.cardPacks);
@@ -32,7 +33,7 @@ const Packs = () => {
 
     return (
         <div>
-            <input type={"checkbox"} onChange={onChangeMyPacks} checked={isMyPacks}/> <label>my packs</label>
+            <CheckBox id={"my packs"} checkBoxLabel={"my packs"} onChange={onChangeMyPacks} checked={isMyPacks}/>
             <ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}/>
             <div>
                 {cardsPacks.map((pack) => {
