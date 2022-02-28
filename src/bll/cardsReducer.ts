@@ -78,6 +78,21 @@ export const updateCard = (_id: string, cardsPack_id: string, question: string, 
     }
 }
 
+export const deleteCard = (_id: string, cardsPack_id: string): ThunkType => {
+    return async (dispatch: ThunkDispatchType) => {
+        dispatch(setAppStatus('loading'));
+        try {
+            await cardsAPI.deleteCard(_id);
+            dispatch(fetchCards(cardsPack_id));
+            dispatch(setAppStatus('idle'));
+        } catch (e: any) {
+            const error = e.response ? e.response.data.error : "Some unknown mistake";
+            dispatch(setError(error));
+            dispatch(setAppStatus('idle'));
+        }
+    }
+}
+
 
 
 

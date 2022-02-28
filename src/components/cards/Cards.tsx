@@ -2,13 +2,13 @@ import style from './Cards.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
 import {useEffect} from "react";
-// import ModalAddUpdatePack from "./ModalAddUpdatePack";
 import {Redirect, useParams} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import {CardType} from "../../dal/api";
 import {fetchCards} from "../../bll/cardsReducer";
 import ModalAddUpdateCard from "./ModalAddUpdateCard";
-// import ModalDeletePack from "./ModalDeletePack";
+import ModalDeleteCard from "./ModalDeleteCard";
+
 
 const Cards = () => {
     const dispatch = useDispatch();
@@ -47,7 +47,7 @@ const Cards = () => {
                             <div>{c.answer}</div>
                             <div>{grade}</div>
                             <div>{timeUpd}</div>
-                            <div>delete</div>
+                            <ModalDeleteCard _id={c._id} cardsPack_id={c.cardsPack_id}/>
                             <ModalAddUpdateCard buttonName={"Update"} questionInit={c.question} answerInit={c.answer}
                                                 _id={c._id} cardsPack_id={c.cardsPack_id} gradeInit={c.grade}/>
                         </div>
@@ -58,40 +58,6 @@ const Cards = () => {
         </div>
     )
 
-
-//     return (
-//         <div>
-//             <input type={"checkbox"} onChange={onChangeMyPacks} checked={isMyPacks}/> <label>my packs</label>
-//             <ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}/>
-//             <div>
-//                 {cardsPacks.map((pack) => {
-//                     let date = new Date(pack.updated);
-//                     let options = new Intl.DateTimeFormat("en", {
-//                         year: "numeric",
-//                         month: "numeric",
-//                         day: "numeric",
-//                         hour: "numeric",
-//                         minute: "numeric",
-//                     });
-//                     const time = options.format(date);
-//
-//                     return <div className={style.packsBlock} key={pack._id}>
-//                         <div>  {pack.name} </div>
-//                         <div>  {pack.cardsCount} </div>
-//                         <div>  {time} </div>
-//                         <ModalDeletePack name={pack.name} _id={pack._id}/>
-//                         <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
-//                                             nameInit={pack.name} isPrivateInit={pack.private}/>
-//                         <div>  Cards </div>
-//                     </div>
-//
-//                 })}
-//             </div>
-//
-//
-//
-//         </div>
-//     )
 }
 
 export default Cards;

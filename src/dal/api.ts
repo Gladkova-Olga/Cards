@@ -162,6 +162,8 @@ export const cardsAPI = {
             }
         }
         return instance.put<typeof payload, AxiosResponse<CardType>>(`cards/card`, payload)
-    }
-
+    },
+    deleteCard(_id: string) {
+        return instance.delete<{}, AxiosResponse<CardType>>(`cards/card?id=${_id}`)
+    },
 }
