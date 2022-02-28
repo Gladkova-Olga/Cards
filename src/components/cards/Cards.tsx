@@ -48,7 +48,8 @@ const Cards = () => {
                             <div>{grade}</div>
                             <div>{timeUpd}</div>
                             <div>delete</div>
-                            <div>upd</div>
+                            <ModalAddUpdateCard buttonName={"Update"} questionInit={c.question} answerInit={c.answer}
+                                                _id={c._id} cardsPack_id={c.cardsPack_id} gradeInit={c.grade}/>
                         </div>
                     )
                 })}

@@ -31,13 +31,13 @@ const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit, isP
             dispatch(updatePack(_id, title, isPrivate))
         }
         setActiveAddPack(false);
-        setTitle("");
-        setIsPrivate(false);
+        setTitle(title);
+        setIsPrivate(isPrivate);
     }
     const onClickCancel = () => {
         setActiveAddPack(false);
-        setTitle("");
-        setIsPrivate(false);
+        setTitle(nameInit);
+        setIsPrivate(isPrivateInit);
     }
 
     return (

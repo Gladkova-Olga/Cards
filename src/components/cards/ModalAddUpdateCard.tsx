@@ -1,8 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import Modal from "../common/modal/Modal";
 import {useDispatch} from "react-redux";
-import {addPack, updatePack} from "../../bll/packsReducer";
-import {addCard} from "../../bll/cardsReducer";
+import {addCard, updateCard} from "../../bll/cardsReducer";
 
 type PropsType = {
     buttonName: "Add" | "Update"
@@ -30,19 +29,19 @@ const ModalAddUpdatePack: React.FC<PropsType> =
             setAnswer(e.target.value);
         }
         const onClickSave = () => {
-            if(buttonName === 'Add'){
+            if (buttonName === 'Add') {
                 dispatch(addCard(cardsPack_id, question, answer, gradeInit));
             } else {
-                // dispatch(updatePack(_id, title, isPrivate))
+                dispatch(updateCard(_id, cardsPack_id, question, answer, gradeInit))
             }
             setActive(false);
-            setQuestion("");
-            setAnswer("");
+            setQuestion(question);
+            setAnswer(answer);
         }
         const onClickCancel = () => {
             setActive(false);
-            setQuestion("");
-            setAnswer("");
+            setQuestion(questionInit);
+            setAnswer(answerInit);
         }
 
         return (

@@ -63,6 +63,21 @@ export const addCard = (cardsPack_id: string, question: string, answer: string, 
     }
 }
 
+export const updateCard = (_id: string, cardsPack_id: string, question: string, answer: string, grade: number): ThunkType => {
+    return async (dispatch: ThunkDispatchType) => {
+        dispatch(setAppStatus('loading'));
+        try {
+            await cardsAPI.updateCard(_id, cardsPack_id, question, answer, grade);
+            dispatch(fetchCards(cardsPack_id));
+            dispatch(setAppStatus('idle'));
+        } catch (e: any) {
+            const error = e.response ? e.response.data.error : "Some unknown mistake";
+            dispatch(setError(error));
+            dispatch(setAppStatus('idle'));
+        }
+    }
+}
+
 
 
 

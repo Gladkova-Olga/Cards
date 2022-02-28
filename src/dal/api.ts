@@ -152,9 +152,16 @@ export const cardsAPI = {
             card: {
                 cardsPack_id, question, answer, grade
             }
-
         }
-        return instance.post<typeof payload, AxiosResponse>(`cards/card`, payload)
+        return instance.post<typeof payload, AxiosResponse<CardType>>(`cards/card`, payload)
     },
+    updateCard(_id: string, cardsPack_id: string, question: string, answer: string, grade: number) {
+        const payload = {
+            card: {
+               _id, cardsPack_id, question, answer, grade
+            }
+        }
+        return instance.put<typeof payload, AxiosResponse<CardType>>(`cards/card`, payload)
+    }
 
 }
