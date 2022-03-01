@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import style from './EnterNewPassword.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
@@ -14,7 +14,6 @@ type FormikErrorType = {
 
 
 function EnterNewPassword() {
-
 
     const isRequestSuccess = useSelector<AppStoreType, boolean>(state => state.enterNewPassword.isRequestSuccess);
     const isButtonDisabled = useSelector<AppStoreType, boolean>(state => state.enterNewPassword.isButtonDisabled);
@@ -53,13 +52,9 @@ function EnterNewPassword() {
                         <Input id={"password"} name={"password"} type={"password"} placeholder={"Password"}
                                onChange={formik.handleChange} onBlur={formik.handleBlur}
                                value={formik.values.password}/>
-                        {/*<input id={"password"} name={"password"} type={"password"} placeholder={"Password"}*/}
-                        {/*       onChange={formik.handleChange} onBlur={formik.handleBlur}*/}
-                        {/*       value={formik.values.password}/>*/}
                         {formik.errors.password && formik.touched.password ? <div>{formik.errors.password}</div> : null}
                     </div>
                     <Button buttonStyle={"primary"} type={"submit"} disabled={isButtonDisabled} children={"Send"}/>
-                    {/*<button type={"submit"} disabled={isButtonDisabled}>Send</button>*/}
                 </form>
             </div>
         )

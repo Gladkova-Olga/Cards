@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Modal from "../common/modal/Modal";
 import {useDispatch} from "react-redux";
 import {deletePack} from "../../bll/packsReducer";
+import Button from "../common/button/Button";
 
 
 type PropsType = {
@@ -28,12 +29,12 @@ const ModalDeletePack: React.FC<PropsType> = ({_id, name}) => {
 
     return (
         <div>
-            <button onClick={onClickDeleteHandler}>Delete</button>
+            <Button onClick={onClickDeleteHandler} children={"Delete"} buttonStyle={"secondary"}/>
             <Modal active={active} setActive={onClickDeleteHandler}>
                 <div>Do you really want to delete {name}?</div>
                 <div>
-                    <button onClick={onClickYes}>Yes</button>
-                    <button onClick={onClickNo}>No</button>
+                    <Button onClick={onClickYes} buttonStyle={"secondary"} children={"Yes"}/>
+                    <Button onClick={onClickNo} buttonStyle={"secondary"} children={"No"}/>
                 </div>
 
             </Modal>

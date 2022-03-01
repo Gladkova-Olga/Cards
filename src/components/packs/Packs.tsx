@@ -9,6 +9,7 @@ import {Redirect, useHistory} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import ModalDeletePack from "./ModalDeletePack";
 import CheckBox from "../common/checkBox/CheckBox";
+import Button from "../common/button/Button";
 
 const Packs = () => {
     const cardsPacks = useSelector<AppStoreType, PackType[]>(state => state.packs.cardPacks);
@@ -33,7 +34,7 @@ const Packs = () => {
 
     return (
         <div>
-            <CheckBox id={"my packs"} checkBoxLabel={"my packs"} onChange={onChangeMyPacks} checked={isMyPacks}/>
+            <CheckBox id={"my packs"} children={"my packs"} onChange={onChangeMyPacks} checked={isMyPacks}/>
             <ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}/>
             <div>
                 {cardsPacks.map((pack) => {
@@ -59,7 +60,7 @@ const Packs = () => {
                         <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
                                             nameInit={pack.name} isPrivateInit={pack.private}/>
                         <div>
-                            <button onClick={onClickCards}>Cards</button>
+                            <Button onClick={onClickCards} buttonStyle={"secondary"} children={"Cards"}/>
                         </div>
                     </div>
 

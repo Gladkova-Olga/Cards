@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import style from './Profile.module.css'
-import styleBtn from '../common/styles/Bottom.module.css'
 import styleInp from '../common/styles/Input.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
@@ -10,6 +9,7 @@ import {setIsLoggedIn} from "../../bll/loginReducer";
 import {useFormik} from "formik";
 import {PATH} from "../routes/Routes";
 import Input from "../common/input/Input";
+import Button from "../common/button/Button";
 
 
 function Profile() {
@@ -36,7 +36,7 @@ function Profile() {
         setEditMode(true);
     }
     const onCancelEditProfileClick = () => {
-        setEditMode(false)
+        setEditMode(false);
     }
 
     if (!isLoggedIn) {
@@ -54,18 +54,15 @@ function Profile() {
                     <div className={style.editProfileItem}>
                         <Input id={"name"} name={"name"} type={"text"} placeholder={"Name"}
                                onChange={formik.handleChange} value={formik.values.name} className={styleInp.input}/>
-                        {/*<input*/}
-                        {/*    id={"name"} name={"name"} type={"text"} placeholder={"Name"}*/}
-                        {/*    onChange={formik.handleChange} value={formik.values.name} className={styleInp.input}/>*/}
                     </div>
                     <div className={style.editProfileItem}>
-                        <input
-                            id={"avatar"} name={"avatar"} type={"text"} placeholder={" URL avatar"}
+                        <Input
+                            id={"avatar"} name={"avatar"} type={"text"} placeholder={"URL avatar"}
                             onChange={formik.handleChange} value={formik.values.avatar} className={styleInp.input}/>
                     </div>
                     <div className={style.btnContainer}>
-                        <button type={"submit"} className={styleBtn.btn}>Save</button>
-                        <button onClick={onCancelEditProfileClick} className={styleBtn.btn}>Cancel</button>
+                        <Button type={"submit"}  children={"Save"} buttonStyle={"primary"}/>
+                        <Button  children={"Cancel"} buttonStyle={"primary"} onClick={onCancelEditProfileClick}/>
                     </div>
 
                 </form>
@@ -80,7 +77,7 @@ function Profile() {
             <div className={style.items}>
                 <div className={style.titleText}>{name}</div>
                 <div className={style.text}>{publicCardPacksCount} public packs</div>
-                <button className={styleBtn.btn} onClick={editProfile}>Edit profile</button>
+                <Button  onClick={editProfile} buttonStyle={"primary"} children={"Edit profile"}/>
             </div>
 
         </div>

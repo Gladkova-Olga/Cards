@@ -2,6 +2,9 @@ import React, {ChangeEvent, useState} from "react";
 import Modal from "../common/modal/Modal";
 import {useDispatch} from "react-redux";
 import {addPack, updatePack} from "../../bll/packsReducer";
+import Button from "../common/button/Button";
+import Input from "../common/input/Input";
+import CheckBox from "../common/checkBox/CheckBox";
 
 type PropsType = {
     buttonName: "Add" | "Update"
@@ -42,14 +45,14 @@ const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit, isP
 
     return (
         <div>
-            <button onClick={onClickAddPackHandler}>{buttonName}</button>
+            <Button onClick={onClickAddPackHandler} buttonStyle={"secondary"} children={buttonName}/>
             <Modal active={activeAddPack} setActive={setActiveAddPack}>
-                <div><input placeholder={"Cards title"} value={title} onChange={onChangeTitle}/></div>
-                <div><input checked={isPrivate} type={"checkbox"} onChange={onChangeIsPrivate}/><label>private
-                    pack</label></div>
+                <Input type={"text"} placeholder={"Cards title"} value={title} onChange={onChangeTitle}/>
+                <CheckBox id={"isPrivate"} name={"isPrivate"} type={"checkbox"} checked={isPrivate} onChange={onChangeIsPrivate}
+                          children={"private pack"}  />
                 <div>
-                    <button onClick={onClickSave}>Save</button>
-                    <button onClick={onClickCancel}>Cancel</button>
+                    <Button buttonStyle={"secondary"} children={"Save"} onClick={onClickSave} />
+                    <Button buttonStyle={"secondary"} children={"Cancel"} onClick={onClickCancel} />
                 </div>
             </Modal>
         </div>

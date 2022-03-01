@@ -3,9 +3,10 @@ import style from './SignUp.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
 import {useFormik} from "formik";
-import {NavLink, Redirect} from "react-router-dom";
-import {PATH} from "../routes/Routes";
+import {Redirect} from "react-router-dom";
 import {signUp} from "../../bll/signUpReducer";
+import Input from "../common/input/Input";
+import Button from "../common/button/Button";
 
 type FormikErrorType = {
     email?: string
@@ -53,17 +54,17 @@ function SignUp() {
             <div>Sign up</div>
             <form onSubmit={formik.handleSubmit}>
                 <div>
-                    <input
+                    <Input
                         id={"email"} name={"email"} type={"text"} placeholder={"E-mail"}
                         onChange={formik.handleChange} value={formik.values.email} onBlur={formik.handleBlur}/>
                     {formik.errors.email && formik.touched.email ? <div>{formik.errors.email}</div> : null}
                 </div>
                 <div>
-                    <input id={"password"} name={"password"} type={"password"} placeholder={"Password"}
+                    <Input id={"password"} name={"password"} type={"password"} placeholder={"Password"}
                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password}/>
                     {formik.errors.password && formik.touched.password ? <div>{formik.errors.password}</div> : null}
                 </div>
-                <button type={"submit"} disabled={isButtonDisabled}>Sign up</button>
+                <Button type={"submit"} disabled={isButtonDisabled} buttonStyle={"primary"} children={"Sign up"}/>
             </form>
         </div>
     )
