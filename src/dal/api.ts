@@ -110,13 +110,25 @@ export const authAPI = {
 
 }
 export const packsApi = {
-    getPacks(user_id: string, isMyPacks: boolean) {
+    getPacks(user_id: string, isMyPacks: boolean, min: number, max: number, sortPacks: string | null, page: number, pageCount: number) {
         let user_idToUrl = '';
         if (isMyPacks) {
-            user_idToUrl = `&user_id=${user_id}`
+            // user_idToUrl = `&user_id=${user_id}`
+            return instance.get<{}, AxiosResponse<PacksResponseType>>(`cards/pack`, {
+                params: {
+                    user_id, min, max, sortPacks, page, pageCount
+                }
+            })
+        } else {
+            return instance.get<{}, AxiosResponse<PacksResponseType>>(`cards/pack`, {
+                params: {
+                    min, max, sortPacks, page, pageCount
+                }
+            })
         }
-        const pageCount = 1000;
-        return instance.get<{}, AxiosResponse<PacksResponseType>>(`cards/pack?pageCount=${pageCount}` + user_idToUrl)
+        // const pageCount = 1000;
+        // return instance.get<{}, AxiosResponse<PacksResponseType>>(
+        //     `cards/pack?pageCount=${pageCount}` + user_idToUrl)
     },
     addPack(name: string, isPrivate: boolean) {
         const payload = {
@@ -131,13 +143,13 @@ export const packsApi = {
         return instance.delete<{}, AxiosResponse<PackType>>(`cards/pack?id=${_id}`)
     },
     updatePack(_id: string, name: string, isPrivate: boolean) {
-            const payload = {
-                cardsPack: {
-                    _id,
-                    name,
-                    private: isPrivate
-                }
+        const payload = {
+            cardsPack: {
+                _id,
+                name,
+                private: isPrivate
             }
+        }
         return instance.put<typeof payload, AxiosResponse<PackType>>(`cards/pack`, payload)
 
     }
@@ -158,7 +170,7 @@ export const cardsAPI = {
     updateCard(_id: string, cardsPack_id: string, question: string, answer: string, grade: number) {
         const payload = {
             card: {
-               _id, cardsPack_id, question, answer, grade
+                _id, cardsPack_id, question, answer, grade
             }
         }
         return instance.put<typeof payload, AxiosResponse<CardType>>(`cards/card`, payload)

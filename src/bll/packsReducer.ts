@@ -5,7 +5,10 @@ import {ThunkAction, ThunkDispatch} from "redux-thunk";
 
 type GetPacksType = ReturnType<typeof getPacks>
 type SetMyPacksType = ReturnType<typeof setMyPacks>
-type ActionPacksType = GetPacksType | SetMyPacksType | SetAppStatusType | SetErrorType
+type SetAllPacksDataType = ReturnType<typeof setAllPacksData>
+type SortPacksType = ReturnType<typeof sortPacks>
+type ActionPacksType = GetPacksType | SetMyPacksType | SetAllPacksDataType| SortPacksType| SetAppStatusType | SetErrorType
+
 
 type ThunkDispatchType = ThunkDispatch<AppStoreType, unknown, ActionPacksType>
 type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionPacksType>
@@ -18,7 +21,8 @@ const initialState = {
     minCardsCount: 0,
     page: 0,
     pageCount: 0,
-    isMyPacks: false
+    isMyPacks: false,
+    sortPacks: null as null | string
 }
 
 export const packsReducer = (state: InitialStateType = initialState, action: ActionPacksType): InitialStateType => {
@@ -28,6 +32,13 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
         }
         case "PACKS/SET-MY-PACKS": {
             return {...state, isMyPacks: action.isMyPack}
+        }
+        case "PACKS/SET-ALL-PACKS-DATA": {
+            return {...state, cardPacksTotalCount: action.cardPacksTotalCount, maxCardsCount: action.maxCardsCount,
+            minCardsCount: action.minCardsCount, page: action.page, pageCount: action.pageCount}
+        }
+        case "PACKS/SORT-PACKS": {
+            return {...state, }
         }
 
         default: {
@@ -49,14 +60,35 @@ export const setMyPacks = (isMyPack: boolean) => {
         isMyPack
     } as const)
 }
+export const setAllPacksData = (cardPacksTotalCount: number, maxCardsCount: number,
+                                minCardsCount: number, page: number, pageCount: number) => {
+    return ({
+        type: "PACKS/SET-ALL-PACKS-DATA",
+        cardPacksTotalCount, maxCardsCount,
+        minCardsCount, page, pageCount
+    } as const)
+}
+export const sortPacks = (sortPacks: string | null) => {
+    return ({
+        type: "PACKS/SORT-PACKS", sortPacks
+    } as const)
+}
+
 
 export const fetchPacks = (): ThunkType => {
     return async (dispatch: ThunkDispatchType, getState: () => AppStoreType) => {
         const user_id = getState().profile._id;
         const isMyPacks = getState().packs.isMyPacks;
+        const cardPacksTotalCount = getState().packs.cardPacksTotalCount;
+        const maxCardsCount = getState().packs.maxCardsCount;
+        const minCardsCount = getState().packs.minCardsCount;
+        const page = getState().packs.page;
+        const pageCount = getState().packs.pageCount;
+        const sortPacks = getState().packs.sortPacks;
+
         dispatch(setAppStatus('loading'));
         try {
-            const res = await packsApi.getPacks(user_id, isMyPacks);
+            const res = await packsApi.getPacks(user_id, isMyPacks, minCardsCount, maxCardsCount, sortPacks, page, pageCount);
             dispatch(getPacks(res.data.cardPacks))
             dispatch(setAppStatus('idle'));
         } catch (e: any) {
