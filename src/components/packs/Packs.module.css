@@ -1,3 +1,14 @@
+.packContainer {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: 400px 1fr;
+}
+.packContainer div {
+    padding: 10px;
+}
+.numberInput {
+    width: 30px;
+}
 .packsBlock {
     margin: 20px;
     display: grid;

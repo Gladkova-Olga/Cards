@@ -5,9 +5,13 @@ import {ThunkAction, ThunkDispatch} from "redux-thunk";
 
 type GetPacksType = ReturnType<typeof getPacks>
 type SetMyPacksType = ReturnType<typeof setMyPacks>
-type SetAllPacksDataType = ReturnType<typeof setAllPacksData>
 type SortPacksType = ReturnType<typeof sortPacks>
-type ActionPacksType = GetPacksType | SetMyPacksType | SetAllPacksDataType| SortPacksType| SetAppStatusType | SetErrorType
+type SetPackNameType = ReturnType<typeof setPackName>
+type SetCardsCountType = ReturnType<typeof setCardsCount>
+
+
+type ActionPacksType = GetPacksType | SetMyPacksType | SortPacksType | SetPackNameType | SetCardsCountType |
+    SetAppStatusType | SetErrorType
 
 
 type ThunkDispatchType = ThunkDispatch<AppStoreType, unknown, ActionPacksType>
@@ -20,9 +24,10 @@ const initialState = {
     maxCardsCount: 0,
     minCardsCount: 0,
     page: 0,
-    pageCount: 0,
+    pageCount: 10,
     isMyPacks: false,
-    sortPacks: null as null | string
+    sortPacks: null as null | string,
+    packName: "",
 }
 
 export const packsReducer = (state: InitialStateType = initialState, action: ActionPacksType): InitialStateType => {
@@ -33,12 +38,16 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
         case "PACKS/SET-MY-PACKS": {
             return {...state, isMyPacks: action.isMyPack}
         }
-        case "PACKS/SET-ALL-PACKS-DATA": {
-            return {...state, cardPacksTotalCount: action.cardPacksTotalCount, maxCardsCount: action.maxCardsCount,
-            minCardsCount: action.minCardsCount, page: action.page, pageCount: action.pageCount}
+        case "PACKS/SET-PACK-NAME": {
+            return {...state, packName: action.packName}
         }
+        case "PACKS/SET-CARDS-COUNT": {
+            return {...state, minCardsCount: action.minCardsCount, maxCardsCount: action.maxCardsCount}
+        }
+
+
         case "PACKS/SORT-PACKS": {
-            return {...state, }
+            return {...state,}
         }
 
         default: {
@@ -60,17 +69,32 @@ export const setMyPacks = (isMyPack: boolean) => {
         isMyPack
     } as const)
 }
-export const setAllPacksData = (cardPacksTotalCount: number, maxCardsCount: number,
-                                minCardsCount: number, page: number, pageCount: number) => {
+// export const setAllPacksData = (cardPacksTotalCount: number, maxCardsCount: number,
+//                                 minCardsCount: number, page: number, pageCount: number) => {
+//     return ({
+//         type: "PACKS/SET-ALL-PACKS-DATA",
+//         cardPacksTotalCount, maxCardsCount,
+//         minCardsCount, page, pageCount
+//     } as const)
+// }
+export const setCardsCount = (minCardsCount: number, maxCardsCount: number) => {
     return ({
-        type: "PACKS/SET-ALL-PACKS-DATA",
-        cardPacksTotalCount, maxCardsCount,
-        minCardsCount, page, pageCount
+        type: "PACKS/SET-CARDS-COUNT",
+        minCardsCount,
+        maxCardsCount,
     } as const)
 }
+
+
 export const sortPacks = (sortPacks: string | null) => {
     return ({
         type: "PACKS/SORT-PACKS", sortPacks
+    } as const)
+}
+export const setPackName = (packName: string) => {
+    return ({
+        type: "PACKS/SET-PACK-NAME",
+        packName
     } as const)
 }
 
@@ -85,10 +109,12 @@ export const fetchPacks = (): ThunkType => {
         const page = getState().packs.page;
         const pageCount = getState().packs.pageCount;
         const sortPacks = getState().packs.sortPacks;
+        const packName = getState().packs.packName
 
         dispatch(setAppStatus('loading'));
         try {
-            const res = await packsApi.getPacks(user_id, isMyPacks, minCardsCount, maxCardsCount, sortPacks, page, pageCount);
+            const res = await packsApi.getPacks(user_id, isMyPacks, minCardsCount, maxCardsCount,
+                sortPacks, page, pageCount, packName);
             dispatch(getPacks(res.data.cardPacks))
             dispatch(setAppStatus('idle'));
         } catch (e: any) {

@@ -110,19 +110,20 @@ export const authAPI = {
 
 }
 export const packsApi = {
-    getPacks(user_id: string, isMyPacks: boolean, min: number, max: number, sortPacks: string | null, page: number, pageCount: number) {
+    getPacks(user_id: string, isMyPacks: boolean, min: number, max: number,
+             sortPacks: string | null, page: number, pageCount: number, packName: string) {
         let user_idToUrl = '';
         if (isMyPacks) {
             // user_idToUrl = `&user_id=${user_id}`
             return instance.get<{}, AxiosResponse<PacksResponseType>>(`cards/pack`, {
                 params: {
-                    user_id, min, max, sortPacks, page, pageCount
+                    packName, user_id, min, max, sortPacks, page, pageCount
                 }
             })
         } else {
             return instance.get<{}, AxiosResponse<PacksResponseType>>(`cards/pack`, {
                 params: {
-                    min, max, sortPacks, page, pageCount
+                    packName, min, max, sortPacks, page, pageCount,
                 }
             })
         }
