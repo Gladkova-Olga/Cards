@@ -7,7 +7,7 @@ import {
     fetchPacks,
     setCardsCount,
     setMyPacks,
-    setPackName,
+    setPackName, SortPackConditionType, sortPacks,
 } from "../../bll/packsReducer";
 import ModalAddUpdatePack from "./ModalAddUpdatePack";
 import {Redirect, useHistory} from "react-router-dom";
@@ -24,6 +24,7 @@ const Packs = () => {
     const minCards = useSelector<AppStoreType, number>(state => state.packs.minCardsCount);
     const maxCards = useSelector<AppStoreType, number>(state => state.packs.maxCardsCount);
     const packName = useSelector<AppStoreType, string>(state => state.packs.packName);
+    const sortPacksCondition = useSelector<AppStoreType, SortPackConditionType>(state => state.packs.sortPacksCondition)
 
 
     const [minCardsCount, setMinCardsCount] = useState(0);
@@ -35,7 +36,7 @@ const Packs = () => {
 
     useEffect(() => {
         dispatch(fetchPacks())
-    }, [isMyPacks, minCards, maxCards, packName]);
+    }, [isMyPacks, minCards, maxCards, packName, sortPacksCondition]);
 
     const onChangeMyPacks = () => {
         dispatch(setMyPacks(!isMyPacks));
@@ -61,10 +62,29 @@ const Packs = () => {
             dispatch(setCardsCount(minCardsCount, maxCardsCount));
         }
     }
+
     // const onClickShow = () => {
     //     dispatch(setAllPacksData(10, maxCardsCount, minCardsCount, 1, 10));
     //     // dispatch(fetchPacks());
     // }
+    const onClickNameUp = () => {
+        dispatch(sortPacks("1name"))
+    }
+    const onClickNameDown = () => {
+        dispatch(sortPacks("0name"))
+    }
+    const onClickCardsUp = () => {
+        dispatch(sortPacks("1cardsCount"))
+    }
+    const onClickCardsDown = () => {
+        dispatch(sortPacks("0cardsCount"))
+    }
+    const onClickUpdUp = () => {
+        dispatch(sortPacks("1updated"))
+    }
+    const onClickUpdDown = () => {
+        dispatch(sortPacks("0updated"))
+    }
 
     if (!isLoggedIn) {
         return <Redirect to={PATH.LOGIN}/>
@@ -93,36 +113,54 @@ const Packs = () => {
                            onKeyPress={onPressKeySearch}/>
                 </div>
             </div>
-
             <div>
-                {cardsPacks.map((pack) => {
-
-                    let date = new Date(pack.updated);
-                    let options = new Intl.DateTimeFormat("en", {
-                        year: "numeric",
-                        month: "numeric",
-                        day: "numeric",
-                        hour: "numeric",
-                        minute: "numeric",
-                    });
-                    const time = options.format(date);
-                    const onClickCards = () => {
-                        history.push(`/cards/${pack._id}`)
-                    }
-
-                    return <div className={style.packsBlock} key={pack._id}>
-                        <div>  {pack.name} </div>
-                        <div>  {pack.cardsCount} </div>
-                        <div>  {time} </div>
-                        <ModalDeletePack name={pack.name} _id={pack._id}/>
-                        <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
-                                            nameInit={pack.name} isPrivateInit={pack.private}/>
-                        <div>
-                            <Button onClick={onClickCards} buttonStyle={"secondary"} children={"Cards"}/>
-                        </div>
+                <div className={style.titlesBlock}>
+                    <div>Name
+                        <button onClick={onClickNameUp}>up</button>
+                        <button onClick={onClickNameDown}>down</button>
                     </div>
+                    <div>Cards
+                        <button onClick={onClickCardsUp}>up</button>
+                        <button onClick={onClickCardsDown}>down</button></div>
+                    <div>Last update
+                        <button onClick={onClickUpdUp}>up</button>
+                        <button onClick={onClickUpdDown}>down</button>
+                    </div>
+                    <div>Delete</div>
+                    <div>Update</div>
+                    <div>Cards</div>
+                </div>
+                <div>
+                    {cardsPacks.map((pack) => {
 
-                })}
+                        let date = new Date(pack.updated);
+                        let options = new Intl.DateTimeFormat("en", {
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                            hour: "numeric",
+                            minute: "numeric",
+                        });
+                        const time = options.format(date);
+                        const onClickCards = () => {
+                            history.push(`/cards/${pack._id}`)
+                        }
+
+                        return <div className={style.packsBlock} key={pack._id}>
+                            <div>  {pack.name} </div>
+                            <div>  {pack.cardsCount} </div>
+                            <div>  {time} </div>
+                            <ModalDeletePack name={pack.name} _id={pack._id}/>
+                            <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
+                                                nameInit={pack.name} isPrivateInit={pack.private}/>
+                            <div>
+                                <Button onClick={onClickCards} buttonStyle={"secondary"} children={"Cards"}/>
+                            </div>
+                        </div>
+
+                    })}
+                </div>
+
             </div>
 
 

@@ -13,7 +13,7 @@ type SetCardsCountType = ReturnType<typeof setCardsCount>
 type ActionPacksType = GetPacksType | SetMyPacksType | SortPacksType | SetPackNameType | SetCardsCountType |
     SetAppStatusType | SetErrorType
 
-
+export type SortPackConditionType = "0updated" | "1updated" | "0name" | "1name" | "0cardsCount" | "1cardsCount" | null
 type ThunkDispatchType = ThunkDispatch<AppStoreType, unknown, ActionPacksType>
 type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionPacksType>
 type InitialStateType = typeof initialState
@@ -24,9 +24,9 @@ const initialState = {
     maxCardsCount: 0,
     minCardsCount: 0,
     page: 0,
-    pageCount: 10,
+    pageCount: 20,
     isMyPacks: false,
-    sortPacks: null as null | string,
+    sortPacksCondition: null as null | SortPackConditionType,
     packName: "",
 }
 
@@ -47,7 +47,7 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
 
 
         case "PACKS/SORT-PACKS": {
-            return {...state,}
+            return {...state, sortPacksCondition: action.sortPacksCondition}
         }
 
         default: {
@@ -86,9 +86,9 @@ export const setCardsCount = (minCardsCount: number, maxCardsCount: number) => {
 }
 
 
-export const sortPacks = (sortPacks: string | null) => {
+export const sortPacks = (sortPacksCondition: SortPackConditionType | null) => {
     return ({
-        type: "PACKS/SORT-PACKS", sortPacks
+        type: "PACKS/SORT-PACKS", sortPacksCondition
     } as const)
 }
 export const setPackName = (packName: string) => {
@@ -108,13 +108,13 @@ export const fetchPacks = (): ThunkType => {
         const minCardsCount = getState().packs.minCardsCount;
         const page = getState().packs.page;
         const pageCount = getState().packs.pageCount;
-        const sortPacks = getState().packs.sortPacks;
+        const sortPacksCondition = getState().packs.sortPacksCondition;
         const packName = getState().packs.packName
 
         dispatch(setAppStatus('loading'));
         try {
             const res = await packsApi.getPacks(user_id, isMyPacks, minCardsCount, maxCardsCount,
-                sortPacks, page, pageCount, packName);
+                sortPacksCondition, page, pageCount, packName);
             dispatch(getPacks(res.data.cardPacks))
             dispatch(setAppStatus('idle'));
         } catch (e: any) {

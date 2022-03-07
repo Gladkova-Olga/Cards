@@ -1,4 +1,5 @@
 import axios, {AxiosResponse} from "axios"
+import {SortPackConditionType} from "../bll/packsReducer";
 
 const instance = axios.create({
     baseURL: "https://neko-back.herokuapp.com/2.0/",
@@ -111,7 +112,7 @@ export const authAPI = {
 }
 export const packsApi = {
     getPacks(user_id: string, isMyPacks: boolean, min: number, max: number,
-             sortPacks: string | null, page: number, pageCount: number, packName: string) {
+             sortPacks: SortPackConditionType, page: number, pageCount: number, packName: string) {
         let user_idToUrl = '';
         if (isMyPacks) {
             // user_idToUrl = `&user_id=${user_id}`
