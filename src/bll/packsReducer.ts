@@ -30,6 +30,8 @@ const initialState = {
     isMyPacks: false,
     sortPacksCondition: null as null | SortPackConditionType,
     packName: "",
+    maxCards: 100,
+    minCards: 0,
 }
 
 export const packsReducer = (state: InitialStateType = initialState, action: ActionPacksType): InitialStateType => {
@@ -44,7 +46,7 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
             return {...state, packName: action.packName}
         }
         case "PACKS/SET-CARDS-COUNT": {
-            return {...state, minCardsCount: action.minCardsCount, maxCardsCount: action.maxCardsCount}
+            return {...state, minCards: action.minCards, maxCards: action.maxCards}
         }
 
         case "PACKS/SORT-PACKS": {
@@ -82,19 +84,12 @@ export const setMyPacks = (isMyPack: boolean) => {
         isMyPack
     } as const)
 }
-// export const setAllPacksData = (cardPacksTotalCount: number, maxCardsCount: number,
-//                                 minCardsCount: number, page: number, pageCount: number) => {
-//     return ({
-//         type: "PACKS/SET-ALL-PACKS-DATA",
-//         cardPacksTotalCount, maxCardsCount,
-//         minCardsCount, page, pageCount
-//     } as const)
-// }
-export const setCardsCount = (minCardsCount: number, maxCardsCount: number) => {
+
+export const setCardsCount = (minCards: number, maxCards: number) => {
     return ({
         type: "PACKS/SET-CARDS-COUNT",
-        minCardsCount,
-        maxCardsCount,
+        minCards,
+        maxCards,
     } as const)
 }
 
@@ -128,16 +123,16 @@ export const fetchPacks = (): ThunkType => {
     return async (dispatch: ThunkDispatchType, getState: () => AppStoreType) => {
         const user_id = getState().profile._id;
         const isMyPacks = getState().packs.isMyPacks;
-        const maxCardsCount = getState().packs.maxCardsCount;
-        const minCardsCount = getState().packs.minCardsCount;
+        const maxCards = getState().packs.maxCards;
+        const minCards = getState().packs.minCards;
         const page = getState().packs.page;
         const pageCount = getState().packs.pageCount;
         const sortPacksCondition = getState().packs.sortPacksCondition;
         const packName = getState().packs.packName
-
         dispatch(setAppStatus('loading'));
+        console.log(`minCardsCount=${minCards} maxCardsCount = ${maxCards}`)
         try {
-            const res = await packsApi.getPacks(user_id, isMyPacks, minCardsCount, maxCardsCount,
+            const res = await packsApi.getPacks(user_id, isMyPacks, minCards, maxCards,
                 sortPacksCondition, page, pageCount, packName);
             dispatch(getPacks(res.data));
             dispatch(setAppStatus('idle'));

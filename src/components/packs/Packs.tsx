@@ -17,13 +17,14 @@ import CheckBox from "../common/checkBox/CheckBox";
 import Button from "../common/button/Button";
 import Input from "../common/input/Input";
 import Paginator from "../common/paginator/Paginator";
+import SortPacks from "./sortPack/SortPacks";
 
 const Packs = () => {
     const cardsPacks = useSelector<AppStoreType, PackType[]>(state => state.packs.cardPacks);
     const isMyPacks = useSelector<AppStoreType, boolean>(state => state.packs.isMyPacks);
     const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.login.isLoggedIn);
-    const minCards = useSelector<AppStoreType, number>(state => state.packs.minCardsCount);
-    const maxCards = useSelector<AppStoreType, number>(state => state.packs.maxCardsCount);
+    const minCards = useSelector<AppStoreType, number>(state => state.packs.minCards);
+    const maxCards = useSelector<AppStoreType, number>(state => state.packs.maxCards);
     const packName = useSelector<AppStoreType, string>(state => state.packs.packName);
     const sortPacksCondition = useSelector<AppStoreType, SortPackConditionType>(state => state.packs.sortPacksCondition);
     const pageCount = useSelector<AppStoreType, number>(state => state.packs.pageCount);
@@ -66,25 +67,6 @@ const Packs = () => {
         }
     }
 
-
-    const onClickNameUp = () => {
-        dispatch(sortPacks("1name"))
-    }
-    const onClickNameDown = () => {
-        dispatch(sortPacks("0name"))
-    }
-    const onClickCardsUp = () => {
-        dispatch(sortPacks("1cardsCount"))
-    }
-    const onClickCardsDown = () => {
-        dispatch(sortPacks("0cardsCount"))
-    }
-    const onClickUpdUp = () => {
-        dispatch(sortPacks("1updated"))
-    }
-    const onClickUpdDown = () => {
-        dispatch(sortPacks("0updated"))
-    }
     const onPageChange = (page: number) => {
         dispatch(setPage(page));
     }
@@ -120,16 +102,13 @@ const Packs = () => {
                            onPageChanges={onPageChange} currentPage={page}/>
                 <div className={style.titlesBlock}>
                     <div>Name
-                        <button onClick={onClickNameUp}>up</button>
-                        <button onClick={onClickNameDown}>down</button>
+                        <SortPacks btnName={"name"}/>
                     </div>
                     <div>Cards
-                        <button onClick={onClickCardsUp}>up</button>
-                        <button onClick={onClickCardsDown}>down</button>
+                        <SortPacks btnName={"cardsCount"}/>
                     </div>
                     <div>Last update
-                        <button onClick={onClickUpdUp}>up</button>
-                        <button onClick={onClickUpdDown}>down</button>
+                        <SortPacks btnName={"updated"}/>
                     </div>
                     <div>Delete</div>
                     <div>Update</div>

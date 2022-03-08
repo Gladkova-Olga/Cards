@@ -23,7 +23,6 @@ const Paginator: React.FC<PropsType> = ({pageCount, totalItemsCount,
     for (let i = 1; i <= allPagesCount; i++) {
         pages.push(i);
     }
-    console.log(`totalItemsCount = ${totalItemsCount}, pageCount = ${pageCount}`)
     const portionCount = Math.ceil(allPagesCount / portionSize);
     const [portionNumber, setPortionNumber] = useState(1);
     const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
@@ -38,7 +37,8 @@ const Paginator: React.FC<PropsType> = ({pageCount, totalItemsCount,
 
 return (
     <div>
-        <select name={"pageCount"} id={"pageCount"} value={pageCount.toString()} onChange={onChangePageCount}>
+        <select name={"pageCount"} id={"pageCount"} value={pageCount.toString()} onChange={onChangePageCount}
+                className={style.select}>
             <option value={10}>10</option>
             <option value={20}>20</option>
             <option value={30}>30</option>
