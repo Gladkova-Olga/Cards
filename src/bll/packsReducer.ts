@@ -1,4 +1,4 @@
-import {packsApi, PackType} from "../dal/api";
+import {packsApi, PacksResponseType, PackType} from "../dal/api";
 import {setAppStatus, SetAppStatusType, setError, SetErrorType} from "./appReducer";
 import {AppStoreType} from "./store";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
@@ -8,10 +8,12 @@ type SetMyPacksType = ReturnType<typeof setMyPacks>
 type SortPacksType = ReturnType<typeof sortPacks>
 type SetPackNameType = ReturnType<typeof setPackName>
 type SetCardsCountType = ReturnType<typeof setCardsCount>
+type SetPageCountType = ReturnType<typeof setPageCount>
+type SetPageType = ReturnType<typeof setPage>
 
 
 type ActionPacksType = GetPacksType | SetMyPacksType | SortPacksType | SetPackNameType | SetCardsCountType |
-    SetAppStatusType | SetErrorType
+    SetPageCountType | SetPageType | SetAppStatusType | SetErrorType
 
 export type SortPackConditionType = "0updated" | "1updated" | "0name" | "1name" | "0cardsCount" | "1cardsCount" | null
 type ThunkDispatchType = ThunkDispatch<AppStoreType, unknown, ActionPacksType>
@@ -23,8 +25,8 @@ const initialState = {
     cardPacksTotalCount: 0,
     maxCardsCount: 0,
     minCardsCount: 0,
-    page: 0,
-    pageCount: 20,
+    page: 1,
+    pageCount: 10,
     isMyPacks: false,
     sortPacksCondition: null as null | SortPackConditionType,
     packName: "",
@@ -33,7 +35,7 @@ const initialState = {
 export const packsReducer = (state: InitialStateType = initialState, action: ActionPacksType): InitialStateType => {
     switch (action.type) {
         case "PACKS/GET-PACKS": {
-            return {...state, cardPacks: action.cardPacks}
+            return {...state, ...action.cardPacksInfo}
         }
         case "PACKS/SET-MY-PACKS": {
             return {...state, isMyPacks: action.isMyPack}
@@ -45,9 +47,14 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
             return {...state, minCardsCount: action.minCardsCount, maxCardsCount: action.maxCardsCount}
         }
 
-
         case "PACKS/SORT-PACKS": {
             return {...state, sortPacksCondition: action.sortPacksCondition}
+        }
+        case "PACKS/SET-PAGE-COUNT": {
+            return {...state, pageCount: action.pageCount}
+        }
+        case "PACKS/SET-PAGE": {
+            return {...state, page: action.page}
         }
 
         default: {
@@ -57,10 +64,16 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
     }
 }
 
-const getPacks = (cardPacks: PackType[]) => {
+// const getPacks = (cardPacks: PackType[]) => {
+//     return ({
+//         type: "PACKS/GET-PACKS",
+//         cardPacks
+//     } as const)
+// }
+const getPacks = (cardPacksInfo: PacksResponseType) => {
     return ({
         type: "PACKS/GET-PACKS",
-        cardPacks
+        cardPacksInfo
     } as const)
 }
 export const setMyPacks = (isMyPack: boolean) => {
@@ -97,13 +110,24 @@ export const setPackName = (packName: string) => {
         packName
     } as const)
 }
+export const setPageCount = (pageCount: number) => {
+    return ({
+        type: "PACKS/SET-PAGE-COUNT",
+        pageCount
+    } as const)
+}
+export const setPage = (page: number) => {
+    return ({
+        type: "PACKS/SET-PAGE",
+        page
+    } as const)
+}
 
 
 export const fetchPacks = (): ThunkType => {
     return async (dispatch: ThunkDispatchType, getState: () => AppStoreType) => {
         const user_id = getState().profile._id;
         const isMyPacks = getState().packs.isMyPacks;
-        const cardPacksTotalCount = getState().packs.cardPacksTotalCount;
         const maxCardsCount = getState().packs.maxCardsCount;
         const minCardsCount = getState().packs.minCardsCount;
         const page = getState().packs.page;
@@ -115,7 +139,7 @@ export const fetchPacks = (): ThunkType => {
         try {
             const res = await packsApi.getPacks(user_id, isMyPacks, minCardsCount, maxCardsCount,
                 sortPacksCondition, page, pageCount, packName);
-            dispatch(getPacks(res.data.cardPacks))
+            dispatch(getPacks(res.data));
             dispatch(setAppStatus('idle'));
         } catch (e: any) {
             const error = e.response ? e.response.data.error : "Some unknown mistake";

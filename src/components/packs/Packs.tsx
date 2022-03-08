@@ -7,7 +7,7 @@ import {
     fetchPacks,
     setCardsCount,
     setMyPacks,
-    setPackName, SortPackConditionType, sortPacks,
+    setPackName, setPage, SortPackConditionType, sortPacks,
 } from "../../bll/packsReducer";
 import ModalAddUpdatePack from "./ModalAddUpdatePack";
 import {Redirect, useHistory} from "react-router-dom";
@@ -16,6 +16,7 @@ import ModalDeletePack from "./ModalDeletePack";
 import CheckBox from "../common/checkBox/CheckBox";
 import Button from "../common/button/Button";
 import Input from "../common/input/Input";
+import Paginator from "../common/paginator/Paginator";
 
 const Packs = () => {
     const cardsPacks = useSelector<AppStoreType, PackType[]>(state => state.packs.cardPacks);
@@ -24,11 +25,14 @@ const Packs = () => {
     const minCards = useSelector<AppStoreType, number>(state => state.packs.minCardsCount);
     const maxCards = useSelector<AppStoreType, number>(state => state.packs.maxCardsCount);
     const packName = useSelector<AppStoreType, string>(state => state.packs.packName);
-    const sortPacksCondition = useSelector<AppStoreType, SortPackConditionType>(state => state.packs.sortPacksCondition)
+    const sortPacksCondition = useSelector<AppStoreType, SortPackConditionType>(state => state.packs.sortPacksCondition);
+    const pageCount = useSelector<AppStoreType, number>(state => state.packs.pageCount);
+    const cardPacksTotalCount = useSelector<AppStoreType, number>(state => state.packs.cardPacksTotalCount);
+    const page = useSelector<AppStoreType, number>(state => state.packs.page);
 
 
     const [minCardsCount, setMinCardsCount] = useState(0);
-    const [maxCardsCount, setMaxCardsCount] = useState(100);
+    const [maxCardsCount, setMaxCardsCount] = useState(1000);
     const [searchValue, setSearchValue] = useState("");
 
     const dispatch = useDispatch();
@@ -36,11 +40,10 @@ const Packs = () => {
 
     useEffect(() => {
         dispatch(fetchPacks())
-    }, [isMyPacks, minCards, maxCards, packName, sortPacksCondition]);
+    }, [isMyPacks, minCards, maxCards, packName, sortPacksCondition, pageCount, page]);
 
-    const onChangeMyPacks = () => {
-        dispatch(setMyPacks(!isMyPacks));
-        // dispatch(fetchPacks());
+    const onChangeMyPacks = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(setMyPacks(e.target.checked));
     }
     const onChangeMinCardsCount = (e: ChangeEvent<HTMLInputElement>) => {
         setMinCardsCount(+e.target.value);
@@ -63,10 +66,7 @@ const Packs = () => {
         }
     }
 
-    // const onClickShow = () => {
-    //     dispatch(setAllPacksData(10, maxCardsCount, minCardsCount, 1, 10));
-    //     // dispatch(fetchPacks());
-    // }
+
     const onClickNameUp = () => {
         dispatch(sortPacks("1name"))
     }
@@ -84,6 +84,9 @@ const Packs = () => {
     }
     const onClickUpdDown = () => {
         dispatch(sortPacks("0updated"))
+    }
+    const onPageChange = (page: number) => {
+        dispatch(setPage(page));
     }
 
     if (!isLoggedIn) {
@@ -107,13 +110,14 @@ const Packs = () => {
                     Max - <Input value={maxCardsCount} onChange={onChangeMaxCardsCount}
                                  onKeyPress={onPressKeyCardCount}/>
                 </div>
-                {/*<Button buttonStyle={"primary"} children={"Show"} onClick={onClickShow}/>*/}
                 <div>
                     <Input value={searchValue} onChange={onChangeSearchValue} placeholder={"Search pack"}
                            onKeyPress={onPressKeySearch}/>
                 </div>
             </div>
             <div>
+                <Paginator pageCount={pageCount} portionSize={10} totalItemsCount={cardPacksTotalCount}
+                           onPageChanges={onPageChange} currentPage={page}/>
                 <div className={style.titlesBlock}>
                     <div>Name
                         <button onClick={onClickNameUp}>up</button>
@@ -121,7 +125,8 @@ const Packs = () => {
                     </div>
                     <div>Cards
                         <button onClick={onClickCardsUp}>up</button>
-                        <button onClick={onClickCardsDown}>down</button></div>
+                        <button onClick={onClickCardsDown}>down</button>
+                    </div>
                     <div>Last update
                         <button onClick={onClickUpdUp}>up</button>
                         <button onClick={onClickUpdDown}>down</button>
