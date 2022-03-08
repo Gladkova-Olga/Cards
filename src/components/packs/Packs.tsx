@@ -18,6 +18,7 @@ import Button from "../common/button/Button";
 import Input from "../common/input/Input";
 import Paginator from "../common/paginator/Paginator";
 import SortPacks from "./sortPack/SortPacks";
+import PacksSettings from "./packsSettings/PacksSettings";
 
 const Packs = () => {
     const cardsPacks = useSelector<AppStoreType, PackType[]>(state => state.packs.cardPacks);
@@ -31,11 +32,6 @@ const Packs = () => {
     const cardPacksTotalCount = useSelector<AppStoreType, number>(state => state.packs.cardPacksTotalCount);
     const page = useSelector<AppStoreType, number>(state => state.packs.page);
 
-
-    const [minCardsCount, setMinCardsCount] = useState(0);
-    const [maxCardsCount, setMaxCardsCount] = useState(1000);
-    const [searchValue, setSearchValue] = useState("");
-
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -43,28 +39,16 @@ const Packs = () => {
         dispatch(fetchPacks())
     }, [isMyPacks, minCards, maxCards, packName, sortPacksCondition, pageCount, page]);
 
-    const onChangeMyPacks = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setMyPacks(e.target.checked));
-    }
-    const onChangeMinCardsCount = (e: ChangeEvent<HTMLInputElement>) => {
-        setMinCardsCount(+e.target.value);
 
+    const onChangeMyPacks = (isMyPack: boolean) => {
+        dispatch(setMyPacks(isMyPack));
     }
-    const onChangeMaxCardsCount = (e: ChangeEvent<HTMLInputElement>) => {
-        setMaxCardsCount(+e.target.value);
+
+    const onPressKeySearch = (searchValue: string) => {
+        dispatch(setPackName(searchValue));
     }
-    const onChangeSearchValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(e.target.value)
-    }
-    const onPressKeySearch = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            dispatch(setPackName(searchValue));
-        }
-    }
-    const onPressKeyCardCount = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            dispatch(setCardsCount(minCardsCount, maxCardsCount));
-        }
+    const onPressKeyCardCount = (minCardsCount: number, maxCardsCount: number) => {
+        dispatch(setCardsCount(minCardsCount, maxCardsCount));
     }
 
     const onPageChange = (page: number) => {
@@ -79,27 +63,14 @@ const Packs = () => {
     return (
         <div className={style.packContainer}>
             <div>
-                <CheckBox id={"my packs"} children={"my packs"} onChange={onChangeMyPacks} checked={isMyPacks}/>
-                <ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}/>
-                <div>
-                    Cards count:
-                </div>
-                <div>
-                    Min - <Input value={minCardsCount} onChange={onChangeMinCardsCount}
-                                 className={style.numberInput} onKeyPress={onPressKeyCardCount}/>
-                </div>
-                <div>
-                    Max - <Input value={maxCardsCount} onChange={onChangeMaxCardsCount}
-                                 onKeyPress={onPressKeyCardCount}/>
-                </div>
-                <div>
-                    <Input value={searchValue} onChange={onChangeSearchValue} placeholder={"Search pack"}
-                           onKeyPress={onPressKeySearch}/>
-                </div>
+                <PacksSettings isMyPacks={isMyPacks} onChangeMyPacks={onChangeMyPacks}
+                               onPressKeyCardCount={onPressKeyCardCount} onPressKeySearch={onPressKeySearch}/>
+
             </div>
             <div>
                 <Paginator pageCount={pageCount} portionSize={10} totalItemsCount={cardPacksTotalCount}
                            onPageChanges={onPageChange} currentPage={page}/>
+                <ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}/>
                 <div className={style.titlesBlock}>
                     <div>Name
                         <SortPacks btnName={"name"}/>
@@ -131,7 +102,7 @@ const Packs = () => {
                         }
 
                         return <div className={style.packsBlock} key={pack._id}>
-                            <div>  {pack.name} </div>
+                            <div onClick={onClickCards}>  {pack.name} </div>
                             <div>  {pack.cardsCount} </div>
                             <div>  {time} </div>
                             <ModalDeletePack name={pack.name} _id={pack._id}/>

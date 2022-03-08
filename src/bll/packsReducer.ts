@@ -30,7 +30,7 @@ const initialState = {
     isMyPacks: false,
     sortPacksCondition: null as null | SortPackConditionType,
     packName: "",
-    maxCards: 100,
+    maxCards: 1000,
     minCards: 0,
 }
 
@@ -130,7 +130,6 @@ export const fetchPacks = (): ThunkType => {
         const sortPacksCondition = getState().packs.sortPacksCondition;
         const packName = getState().packs.packName
         dispatch(setAppStatus('loading'));
-        console.log(`minCardsCount=${minCards} maxCardsCount = ${maxCards}`)
         try {
             const res = await packsApi.getPacks(user_id, isMyPacks, minCards, maxCards,
                 sortPacksCondition, page, pageCount, packName);

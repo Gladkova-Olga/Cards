@@ -1,7 +1,6 @@
 import React, {ChangeEvent, useState} from "react";
 import {useDispatch} from "react-redux";
 import {setPageCount} from "../../../bll/packsReducer";
-import Button from "../button/Button";
 import style from "./Paginator.module.css"
 
 type PropsType = {
