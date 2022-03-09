@@ -2,7 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import CheckBox from "../../common/checkBox/CheckBox";
 import Input from "../../common/input/Input";
 import style from "../Packs.module.css";
-import {setPackName} from "../../../bll/packsReducer";
+
 type PropsType = {
     isMyPacks: boolean
     onChangeMyPacks: (isMyPack: boolean) => void

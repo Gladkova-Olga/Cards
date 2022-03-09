@@ -66,12 +66,6 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
     }
 }
 
-// const getPacks = (cardPacks: PackType[]) => {
-//     return ({
-//         type: "PACKS/GET-PACKS",
-//         cardPacks
-//     } as const)
-// }
 const getPacks = (cardPacksInfo: PacksResponseType) => {
     return ({
         type: "PACKS/GET-PACKS",
@@ -92,7 +86,6 @@ export const setCardsCount = (minCards: number, maxCards: number) => {
         maxCards,
     } as const)
 }
-
 
 export const sortPacks = (sortPacksCondition: SortPackConditionType | null) => {
     return ({

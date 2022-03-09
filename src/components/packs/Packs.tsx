@@ -2,7 +2,7 @@ import style from './Packs.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
 import {PackType} from "../../dal/api";
-import {ChangeEvent, KeyboardEvent, useEffect, useState} from "react";
+import {useEffect} from "react";
 import {
     fetchPacks,
     setCardsCount,
@@ -13,9 +13,6 @@ import ModalAddUpdatePack from "./ModalAddUpdatePack";
 import {Redirect, useHistory} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import ModalDeletePack from "./ModalDeletePack";
-import CheckBox from "../common/checkBox/CheckBox";
-import Button from "../common/button/Button";
-import Input from "../common/input/Input";
 import Paginator from "../common/paginator/Paginator";
 import SortPacks from "./sortPack/SortPacks";
 import PacksSettings from "./packsSettings/PacksSettings";
@@ -31,6 +28,7 @@ const Packs = () => {
     const pageCount = useSelector<AppStoreType, number>(state => state.packs.pageCount);
     const cardPacksTotalCount = useSelector<AppStoreType, number>(state => state.packs.cardPacksTotalCount);
     const page = useSelector<AppStoreType, number>(state => state.packs.page);
+    const user_id = useSelector<AppStoreType, string>(state => state.profile._id);
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -102,15 +100,15 @@ const Packs = () => {
                         }
 
                         return <div className={style.packsBlock} key={pack._id}>
-                            <div onClick={onClickCards}>  {pack.name} </div>
+                            <div onClick={onClickCards} className={style.cardsName}>  {pack.name} </div>
                             <div>  {pack.cardsCount} </div>
                             <div>  {time} </div>
-                            <ModalDeletePack name={pack.name} _id={pack._id}/>
-                            <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
-                                                nameInit={pack.name} isPrivateInit={pack.private}/>
-                            <div>
-                                <Button onClick={onClickCards} buttonStyle={"secondary"} children={"Cards"}/>
-                            </div>
+                            { pack.user_id === user_id &&  <ModalDeletePack name={pack.name} _id={pack._id}/>}
+                            { pack.user_id === user_id &&  <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
+                                                nameInit={pack.name} isPrivateInit={pack.private}/> }
+                            {/*<div>*/}
+                            {/*    <Button onClick={onClickCards} buttonStyle={"secondary"} children={"Cards"}/>*/}
+                            {/*</div>*/}
                         </div>
 
                     })}

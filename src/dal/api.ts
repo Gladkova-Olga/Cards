@@ -1,5 +1,6 @@
 import axios, {AxiosResponse} from "axios"
 import {SortPackConditionType} from "../bll/packsReducer";
+import {SortCardsConditionType} from "../bll/cardsReducer";
 
 const instance = axios.create({
     baseURL: "https://neko-back.herokuapp.com/2.0/",
@@ -113,9 +114,7 @@ export const authAPI = {
 export const packsApi = {
     getPacks(user_id: string, isMyPacks: boolean, min: number, max: number,
              sortPacks: SortPackConditionType, page: number, pageCount: number, packName: string) {
-        let user_idToUrl = '';
         if (isMyPacks) {
-            // user_idToUrl = `&user_id=${user_id}`
             return instance.get<{}, AxiosResponse<PacksResponseType>>(`cards/pack`, {
                 params: {
                     packName, user_id, min, max, sortPacks, page, pageCount
@@ -128,9 +127,6 @@ export const packsApi = {
                 }
             })
         }
-        // const pageCount = 1000;
-        // return instance.get<{}, AxiosResponse<PacksResponseType>>(
-        //     `cards/pack?pageCount=${pageCount}` + user_idToUrl)
     },
     addPack(name: string, isPrivate: boolean) {
         const payload = {
@@ -158,8 +154,16 @@ export const packsApi = {
 }
 
 export const cardsAPI = {
-    getCards(cardsPack_id: string) {
-        return instance.get<{}, AxiosResponse<CardsResponseType>>(`cards/card?cardsPack_id=${cardsPack_id}`)
+    getCards(cardAnswer: string, cardQuestion: string, cardsPack_id: string,
+             min: number, max: number, sortCards: null | SortCardsConditionType, page: number, pageCount: number) {
+        return instance.get<{}, AxiosResponse<CardsResponseType>>(`cards/card?cardsPack_id=${cardsPack_id}`,
+            {
+                params: {
+                    cardAnswer, cardQuestion, cardsPack_id, min, max, sortCards, page, pageCount
+                }
+            })
+        // return instance.get<{}, AxiosResponse<CardsResponseType>>(`cards/card?cardsPack_id=${cardsPack_id}`
+        //     })
     },
     addCard(cardsPack_id: string, question: string, answer: string, grade: number) {
         const payload = {
