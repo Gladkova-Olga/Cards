@@ -5,7 +5,7 @@ import {useEffect} from "react";
 import {Redirect, useParams} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import {CardType} from "../../dal/api";
-import {fetchCards, setAnswerSearch, setQuestionSearch} from "../../bll/cardsReducer";
+import {fetchCards, setAnswerSearch, setGradesRange, setQuestionSearch} from "../../bll/cardsReducer";
 import ModalAddUpdateCard from "./ModalAddUpdateCard";
 import ModalDeleteCard from "./ModalDeleteCard";
 import CardsSettings from "./cardsSettings/CardsSettings";
@@ -19,17 +19,21 @@ const Cards = () => {
     const cards = useSelector<AppStoreType, CardType[]>(state => state.cards.cards);
     const cardQuestion = useSelector<AppStoreType, string>(state => state.cards.cardQuestion);
     const cardAnswer = useSelector<AppStoreType, string>(state => state.cards.cardAnswer);
-
+    const min = useSelector<AppStoreType, number>(state => state.cards.min);
+    const max = useSelector<AppStoreType, number>(state => state.cards.max);
 
     useEffect(() => {
         dispatch(fetchCards(cardsPack_id))
-    }, [cardQuestion, cardAnswer]);
+    }, [cardQuestion, cardAnswer, min, max]);
 
     const onPressKeyQuestionSearch = (questionValue: string) => {
         dispatch(setQuestionSearch(questionValue))
     }
     const onPressKeyAnswerSearch = (answerValue: string) => {
         dispatch(setAnswerSearch(answerValue))
+    }
+    const onPressKeyGrade = (min:number, max: number) => {
+        dispatch(setGradesRange(min, max));
     }
 
     if (!isLoggedIn) {
@@ -39,7 +43,8 @@ const Cards = () => {
     return (
         <div className={style.cardsContainer}>
             <div>
-                <CardsSettings onPressKeyQuestionSearch={onPressKeyQuestionSearch} onPressKeyAnswerSearch={onPressKeyAnswerSearch}
+                <CardsSettings onPressKeyQuestionSearch={onPressKeyQuestionSearch}
+                               onPressKeyAnswerSearch={onPressKeyAnswerSearch} onPressKeyGrade={onPressKeyGrade}
                 />
             </div>
             <div>
