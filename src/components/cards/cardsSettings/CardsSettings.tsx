@@ -13,7 +13,7 @@ const CardsSettings: React.FC<PropsType> = ({onPressKeyQuestionSearch, onPressKe
     const [questionValue, setQuestionValue] = useState("");
     const [answerValue, setAnswerValue] = useState("");
     const [min, setMin] = useState(0);
-    const [max, setMax] = useState(5);
+    const [max, setMax] = useState(6);
 
     const onChangeQuestionValue = (e: ChangeEvent<HTMLInputElement>) => {
         setQuestionValue(e.target.value)

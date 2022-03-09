@@ -5,11 +5,19 @@ import {useEffect} from "react";
 import {Redirect, useParams} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import {CardType} from "../../dal/api";
-import {fetchCards, setAnswerSearch, setGradesRange, setQuestionSearch} from "../../bll/cardsReducer";
+import {
+    fetchCards,
+    setAnswerSearch,
+    setGradesRange,
+    setPage,
+    setPageCount,
+    setQuestionSearch
+} from "../../bll/cardsReducer";
 import ModalAddUpdateCard from "./ModalAddUpdateCard";
 import ModalDeleteCard from "./ModalDeleteCard";
 import CardsSettings from "./cardsSettings/CardsSettings";
 import SortCards from "./sortCards/SortCards";
+import Paginator from "../common/paginator/Paginator";
 
 
 const Cards = () => {
@@ -23,10 +31,14 @@ const Cards = () => {
     const min = useSelector<AppStoreType, number>(state => state.cards.min);
     const max = useSelector<AppStoreType, number>(state => state.cards.max);
     const sortCardsCondition = useSelector<AppStoreType, null | string>(state => state.cards.sortCardsCondition);
+    const pageCount = useSelector<AppStoreType, number>(state => state.cards.pageCount);
+    const cardsTotalCount = useSelector<AppStoreType, number>(state => state.cards.cardsTotalCount);
+    const page = useSelector<AppStoreType, number>(state => state.cards.page);
+
 
     useEffect(() => {
         dispatch(fetchCards(cardsPack_id))
-    }, [cardQuestion, cardAnswer, min, max, sortCardsCondition]);
+    }, [cardQuestion, cardAnswer, min, max, sortCardsCondition, pageCount, page]);
 
     const onPressKeyQuestionSearch = (questionValue: string) => {
         dispatch(setQuestionSearch(questionValue))
@@ -37,6 +49,12 @@ const Cards = () => {
     const onPressKeyGrade = (min: number, max: number) => {
         dispatch(setGradesRange(min, max));
     }
+    const onPageChange = (page: number) => {
+        dispatch(setPage(page));
+    }
+   const onSwitchPageCount = (pageCount: number) => {
+        dispatch(setPageCount(pageCount));
+   }
 
     if (!isLoggedIn) {
         return <Redirect to={PATH.LOGIN}/>
@@ -50,6 +68,8 @@ const Cards = () => {
                 />
             </div>
             <div>
+                <Paginator pageCount={pageCount} totalItemsCount={cardsTotalCount} portionSize={10}
+                           onPageChanges={onPageChange} currentPage={page} onSwitchPageCount={onSwitchPageCount}/>
                 <ModalAddUpdateCard buttonName={"Add"} questionInit={""} answerInit={""} _id={""}
                                     cardsPack_id={cardsPack_id} gradeInit={0}/>
                 <div className={style.titlesBlock}>

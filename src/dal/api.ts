@@ -156,7 +156,7 @@ export const packsApi = {
 export const cardsAPI = {
     getCards(cardAnswer: string, cardQuestion: string, cardsPack_id: string,
              min: number, max: number, sortCards: null | SortCardsConditionType, page: number, pageCount: number) {
-        return instance.get<{}, AxiosResponse<CardsResponseType>>(`cards/card?cardsPack_id=${cardsPack_id}`,
+        return instance.get<{}, AxiosResponse<CardsResponseType>>(`cards/card`,
             {
                 params: {
                     cardAnswer, cardQuestion, cardsPack_id, min, max, sortCards, page, pageCount

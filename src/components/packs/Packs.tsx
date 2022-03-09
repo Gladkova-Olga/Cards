@@ -7,7 +7,7 @@ import {
     fetchPacks,
     setCardsCount,
     setMyPacks,
-    setPackName, setPage, SortPackConditionType, sortPacks,
+    setPackName, setPage, setPageCount, SortPackConditionType, sortPacks,
 } from "../../bll/packsReducer";
 import ModalAddUpdatePack from "./ModalAddUpdatePack";
 import {Redirect, useHistory} from "react-router-dom";
@@ -52,6 +52,9 @@ const Packs = () => {
     const onPageChange = (page: number) => {
         dispatch(setPage(page));
     }
+   const onSwitchPageCount = (pageCount: number) => {
+        dispatch(setPageCount(pageCount));
+   }
 
     if (!isLoggedIn) {
         return <Redirect to={PATH.LOGIN}/>
@@ -67,7 +70,7 @@ const Packs = () => {
             </div>
             <div>
                 <Paginator pageCount={pageCount} portionSize={10} totalItemsCount={cardPacksTotalCount}
-                           onPageChanges={onPageChange} currentPage={page}/>
+                           onPageChanges={onPageChange} currentPage={page} onSwitchPageCount={onSwitchPageCount}/>
                 <ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}/>
                 <div className={style.titlesBlock}>
                     <div>Name

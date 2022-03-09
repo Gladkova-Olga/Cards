@@ -15,14 +15,15 @@ type SetGradesRangeType = ReturnType<typeof setGradesRange>
 type SetSortCardsCondition = ReturnType<typeof setSortCardsCondition>
 type SetAnswerSearchType = ReturnType<typeof setAnswerSearch>
 type SetQuestionSearchType = ReturnType<typeof setQuestionSearch>
+type SetPageType = ReturnType<typeof setPage>
 type ActionCardsType = SetAppStatusType | SetErrorType | GetCardsActionType | SetPageCountType | SetGradesRangeType
-    | SetSortCardsCondition | SetAnswerSearchType | SetQuestionSearchType
+    | SetSortCardsCondition | SetAnswerSearchType | SetQuestionSearchType | SetPageType
 
 
 const initialState = {
     cards: [] as CardType[],
     cardsTotalCount: 0,
-    maxGrade: 5,
+    maxGrade: 6,
     minGrade: 0,
     page: 1,
     pageCount: 10,
@@ -53,6 +54,9 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
         }
         case "CARDS/SET-QUESTION-SEARCH": {
             return {...state, cardQuestion: action.cardQuestion}
+        }
+        case "CARDS/SET-PAGE": {
+            return {...state, page: action.page}
         }
 
         default: {
@@ -101,6 +105,12 @@ export const setQuestionSearch = (cardQuestion: string) => {
     return ({
         type: "CARDS/SET-QUESTION-SEARCH",
         cardQuestion
+    } as const)
+}
+export const setPage = (page: number) => {
+    return ({
+        type: "CARDS/SET-PAGE",
+        page
     } as const)
 }
 

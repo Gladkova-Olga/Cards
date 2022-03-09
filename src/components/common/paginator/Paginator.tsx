@@ -1,6 +1,4 @@
 import React, {ChangeEvent, useState} from "react";
-import {useDispatch} from "react-redux";
-import {setPageCount} from "../../../bll/packsReducer";
 import style from "./Paginator.module.css"
 
 type PropsType = {
@@ -9,13 +7,13 @@ type PropsType = {
     portionSize: number
     onPageChanges: (page: number) => void
     currentPage: number
+    onSwitchPageCount: (pageCount: number) => void
 }
 
 const Paginator: React.FC<PropsType> = ({pageCount, totalItemsCount,
-                                            portionSize, onPageChanges, currentPage}) => {
-    const dispatch = useDispatch();
+                                            portionSize, onPageChanges, currentPage, onSwitchPageCount}) => {
     const onChangePageCount = (e: ChangeEvent<HTMLSelectElement>) => {
-        dispatch(setPageCount(+e.target.value))
+        onSwitchPageCount(+e.target.value);
     };
     const allPagesCount = Math.ceil(totalItemsCount / pageCount);
     const pages = [];
