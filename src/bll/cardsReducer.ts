@@ -6,7 +6,8 @@ import {AppStoreType} from "./store";
 type InitialStateType = typeof initialState
 type ThunkDispatchType = ThunkDispatch<AppStoreType, unknown, ActionCardsType>
 type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionCardsType>
-export type SortCardsConditionType = "0grade" | "1grade"
+export type SortCardsConditionType = "0grade" | "1grade" | "0question" | "1question" | "0answer" | "1answer"
+| "0updated" | "1updated"
 
 type GetCardsActionType = ReturnType<typeof getCards>
 type SetPageCountType = ReturnType<typeof setPageCount>
