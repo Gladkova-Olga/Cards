@@ -16,6 +16,7 @@ import ModalDeletePack from "./ModalDeletePack";
 import Paginator from "../common/paginator/Paginator";
 import SortPacks from "./sortPack/SortPacks";
 import PacksSettings from "./packsSettings/PacksSettings";
+import Button from "../common/button/Button";
 
 const Packs = () => {
     const cardsPacks = useSelector<AppStoreType, PackType[]>(state => state.packs.cardPacks);
@@ -101,6 +102,9 @@ const Packs = () => {
                         const onClickCards = () => {
                             history.push(`/cards/${pack._id}`)
                         }
+                        const onClickLearn = () => {
+                            history.push(`/learn/${pack._id}`)
+                        }
 
                         return <div className={style.packsBlock} key={pack._id}>
                             <div onClick={onClickCards} className={style.cardsName}>  {pack.name} </div>
@@ -109,9 +113,10 @@ const Packs = () => {
                             { pack.user_id === user_id &&  <ModalDeletePack name={pack.name} _id={pack._id}/>}
                             { pack.user_id === user_id &&  <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
                                                 nameInit={pack.name} isPrivateInit={pack.private}/> }
-                            {/*<div>*/}
-                            {/*    <Button onClick={onClickCards} buttonStyle={"secondary"} children={"Cards"}/>*/}
-                            {/*</div>*/}
+
+                            <div>
+                                <Button onClick={onClickLearn} buttonStyle={"secondary"} children={"Learn"}/>
+                            </div>
                         </div>
 
                     })}

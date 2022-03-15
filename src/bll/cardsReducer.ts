@@ -1,4 +1,4 @@
-import {cardsAPI, CardsResponseType, CardType} from "../dal/api";
+import {cardsAPI, CardsResponseType, CardType, learnAPI} from "../dal/api";
 import {setAppStatus, SetAppStatusType, setError, SetErrorType} from "./appReducer";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {AppStoreType} from "./store";
@@ -16,8 +16,9 @@ type SetSortCardsCondition = ReturnType<typeof setSortCardsCondition>
 type SetAnswerSearchType = ReturnType<typeof setAnswerSearch>
 type SetQuestionSearchType = ReturnType<typeof setQuestionSearch>
 type SetPageType = ReturnType<typeof setPage>
+type SetGradeType = ReturnType<typeof setGrade>
 type ActionCardsType = SetAppStatusType | SetErrorType | GetCardsActionType | SetPageCountType | SetGradesRangeType
-    | SetSortCardsCondition | SetAnswerSearchType | SetQuestionSearchType | SetPageType
+    | SetSortCardsCondition | SetAnswerSearchType | SetQuestionSearchType | SetPageType | SetGradeType
 
 
 const initialState = {
@@ -58,6 +59,31 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
         case "CARDS/SET-PAGE": {
             return {...state, page: action.page}
         }
+        case "LEARN/SET-GRADE": {
+            let updCards = state.cards.map((card) => {
+                    if (card._id === action.card_id) {
+                        return {...card, grade: action.grade}
+                    } else {
+                        return {...card}
+                    }
+                }
+            )
+            return {...state, cards: updCards}
+
+
+            // let card = state.cards.find(card => card._id === action.card_id);
+            // if(card) {
+            //     card.grade = action.grade
+            // }
+            // return {...state, cards: state.cards.map(card => {
+            //     if(card._id === action.card_id) {
+            //         return {...card, grade: action.grade}
+            //     } else {
+            //         return card
+            //     }
+            //     })}
+
+        }
 
         default: {
             return state
@@ -65,12 +91,6 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
     }
 }
 
-// const getCards = (cards: CardType[]) => {
-//     return ({
-//         type: "CARDS/GET-CARDS",
-//         cards
-//     } as const)
-// }
 const getCards = (cardsInfo: CardsResponseType) => {
     return ({
         type: "CARDS/GET-CARDS",
@@ -114,10 +134,16 @@ export const setPage = (page: number) => {
     } as const)
 }
 
+const setGrade = (grade: number, card_id: string) => {
+    return ({
+        type: "LEARN/SET-GRADE",
+        grade,
+        card_id
+    } as const)
+}
+
 export const fetchCards = (cardsPack_id: string): ThunkType => {
     return async (dispatch: ThunkDispatchType, getState: () => AppStoreType) => {
-        // const maxGrade = getState().cards.maxGrade;
-        // const minGrade = getState().cards.minGrade;
         const page = getState().cards.page;
         const pageCount = getState().cards.pageCount;
         const cardAnswer = getState().cards.cardAnswer;
@@ -175,6 +201,23 @@ export const deleteCard = (_id: string, cardsPack_id: string): ThunkType => {
         try {
             await cardsAPI.deleteCard(_id);
             dispatch(fetchCards(cardsPack_id));
+            dispatch(setAppStatus('idle'));
+        } catch (e: any) {
+            const error = e.response ? e.response.data.error : "Some unknown mistake";
+            dispatch(setError(error));
+            dispatch(setAppStatus('idle'));
+        }
+    }
+}
+
+
+
+export const addNewGrade = (grade: number, card_id: string): ThunkType => {
+    return async (dispatch: ThunkDispatchType) => {
+        dispatch(setAppStatus('loading'));
+        try {
+            const res = await learnAPI.updateGrade(grade, card_id);
+            dispatch(setGrade(res.data.updatedGrade.grade, res.data.updatedGrade.card_id));
             dispatch(setAppStatus('idle'));
         } catch (e: any) {
             const error = e.response ? e.response.data.error : "Some unknown mistake";

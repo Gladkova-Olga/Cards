@@ -8,6 +8,7 @@ import RestorePassword from "../restorePassword/RestorePassword";
 import Error404 from "../error404/Error404";
 import Packs from "../packs/Packs";
 import Cards from '../cards/Cards';
+import Learn from "../learn/Learn";
 
 export const PATH = {
     ENTER_NEW_PASSWORD: '/enter-new-password/:token',
@@ -17,6 +18,7 @@ export const PATH = {
     RESTORE_PASSWORD: '/restore-password',
     PACKS: '/packs',
     CARDS:'/cards/:cardsPack_id',
+    LEARN:'/learn/:cardsPack_id',
 }
 
 function Routes() {
@@ -31,6 +33,7 @@ function Routes() {
                 <Route path={PATH.RESTORE_PASSWORD} render={() => <RestorePassword/>}/>
                 <Route path={PATH.PACKS} render={() => <Packs/>}/>
                 <Route path={PATH.CARDS} render={() => <Cards/>}/>
+                <Route path={PATH.LEARN} render={() => <Learn/>}/>
                 <Route render={() => <Error404/>}/>
 
             </Switch>

@@ -8,6 +8,7 @@ import thunkMiddleware from "redux-thunk";
 import {appReducer} from "./appReducer";
 import {packsReducer} from "./packsReducer";
 import {cardsReducer} from "./cardsReducer";
+import {learnReducer} from "./learnReducer";
 
 
 const reducers = combineReducers({
@@ -19,6 +20,7 @@ const reducers = combineReducers({
     signUp: signUpReducer,
     packs: packsReducer,
     cards: cardsReducer,
+    learn: learnReducer
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware))

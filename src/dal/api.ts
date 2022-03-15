@@ -56,6 +56,15 @@ export type CardsResponseType = {
     pageCount: number
     packUserId: string
 }
+type UpdGradeCardType = {
+    _id: string
+    cardsPack_id: string
+    card_id: string
+    user_id: string
+    grade: number
+    shots: number
+}
+
 
 export const authAPI = {
     login(email: string, password: string, rememberMe: boolean) {
@@ -184,4 +193,14 @@ export const cardsAPI = {
     deleteCard(_id: string) {
         return instance.delete<{}, AxiosResponse<CardType>>(`cards/card?id=${_id}`)
     },
+}
+
+export const learnAPI = {
+    updateGrade(grade: number, card_id: string) {
+        const payload = {
+            grade, card_id
+        }
+        return instance.put<typeof payload, AxiosResponse<{updatedGrade: UpdGradeCardType}>>('cards/grade', payload);
+    }
+
 }
