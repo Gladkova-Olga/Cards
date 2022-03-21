@@ -7,12 +7,11 @@ type PropsType = {
     card_id: string
     onCLickNext: (grade: number) => void
     answer: string
-    onClickStopHandler: () => void
 }
 
 const LearnAnswer: React.FC<PropsType> = ({
                                               grade, card_id,
-                                              onCLickNext, answer, onClickStopHandler
+                                              onCLickNext, answer
                                           }) => {
     const [value, setValue] = useState(1);
     const onChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,8 +42,7 @@ const LearnAnswer: React.FC<PropsType> = ({
                 <input type={'radio'} value={5} onChange={onChangeValue} id={"grade5"} checked={value === 5}/>
                 <label htmlFor={"grade2"}>knew</label>
             </div>
-            <Button buttonStyle={"primary"} children={"Next"} onClick={() => onCLickNext(value)}/>
-            <ModalStopLearning onClickStopHandler={onClickStopHandler}/>
+            <Button buttonStyle={"secondary"} children={"Next"} onClick={() => onCLickNext(value)}/>
 
         </>
     )

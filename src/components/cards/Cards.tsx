@@ -52,9 +52,9 @@ const Cards = () => {
     const onPageChange = (page: number) => {
         dispatch(setPage(page));
     }
-   const onSwitchPageCount = (pageCount: number) => {
+    const onSwitchPageCount = (pageCount: number) => {
         dispatch(setPageCount(pageCount));
-   }
+    }
 
     if (!isLoggedIn) {
         return <Redirect to={PATH.LOGIN}/>
@@ -85,37 +85,39 @@ const Cards = () => {
                     <div>Last update
                         <SortCards btnName={'updated'}/>
                     </div>
-                    <div>Delete</div>
-                    <div>Update</div>
+                    {/*<div>Delete</div>*/}
+                    {/*<div>Update</div>*/}
 
                 </div>
-                <div>
-                    {cards.map((c) => {
-                        const date = new Date(c.updated);
-                        let options = new Intl.DateTimeFormat('en', {
-                            year: "numeric",
-                            month: "numeric",
-                            day: "numeric",
-                            hour: "numeric",
-                            minute: "numeric",
-                        });
-                        const timeUpd = options.format(date);
-                        const grade = +c.grade.toFixed(2)
-                        return (
-                            <div className={style.cardsBlock} key={c._id}>
-                                <div>{c.question}</div>
-                                <div>{c.answer}</div>
-                                <div>{grade}</div>
-                                <div>{timeUpd}</div>
-                                <ModalDeleteCard _id={c._id} cardsPack_id={c.cardsPack_id}/>
-                                <ModalAddUpdateCard buttonName={"Update"} questionInit={c.question}
-                                                    answerInit={c.answer}
-                                                    _id={c._id} cardsPack_id={c.cardsPack_id} gradeInit={c.grade}/>
-                            </div>
-                        )
-                    })}
+                {(cards.length > 0 && cardsPack_id === cards[0].cardsPack_id ?
+                    <div>
+                        {cards.map((c) => {
+                            const date = new Date(c.updated);
+                            let options = new Intl.DateTimeFormat('en', {
+                                year: "numeric",
+                                month: "numeric",
+                                day: "numeric",
+                                hour: "numeric",
+                                minute: "numeric",
+                            });
+                            const timeUpd = options.format(date);
+                            const grade = +c.grade.toFixed(2)
+                            return (
+                                <div className={style.cardsBlock} key={c._id}>
+                                    <div>{c.question}</div>
+                                    <div>{c.answer}</div>
+                                    <div>{grade}</div>
+                                    <div>{timeUpd}</div>
+                                    <ModalDeleteCard _id={c._id} cardsPack_id={c.cardsPack_id}/>
+                                    <ModalAddUpdateCard buttonName={"Update"} questionInit={c.question}
+                                                        answerInit={c.answer}
+                                                        _id={c._id} cardsPack_id={c.cardsPack_id} gradeInit={c.grade}/>
+                                </div>
+                            )
+                        })}
 
-                </div>
+                    </div> : <div></div>)}
+
 
             </div>
 

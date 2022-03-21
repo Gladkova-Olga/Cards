@@ -83,9 +83,9 @@ const Packs = () => {
                     <div>Last update
                         <SortPacks btnName={"updated"}/>
                     </div>
-                    <div>Delete</div>
-                    <div>Update</div>
-                    <div>Cards</div>
+                    {/*<div>Delete</div>*/}
+                    {/*<div>Update</div>*/}
+                    {/*<div>Cards</div>*/}
                 </div>
                 <div>
                     {cardsPacks.map((pack) => {
@@ -113,10 +113,11 @@ const Packs = () => {
                             { pack.user_id === user_id &&  <ModalDeletePack name={pack.name} _id={pack._id}/>}
                             { pack.user_id === user_id &&  <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
                                                 nameInit={pack.name} isPrivateInit={pack.private}/> }
-
-                            <div>
-                                <Button onClick={onClickLearn} buttonStyle={"secondary"} children={"Learn"}/>
-                            </div>
+                            {pack.cardsCount > 0 &&
+                                <div>
+                                    <Button onClick={onClickLearn} buttonStyle={"secondary"} children={"Learn"}/>
+                                </div>
+                            }
                         </div>
 
                     })}

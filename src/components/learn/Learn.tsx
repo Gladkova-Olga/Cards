@@ -3,10 +3,11 @@ import {Redirect, useHistory, useParams} from "react-router-dom";
 import {AppStoreType} from "../../bll/store";
 import {CardType} from "../../dal/api";
 import {PATH} from "../routes/Routes";
-import {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {addNewGrade, fetchCards} from "../../bll/cardsReducer";
 import Button from "../common/button/Button";
 import LearnAnswer from "./LearnAnswer";
+import ModalStopLearning from "./ModalStopLearning";
 
 const getCard = (cards: CardType[]) => {
     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
@@ -20,6 +21,7 @@ const getCard = (cards: CardType[]) => {
     return cards[res.id + 1];
 }
 const Learn = () => {
+
     const dispatch = useDispatch();
     const {cardsPack_id} = useParams<{ cardsPack_id: string }>();
     const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.login.isLoggedIn);
@@ -28,46 +30,63 @@ const Learn = () => {
 
     const [firstCard, setFirstCard] = useState(true);
     const [card, setCard] = useState({} as CardType);
-    const [message, setMessage] = useState("");
-    const [showAnswer, setShowAnswer] = useState(false)
+    const [showAnswer, setShowAnswer] = useState(false);
 
     useEffect(() => {
         if (firstCard) {
             dispatch(fetchCards(cardsPack_id));
             setFirstCard(false);
         }
-        if (cards.length > 0) {
+        if (cards.length > 0 && cardsPack_id === cards[0].cardsPack_id) {
             setCard(getCard(cards));
-            setMessage("");
-        } else {
-            setMessage("This pack is empty");
         }
-    }, [firstCard, cards, cardsPack_id]);
+    }, [dispatch, firstCard, cards, cardsPack_id]);
 
-    const onCLickNext = (grade: number) => {
-        dispatch(addNewGrade(grade, card._id))
-        setCard(getCard(cards));
-        setShowAnswer(false);
-    }
+    const onCLickNext = useCallback((grade: number) => {
+        if (cards.length > 0) {
+            setShowAnswer(false);
+            dispatch(addNewGrade(grade, card._id));
+        }
+    }, [dispatch, card, cards])
+
     const onClickStopHandler = () => {
-        history.push(PATH.PACKS)
+        setCard({
+            answer: "",
+            question: "",
+            cardsPack_id: "",
+            grade: 0,
+            rating: 0,
+            shots: 0,
+            type: "",
+            user_id: "",
+            created: "",
+            updated: "",
+            _id: "",
+        })
+        history.push(PATH.PACKS);
     }
     if (!isLoggedIn) {
         return <Redirect to={PATH.LOGIN}/>
     }
+    if (cards.length > 0 && cardsPack_id === cards[0].cardsPack_id) {
+        return (
+            <div>
+                <ModalStopLearning onClickStopHandler={onClickStopHandler}/>
+                <div>{card.question}</div>
+                {showAnswer
+                    ? <LearnAnswer answer={card.answer} grade={card.grade} card_id={card._id}
+                                   onCLickNext={onCLickNext}/>
+                    : <>
 
-    return (
-        <div>
-            {message && message}
-            <div>{card.question}</div>
-            {showAnswer
-                ? <LearnAnswer answer={card.answer} grade={card.grade} card_id={card._id}
-                               onCLickNext={onCLickNext} onClickStopHandler={onClickStopHandler}/>
-                : <Button buttonStyle={"secondary"} children={"Answer"} onClick={() => setShowAnswer(true)}/>
-            }
+                        <Button buttonStyle={"secondary"} children={"Answer"} onClick={() => setShowAnswer(true)}/>
+                    </>
+                }
+            </div>
+        )
+    } else {
+        return <></>
+    }
 
 
-        </div>
-    )
 }
 export default Learn;
