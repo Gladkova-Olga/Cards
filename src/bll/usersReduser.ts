@@ -3,13 +3,21 @@ import {AppStoreType} from "./store";
 import {userAPI, UserDataType, UsersResponseType} from "../dal/api";
 import {setAppStatus, SetAppStatusType, setError, SetErrorType} from "./appReducer";
 
+
 type InitialStateType = typeof initialState
 type ThunkDispatchType = ThunkDispatch<AppStoreType, unknown, ActionUsersType>
 type ThunkType = ThunkAction<void, AppStoreType, unknown, ActionUsersType>
-export type SortUsersCondition = "0publicCardPacksCount" | "1publicCardPacksCount" | "0name" | "1name"
+export type SortUsersConditionType = "0publicCardPacksCount" | "1publicCardPacksCount" | "0name" | "1name"
 
 type GetUsersType = ReturnType<typeof getUsers>
-type ActionUsersType = SetAppStatusType | SetErrorType | GetUsersType
+type SetPageCountType = ReturnType<typeof setPageCount>
+type SetPacksCountRangeType = ReturnType<typeof setPacksCountRange>
+type SetSortUsersConditionType = ReturnType<typeof setSortUsersCondition>
+type SetNameSearchType = ReturnType<typeof setNameSearch>
+type SetPageType = ReturnType<typeof setPage>
+
+type ActionUsersType = SetAppStatusType | SetErrorType | GetUsersType | SetPageCountType | SetPacksCountRangeType
+    | SetSortUsersConditionType | SetNameSearchType | SetPageType
 
 const initialState = {
     users: [] as UserDataType[],
@@ -18,7 +26,7 @@ const initialState = {
     page: 1,
     pageCount: 10,
     usersTotalCount: 0,
-    sortUsersCondition: null as null | SortUsersCondition,
+    sortUsersCondition: null as null | SortUsersConditionType,
     userName: "",
     min: 0,
     max: 0,
@@ -29,6 +37,24 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
         case "USERS/GET-USERS": {
             return {...state, ...action.usersInfo};
         }
+        case "USERS/SET-PAGE-COUNT": {
+            debugger
+            return {...state, pageCount: action.pageCount}
+        }
+        case "USERS/SET-PACKS-COUNT-RANGE": {
+            return {...state, min: action.min, max: action.max}
+        }
+        case "USERS/SET-SORT-USERS-CONDITION": {
+            return {...state, sortUsersCondition: action.sortUsersCondition}
+        }
+        case "USERS/SET-NAME-SEARCH": {
+            return {...state, userName: action.name}
+        }
+        case "USERS/SET-PAGE":{
+            return {...state, page: action.page}
+        }
+
+
         default: {
             return state;
         }
@@ -40,6 +66,36 @@ const getUsers = (usersInfo: UsersResponseType) => {
     return ({
         type: "USERS/GET-USERS",
         usersInfo
+    } as const)
+}
+export const setPageCount = (pageCount: number) => {
+    return ({
+        type: "USERS/SET-PAGE-COUNT",
+        pageCount
+    } as const)
+}
+export const setPacksCountRange = (min: number, max: number) => {
+    return ({
+        type: "USERS/SET-PACKS-COUNT-RANGE",
+        min, max
+    } as const)
+}
+export const setSortUsersCondition = (sortUsersCondition: null | SortUsersConditionType) => {
+    return ({
+        type: "USERS/SET-SORT-USERS-CONDITION",
+        sortUsersCondition
+    } as const)
+}
+export const setNameSearch = (name: string) => {
+    return ({
+        type: "USERS/SET-NAME-SEARCH",
+        name
+    } as const)
+}
+export const setPage = (page: number) => {
+    return ({
+        type: "USERS/SET-PAGE",
+        page
     } as const)
 }
 

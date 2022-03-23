@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from "axios"
 import {SortPackConditionType} from "../bll/packsReducer";
 import {SortCardsConditionType} from "../bll/cardsReducer";
-import {SortUsersCondition} from "../bll/usersReduser";
+import {SortUsersConditionType} from "../bll/usersReduser";
 
 const instance = axios.create({
     baseURL: "https://neko-back.herokuapp.com/2.0/",
@@ -217,7 +217,7 @@ export const learnAPI = {
 }
 
 export const userAPI = {
-    getUsers(userName: string, min: number, max: number, sortUsers: null | SortUsersCondition, page: number, pageCount: number) {
+    getUsers(userName: string, min: number, max: number, sortUsers: null | SortUsersConditionType, page: number, pageCount: number) {
         return instance.get<{}, AxiosResponse<UsersResponseType>>(`social/users`, {
             params: {
                 userName, min, max, sortUsers, page, pageCount
