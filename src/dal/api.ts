@@ -1,6 +1,7 @@
 import axios, {AxiosResponse} from "axios"
 import {SortPackConditionType} from "../bll/packsReducer";
 import {SortCardsConditionType} from "../bll/cardsReducer";
+import {SortUsersCondition} from "../bll/usersReduser";
 
 const instance = axios.create({
     baseURL: "https://neko-back.herokuapp.com/2.0/",
@@ -8,7 +9,7 @@ const instance = axios.create({
     withCredentials: true
 })
 
-type UserDataType = {
+export type UserDataType = {
     _id: string,
     email: string,
     isAdmin: boolean,
@@ -16,6 +17,16 @@ type UserDataType = {
     publicCardPacksCount: number,
     rememberMe: boolean,
     avatar?: string
+    created: number,
+    updated: number,
+}
+export type UsersResponseType = {
+    users: UserDataType[]
+    maxPublicCardPacksCount: number
+    minPublicCardPacksCount: number
+    page: number
+    pageCount: number
+    usersTotalCount: number
 }
 export type PackType = {
     _id: string
@@ -117,7 +128,7 @@ export const authAPI = {
             name, avatar
         }
         return instance.put<typeof payload, AxiosResponse<{ updatedUser: UserDataType }>>('auth/me', payload)
-    }
+    },
 
 }
 export const packsApi = {
@@ -203,4 +214,17 @@ export const learnAPI = {
         return instance.put<typeof payload, AxiosResponse<{updatedGrade: UpdGradeCardType}>>('cards/grade', payload);
     }
 
+}
+
+export const userAPI = {
+    getUsers(userName: string, min: number, max: number, sortUsers: null | SortUsersCondition, page: number, pageCount: number) {
+        return instance.get<{}, AxiosResponse<UsersResponseType>>(`social/users`, {
+            params: {
+                userName, min, max, sortUsers, page, pageCount
+            }
+        });
+    },
+    getUserById(id: number) {
+        return instance.get<{}, AxiosResponse<{user: UserDataType}>>(`social/user?id=${id}`);
+    }
 }

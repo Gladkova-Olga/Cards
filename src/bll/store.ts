@@ -9,6 +9,7 @@ import {appReducer} from "./appReducer";
 import {packsReducer} from "./packsReducer";
 import {cardsReducer} from "./cardsReducer";
 import {learnReducer} from "./learnReducer";
+import {usersReducer} from "./usersReduser";
 
 
 const reducers = combineReducers({
@@ -20,7 +21,8 @@ const reducers = combineReducers({
     signUp: signUpReducer,
     packs: packsReducer,
     cards: cardsReducer,
-    learn: learnReducer
+    learn: learnReducer,
+    users: usersReducer,
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware))
