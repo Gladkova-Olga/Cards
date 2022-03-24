@@ -9,7 +9,7 @@
     margin: 20px;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(3, 300px);
+    grid-template-columns: repeat(4, 200px);
     grid-auto-rows: 60px;
     gap: 10px;
     border-bottom: #334e6f 1px solid;
@@ -19,7 +19,7 @@
 .usersBlock {
     margin: 20px;
     display: grid;
-    grid-template-columns: repeat(3, 300px);
+    grid-template-columns: repeat(4, 200px);
     grid-auto-rows: 100px;
     gap: 10px;
 }
