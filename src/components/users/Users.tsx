@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
 import {UserDataType} from "../../dal/api";
 import {fetchUsers, setNameSearch, setPacksCountRange, SortUsersConditionType} from "../../bll/usersReduser";
-import {Redirect} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import style from "./Users.module.css";
 import Paginator from "../common/paginator/Paginator";
@@ -16,6 +16,7 @@ import UsersSettings from "./UsersSettings";
 
 const Users: React.FC = () => {
     const dispatch = useDispatch();
+    const history = useHistory()
     const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.login.isLoggedIn);
     const users = useSelector<AppStoreType, UserDataType []>(state => state.users.users);
     const pageCount = useSelector<AppStoreType, number>(state => state.users.pageCount);
@@ -45,6 +46,7 @@ const Users: React.FC = () => {
         dispatch(setPacksCountRange(minPacksCount, maxPacksCount));
     }
 
+
     if (!isLoggedIn) {
         return <Redirect to={PATH.LOGIN}/>
     }
@@ -68,12 +70,15 @@ const Users: React.FC = () => {
 
                 </div>
                 {users.map(u => {
+                    const onClickPacks = () => {
+                        history.push(`/packs/${u._id}`)
+                    }
                     return (
                         <div className={style.usersBlock} key={u._id}>
                             <div>{u.name}</div>
                             <div>{u.publicCardPacksCount}</div>
                             <div>{u.email}</div>
-                            <div><Button buttonStyle={'secondary'} children={"Packs"}/></div>
+                            <div><Button buttonStyle={'secondary'} children={"Packs"} onClick={onClickPacks}/></div>
 
                         </div>
                     )

@@ -132,9 +132,9 @@ export const authAPI = {
 
 }
 export const packsApi = {
-    getPacks(user_id: string, isMyPacks: boolean, min: number, max: number,
+    getPacks(user_id: string,  min: number, max: number,
              sortPacks: SortPackConditionType, page: number, pageCount: number, packName: string) {
-        if (isMyPacks) {
+        if (user_id) {
             return instance.get<{}, AxiosResponse<PacksResponseType>>(`cards/pack`, {
                 params: {
                     packName, user_id, min, max, sortPacks, page, pageCount

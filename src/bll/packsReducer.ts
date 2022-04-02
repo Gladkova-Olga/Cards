@@ -112,10 +112,8 @@ export const setPage = (page: number) => {
 }
 
 
-export const fetchPacks = (): ThunkType => {
+export const fetchPacks = (user_id: string): ThunkType => {
     return async (dispatch: ThunkDispatchType, getState: () => AppStoreType) => {
-        const user_id = getState().profile._id;
-        const isMyPacks = getState().packs.isMyPacks;
         const maxCards = getState().packs.maxCards;
         const minCards = getState().packs.minCards;
         const page = getState().packs.page;
@@ -124,7 +122,7 @@ export const fetchPacks = (): ThunkType => {
         const packName = getState().packs.packName
         dispatch(setAppStatus('loading'));
         try {
-            const res = await packsApi.getPacks(user_id, isMyPacks, minCards, maxCards,
+            const res = await packsApi.getPacks(user_id, minCards, maxCards,
                 sortPacksCondition, page, pageCount, packName);
             dispatch(getPacks(res.data));
             dispatch(setAppStatus('idle'));
@@ -135,27 +133,37 @@ export const fetchPacks = (): ThunkType => {
         }
     }
 }
+// export const fetchPacks = (): ThunkType => {
+//     return async (dispatch: ThunkDispatchType, getState: () => AppStoreType) => {
+//         const user_id = getState().profile._id;
+//         const isMyPacks = getState().packs.isMyPacks;
+//         const maxCards = getState().packs.maxCards;
+//         const minCards = getState().packs.minCards;
+//         const page = getState().packs.page;
+//         const pageCount = getState().packs.pageCount;
+//         const sortPacksCondition = getState().packs.sortPacksCondition;
+//         const packName = getState().packs.packName
+//         dispatch(setAppStatus('loading'));
+//         try {
+//             const res = await packsApi.getPacks(user_id, isMyPacks, minCards, maxCards,
+//                 sortPacksCondition, page, pageCount, packName);
+//             dispatch(getPacks(res.data));
+//             dispatch(setAppStatus('idle'));
+//         } catch (e: any) {
+//             const error = e.response ? e.response.data.error : "Some unknown mistake";
+//             dispatch(setError(error));
+//             dispatch(setAppStatus('idle'));
+//         }
+//     }
+// }
 
-export const addPack = (name: string, isPrivate: boolean): ThunkType => {
+//add (user_id: string)
+export const addPack = (name: string, isPrivate: boolean, user_id: string): ThunkType => {
     return async (dispatch: ThunkDispatchType) => {
         dispatch(setAppStatus('loading'));
         try {
             await packsApi.addPack(name, isPrivate);
-            dispatch(fetchPacks());
-            dispatch(setAppStatus('idle'));
-        } catch (e: any) {
-            const error = e.response ? e.response.data.error : "Some unknown mistake";
-            dispatch(setError(error));
-            dispatch(setAppStatus('idle'));
-        }
-    }
-}
-export const deletePack = (_id: string): ThunkType => {
-    return async (dispatch: ThunkDispatchType) => {
-        dispatch(setAppStatus('loading'));
-        try {
-            await packsApi.deletePack(_id);
-            dispatch(fetchPacks());
+            dispatch(fetchPacks(user_id));
             dispatch(setAppStatus('idle'));
         } catch (e: any) {
             const error = e.response ? e.response.data.error : "Some unknown mistake";
@@ -165,12 +173,29 @@ export const deletePack = (_id: string): ThunkType => {
     }
 }
 
-export const updatePack = (_id: string, name: string, isPrivate: boolean): ThunkType => {
+//add (user_id: string)
+export const deletePack = (_id: string, user_id: string): ThunkType => {
+    return async (dispatch: ThunkDispatchType) => {
+        dispatch(setAppStatus('loading'));
+        try {
+            await packsApi.deletePack(_id);
+            dispatch(fetchPacks(user_id));
+            dispatch(setAppStatus('idle'));
+        } catch (e: any) {
+            const error = e.response ? e.response.data.error : "Some unknown mistake";
+            dispatch(setError(error));
+            dispatch(setAppStatus('idle'));
+        }
+    }
+}
+
+//add (user_id: string)
+export const updatePack = (_id: string, name: string, isPrivate: boolean, user_id: string): ThunkType => {
     return async (dispatch: ThunkDispatchType) => {
         dispatch(setAppStatus('loading'));
         try {
             await packsApi.updatePack(_id, name, isPrivate);
-            dispatch(fetchPacks());
+            dispatch(fetchPacks(user_id));
             dispatch(setAppStatus('idle'))
         } catch (e: any) {
             const error = e.response ? e.response.data.error : "Some unknown mistake";

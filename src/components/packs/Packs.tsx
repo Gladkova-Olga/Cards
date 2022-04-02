@@ -10,7 +10,7 @@ import {
     setPackName, setPage, setPageCount, SortPackConditionType, sortPacks,
 } from "../../bll/packsReducer";
 import ModalAddUpdatePack from "./ModalAddUpdatePack";
-import {Redirect, useHistory} from "react-router-dom";
+import {Redirect, useHistory, useParams} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import ModalDeletePack from "./ModalDeletePack";
 import Paginator from "../common/paginator/Paginator";
@@ -29,13 +29,18 @@ const Packs = () => {
     const pageCount = useSelector<AppStoreType, number>(state => state.packs.pageCount);
     const cardPacksTotalCount = useSelector<AppStoreType, number>(state => state.packs.cardPacksTotalCount);
     const page = useSelector<AppStoreType, number>(state => state.packs.page);
-    const user_id = useSelector<AppStoreType, string>(state => state.profile._id);
+    const myUser_id = useSelector<AppStoreType, string>(state => state.profile._id);
+    // const {user_id} = useParams<{user_id: string}>();
+    // const {user_id} = useParams<{ user_id: string }>()
+    const {cardsPack_id} = useParams<{ cardsPack_id: string }>();
 
     const dispatch = useDispatch();
     const history = useHistory();
+    let id = isMyPacks ? myUser_id : cardsPack_id
 
     useEffect(() => {
-        dispatch(fetchPacks())
+        dispatch(fetchPacks(id))
+        console.log(id)
     }, [isMyPacks, minCards, maxCards, packName, sortPacksCondition, pageCount, page]);
 
 
@@ -53,9 +58,9 @@ const Packs = () => {
     const onPageChange = (page: number) => {
         dispatch(setPage(page));
     }
-   const onSwitchPageCount = (pageCount: number) => {
+    const onSwitchPageCount = (pageCount: number) => {
         dispatch(setPageCount(pageCount));
-   }
+    }
 
     if (!isLoggedIn) {
         return <Redirect to={PATH.LOGIN}/>
@@ -65,6 +70,7 @@ const Packs = () => {
     return (
         <div className={style.packContainer}>
             <div>
+
                 <PacksSettings isMyPacks={isMyPacks} onChangeMyPacks={onChangeMyPacks}
                                onPressKeyCardCount={onPressKeyCardCount} onPressKeySearch={onPressKeySearch}/>
 
@@ -72,7 +78,8 @@ const Packs = () => {
             <div>
                 <Paginator pageCount={pageCount} portionSize={10} totalItemsCount={cardPacksTotalCount}
                            onPageChanges={onPageChange} currentPage={page} onSwitchPageCount={onSwitchPageCount}/>
-                <ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}/>
+                {/*<ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}*/}
+                {/*                    user_id={isMyPacks ? myUser_id : user_id}/>*/}
                 <div className={style.titlesBlock}>
                     <div>Name
                         <SortPacks btnName={"name"}/>
@@ -110,9 +117,12 @@ const Packs = () => {
                             <div onClick={onClickCards} className={style.cardsName}>  {pack.name} </div>
                             <div>  {pack.cardsCount} </div>
                             <div>  {time} </div>
-                            { pack.user_id === user_id &&  <ModalDeletePack name={pack.name} _id={pack._id}/>}
-                            { pack.user_id === user_id &&  <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
-                                                nameInit={pack.name} isPrivateInit={pack.private}/> }
+                            {/*{pack.user_id === myUser_id && <ModalDeletePack name={pack.name} _id={pack._id}*/}
+                            {/*                                                user_id={isMyPacks ? myUser_id : user_id}/>}*/}
+                            {/*{pack.user_id === myUser_id && <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}*/}
+                            {/*                                                   nameInit={pack.name}*/}
+                            {/*                                                   isPrivateInit={pack.private}*/}
+                            {/*                                                   user_id={isMyPacks ? myUser_id : user_id}/>}*/}
                             {pack.cardsCount > 0 &&
                                 <div>
                                     <Button onClick={onClickLearn} buttonStyle={"secondary"} children={"Learn"}/>

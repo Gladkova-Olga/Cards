@@ -11,9 +11,11 @@ type PropsType = {
     nameInit: string
     _id: string
     isPrivateInit: boolean
+    user_id: string
 }
 
-const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit, isPrivateInit}) => {
+const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit,
+                                                     isPrivateInit, user_id}) => {
     const dispatch = useDispatch();
     const [activeAddPack, setActiveAddPack] = useState(false);
     const [title, setTitle] = useState(nameInit);
@@ -29,9 +31,9 @@ const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit, isP
     }
     const onClickSave = () => {
         if(buttonName === 'Add'){
-            dispatch(addPack(title, isPrivate));
+            dispatch(addPack(title, isPrivate, user_id));
         } else {
-            dispatch(updatePack(_id, title, isPrivate))
+            dispatch(updatePack(_id, title, isPrivate, user_id))
         }
         setActiveAddPack(false);
         setTitle(title);
