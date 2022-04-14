@@ -39,9 +39,9 @@ const Packs = () => {
     let id = isMyPacks ? myUser_id : cardsPack_id
 
     useEffect(() => {
-        dispatch(fetchPacks(id))
-        console.log(id)
-    }, [isMyPacks, minCards, maxCards, packName, sortPacksCondition, pageCount, page]);
+        dispatch(fetchPacks())
+
+    }, [isMyPacks, minCards, maxCards, packName, sortPacksCondition, pageCount, page, myUser_id]);
 
 
     const onChangeMyPacks = (isMyPack: boolean) => {
@@ -78,8 +78,8 @@ const Packs = () => {
             <div>
                 <Paginator pageCount={pageCount} portionSize={10} totalItemsCount={cardPacksTotalCount}
                            onPageChanges={onPageChange} currentPage={page} onSwitchPageCount={onSwitchPageCount}/>
-                {/*<ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}*/}
-                {/*                    user_id={isMyPacks ? myUser_id : user_id}/>*/}
+                <ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}
+                                    />
                 <div className={style.titlesBlock}>
                     <div>Name
                         <SortPacks btnName={"name"}/>
@@ -117,12 +117,11 @@ const Packs = () => {
                             <div onClick={onClickCards} className={style.cardsName}>  {pack.name} </div>
                             <div>  {pack.cardsCount} </div>
                             <div>  {time} </div>
-                            {/*{pack.user_id === myUser_id && <ModalDeletePack name={pack.name} _id={pack._id}*/}
-                            {/*                                                user_id={isMyPacks ? myUser_id : user_id}/>}*/}
-                            {/*{pack.user_id === myUser_id && <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}*/}
-                            {/*                                                   nameInit={pack.name}*/}
-                            {/*                                                   isPrivateInit={pack.private}*/}
-                            {/*                                                   user_id={isMyPacks ? myUser_id : user_id}/>}*/}
+                            {pack.user_id === myUser_id && <ModalDeletePack name={pack.name} _id={pack._id} />}
+                            {pack.user_id === myUser_id && <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
+                                                                               nameInit={pack.name}
+                                                                               isPrivateInit={pack.private}
+                                                                               />}
                             {pack.cardsCount > 0 &&
                                 <div>
                                     <Button onClick={onClickLearn} buttonStyle={"secondary"} children={"Learn"}/>

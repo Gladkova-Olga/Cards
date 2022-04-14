@@ -8,10 +8,9 @@ import Button from "../common/button/Button";
 type PropsType = {
     _id: string
     name: string
-    user_id: string
 }
 
-const ModalDeletePack: React.FC<PropsType> = ({_id, name, user_id}) => {
+const ModalDeletePack: React.FC<PropsType> = ({_id, name}) => {
     const [active, setActive] = useState(false);
     const dispatch = useDispatch();
 
@@ -20,7 +19,7 @@ const ModalDeletePack: React.FC<PropsType> = ({_id, name, user_id}) => {
         setActive(true);
     }
     const onClickYes = () => {
-        dispatch(deletePack(_id, user_id));
+        dispatch(deletePack(_id));
         setActive(false);
     }
     const onClickNo = () => {

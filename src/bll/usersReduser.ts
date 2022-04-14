@@ -15,9 +15,10 @@ type SetPacksCountRangeType = ReturnType<typeof setPacksCountRange>
 type SetSortUsersConditionType = ReturnType<typeof setSortUsersCondition>
 type SetNameSearchType = ReturnType<typeof setNameSearch>
 type SetPageType = ReturnType<typeof setPage>
+type SetUserIdType = ReturnType<typeof setUserId>
 
 type ActionUsersType = SetAppStatusType | SetErrorType | GetUsersType | SetPageCountType | SetPacksCountRangeType
-    | SetSortUsersConditionType | SetNameSearchType | SetPageType
+    | SetSortUsersConditionType | SetNameSearchType | SetPageType | SetUserIdType
 
 const initialState = {
     users: [] as UserDataType[],
@@ -30,6 +31,7 @@ const initialState = {
     userName: "",
     min: 0,
     max: 0,
+    userId: "",
 }
 
 export const usersReducer = (state: InitialStateType = initialState, action: ActionUsersType): InitialStateType => {
@@ -52,6 +54,9 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
         }
         case "USERS/SET-PAGE":{
             return {...state, page: action.page}
+        }
+        case "USERS/SET-USER-ID": {
+            return {...state, userId: action.userId}
         }
 
 
@@ -96,6 +101,12 @@ export const setPage = (page: number) => {
     return ({
         type: "USERS/SET-PAGE",
         page
+    } as const)
+}
+export const setUserId = (userId: string) => {
+    return ({
+        type: "USERS/SET-USER-ID",
+        userId
     } as const)
 }
 

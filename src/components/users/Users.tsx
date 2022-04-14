@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../bll/store";
 import {UserDataType} from "../../dal/api";
-import {fetchUsers, setNameSearch, setPacksCountRange, SortUsersConditionType} from "../../bll/usersReduser";
+import {fetchUsers, setNameSearch, setPacksCountRange, setUserId, SortUsersConditionType} from "../../bll/usersReduser";
 import {Redirect, useHistory} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import style from "./Users.module.css";
@@ -10,7 +10,7 @@ import Paginator from "../common/paginator/Paginator";
 import {setPage, setPageCount} from "../../bll/usersReduser";
 import Button from "../common/button/Button";
 import SortUsers from "./sortUsers";
-import {setCardsCount} from "../../bll/packsReducer";
+import {setCardsCount, setMyPacks} from "../../bll/packsReducer";
 import UsersSettings from "./UsersSettings";
 
 
@@ -70,7 +70,9 @@ const Users: React.FC = () => {
 
                 </div>
                 {users.map(u => {
-                    const onClickPacks = () => {
+                    const onClickPacks = (userId: string) => {
+                        dispatch(setUserId(userId));
+                        dispatch(setMyPacks(false));
                         history.push(`/packs/${u._id}`)
                     }
                     return (
@@ -78,7 +80,8 @@ const Users: React.FC = () => {
                             <div>{u.name}</div>
                             <div>{u.publicCardPacksCount}</div>
                             <div>{u.email}</div>
-                            <div><Button buttonStyle={'secondary'} children={"Packs"} onClick={onClickPacks}/></div>
+                            <div><Button buttonStyle={'secondary'} children={"Packs"}
+                                         onClick={() => onClickPacks(u._id)}/></div>
 
                         </div>
                     )
