@@ -30,13 +30,10 @@ const Packs = () => {
     const cardPacksTotalCount = useSelector<AppStoreType, number>(state => state.packs.cardPacksTotalCount);
     const page = useSelector<AppStoreType, number>(state => state.packs.page);
     const myUser_id = useSelector<AppStoreType, string>(state => state.profile._id);
-    // const {user_id} = useParams<{user_id: string}>();
-    // const {user_id} = useParams<{ user_id: string }>()
-    const {cardsPack_id} = useParams<{ cardsPack_id: string }>();
 
     const dispatch = useDispatch();
     const history = useHistory();
-    let id = isMyPacks ? myUser_id : cardsPack_id
+
 
     useEffect(() => {
         dispatch(fetchPacks())
@@ -90,9 +87,7 @@ const Packs = () => {
                     <div>Last update
                         <SortPacks btnName={"updated"}/>
                     </div>
-                    {/*<div>Delete</div>*/}
-                    {/*<div>Update</div>*/}
-                    {/*<div>Cards</div>*/}
+
                 </div>
                 <div>
                     {cardsPacks.map((pack) => {
@@ -122,6 +117,7 @@ const Packs = () => {
                                                                                nameInit={pack.name}
                                                                                isPrivateInit={pack.private}
                                                                                />}
+
                             {pack.cardsCount > 0 &&
                                 <div>
                                     <Button onClick={onClickLearn} buttonStyle={"secondary"} children={"Learn"}/>

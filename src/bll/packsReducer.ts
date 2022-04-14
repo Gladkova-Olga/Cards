@@ -112,28 +112,6 @@ export const setPage = (page: number) => {
 }
 
 
-// export const fetchPacks = (): ThunkType => {
-//     return async (dispatch: ThunkDispatchType, getState: () => AppStoreType) => {
-//         const maxCards = getState().packs.maxCards;
-//         const minCards = getState().packs.minCards;
-//         const page = getState().packs.page;
-//         const pageCount = getState().packs.pageCount;
-//         const sortPacksCondition = getState().packs.sortPacksCondition;
-//         const packName = getState().packs.packName;
-//         const user_id = getState().users.userId;
-//         dispatch(setAppStatus('loading'));
-//         try {
-//             const res = await packsApi.getPacks(user_id, minCards, maxCards,
-//                 sortPacksCondition, page, pageCount, packName);
-//             dispatch(getPacks(res.data));
-//             dispatch(setAppStatus('idle'));
-//         } catch (e: any) {
-//             const error = e.response ? e.response.data.error : "Some unknown mistake";
-//             dispatch(setError(error));
-//             dispatch(setAppStatus('idle'));
-//         }
-//     }
-// }
 export const fetchPacks = (): ThunkType => {
     return async (dispatch: ThunkDispatchType, getState: () => AppStoreType) => {
         let user_id = "";
@@ -163,7 +141,7 @@ export const fetchPacks = (): ThunkType => {
     }
 }
 
-//add (user_id: string)
+
 export const addPack = (name: string, isPrivate: boolean): ThunkType => {
     return async (dispatch: ThunkDispatchType) => {
         dispatch(setAppStatus('loading'));
@@ -179,7 +157,7 @@ export const addPack = (name: string, isPrivate: boolean): ThunkType => {
     }
 }
 
-//add (user_id: string)
+
 export const deletePack = (_id: string): ThunkType => {
     return async (dispatch: ThunkDispatchType) => {
         dispatch(setAppStatus('loading'));
@@ -195,7 +173,7 @@ export const deletePack = (_id: string): ThunkType => {
     }
 }
 
-//add (user_id: string)
+
 export const updatePack = (_id: string, name: string, isPrivate: boolean): ThunkType => {
     return async (dispatch: ThunkDispatchType) => {
         dispatch(setAppStatus('loading'));

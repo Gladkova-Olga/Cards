@@ -22,8 +22,6 @@ export const PATH = {
     CARDS:'/cards/:cardsPack_id',
     LEARN:'/learn/:cardsPack_id',
     USERS: '/users',
-    USER_PACKS:'/cards/:cardsPack_id',
-    // USER_PACKS:'/packs/:user_id',
 }
 
 function Routes() {
@@ -40,7 +38,6 @@ function Routes() {
                 <Route path={PATH.CARDS} render={() => <Cards/>}/>
                 <Route path={PATH.LEARN} render={() => <Learn/>}/>
                 <Route path={PATH.USERS} render={() => <Users/>}/>
-                <Route path={PATH.USER_PACKS} render={() => <Packs/>}/>
                 <Route render={() => <Error404/>}/>
 
             </Switch>

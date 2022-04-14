@@ -19,14 +19,16 @@ const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit,
     const [activeAddPack, setActiveAddPack] = useState(false);
     const [title, setTitle] = useState(nameInit);
     const [isPrivate, setIsPrivate] = useState(isPrivateInit);
+
     const onClickAddPackHandler = () => {
         setActiveAddPack(true);
     }
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.target.value)
+        setTitle(e.target.value);
     }
-    const onChangeIsPrivate = () => {
-        setIsPrivate(!isPrivate);
+    const onChangeIsPrivate = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsPrivate(e.target.checked);
+
     }
     const onClickSave = () => {
         if(buttonName === 'Add'){
@@ -49,8 +51,13 @@ const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit,
             <Button onClick={onClickAddPackHandler} buttonStyle={"secondary"} children={buttonName}/>
             <Modal active={activeAddPack} setActive={setActiveAddPack}>
                 <Input type={"text"} placeholder={"Cards title"} value={title} onChange={onChangeTitle}/>
-                <CheckBox id={"isPrivate"} name={"isPrivate"} type={"checkbox"} checked={isPrivate} onChange={onChangeIsPrivate}
+                <CheckBox id={"isPrivate"} name={"isPrivate"} type={"checkbox"} checked={isPrivate}
+                          onChange={onChangeIsPrivate}
                           children={"private pack"}  />
+
+               <span>
+                   <input type={"checkbox"} checked={isPrivate} onChange={onChangeIsPrivate}/> private pack
+               </span>
                 <div>
                     <Button buttonStyle={"secondary"} children={"Save"} onClick={onClickSave} />
                     <Button buttonStyle={"secondary"} children={"Cancel"} onClick={onClickCancel} />

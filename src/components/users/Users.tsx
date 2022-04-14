@@ -10,7 +10,7 @@ import Paginator from "../common/paginator/Paginator";
 import {setPage, setPageCount} from "../../bll/usersReduser";
 import Button from "../common/button/Button";
 import SortUsers from "./sortUsers";
-import {setCardsCount, setMyPacks} from "../../bll/packsReducer";
+import {setMyPacks} from "../../bll/packsReducer";
 import UsersSettings from "./UsersSettings";
 
 
@@ -66,20 +66,25 @@ const Users: React.FC = () => {
                     <div>Public packs
                         <SortUsers btnName={"publicCardPacksCount"}/>
                     </div>
-                    <div>E-mail</div>
+
 
                 </div>
                 {users.map(u => {
                     const onClickPacks = (userId: string) => {
                         dispatch(setUserId(userId));
                         dispatch(setMyPacks(false));
-                        history.push(`/packs/${u._id}`)
+                        // history.push(`/packs/${u._id}`)
+                        history.push(`/packs`)
                     }
                     return (
                         <div className={style.usersBlock} key={u._id}>
-                            <div>{u.name}</div>
+                            <div>
+                                <div>{u.name}</div>
+                                {u.name === u.email ? "" : <div className={style.description}>{u.email}</div>}
+
+                            </div>
                             <div>{u.publicCardPacksCount}</div>
-                            <div>{u.email}</div>
+
                             <div><Button buttonStyle={'secondary'} children={"Packs"}
                                          onClick={() => onClickPacks(u._id)}/></div>
 
