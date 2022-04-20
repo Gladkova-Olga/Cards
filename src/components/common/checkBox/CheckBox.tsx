@@ -15,6 +15,8 @@ function CheckBox({type, id,  children, onChange, checked, name, ...rest}: Check
             <label className={style.label} htmlFor={id}>{children}</label>
         </div>
 
+
+
     )
 
 }

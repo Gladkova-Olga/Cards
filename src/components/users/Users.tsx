@@ -73,7 +73,6 @@ const Users: React.FC = () => {
                     const onClickPacks = (userId: string) => {
                         dispatch(setUserId(userId));
                         dispatch(setMyPacks(false));
-                        // history.push(`/packs/${u._id}`)
                         history.push(`/packs`)
                     }
                     return (
