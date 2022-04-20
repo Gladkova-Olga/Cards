@@ -1,3 +1,18 @@
-.loginBlock{
-
+.loginBlock {
+    text-align: center;
+    margin-top: 40px;
+}
+.loginBlock div {
+    margin: 6px 0;
+}
+.linksBlock {
+    padding-top: 10px;
+    font-size: 14px;
+}
+.linksBlock a {
+    color: #334e6f;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    text-decoration: none;
 }

@@ -73,12 +73,15 @@ function Login() {
                 <Button buttonStyle={"primary"} type={"submit"} disabled={isButtonDisabled} children={'Sign in'}/>
 
             </form>
-            <div>
-                <NavLink to={PATH.SIGN_UP}>Sign Up</NavLink>
+            <div className={style.linksBlock}>
+                <div>
+                    <NavLink to={PATH.RESTORE_PASSWORD}>Forgot your password?</NavLink>
+                </div>
+                <div className={style.item}>
+                    <NavLink to={PATH.SIGN_UP}>Sign Up</NavLink>
+                </div>
             </div>
-            <div>
-                <NavLink to={PATH.RESTORE_PASSWORD}>Forgot your password?</NavLink>
-            </div>
+
         </div>
     )
 }
