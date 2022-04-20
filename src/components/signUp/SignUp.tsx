@@ -51,20 +51,25 @@ function SignUp() {
 
     return (
         <div className={style.signUpContainer}>
-            <div>Sign up</div>
+            <h3>Sign up</h3>
             <form onSubmit={formik.handleSubmit}>
                 <div>
                     <Input
                         id={"email"} name={"email"} type={"text"} placeholder={"E-mail"}
                         onChange={formik.handleChange} value={formik.values.email} onBlur={formik.handleBlur}/>
-                    {formik.errors.email && formik.touched.email ? <div>{formik.errors.email}</div> : null}
+                    {formik.errors.email && formik.touched.email ?
+                        <div className={style.error}>{formik.errors.email}</div> : null}
                 </div>
                 <div>
                     <Input id={"password"} name={"password"} type={"password"} placeholder={"Password"}
                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password}/>
-                    {formik.errors.password && formik.touched.password ? <div>{formik.errors.password}</div> : null}
+                    {formik.errors.password && formik.touched.password ?
+                        <div className={style.error}>{formik.errors.password}</div> : null}
                 </div>
-                <Button type={"submit"} disabled={isButtonDisabled} buttonStyle={"primary"} children={"Sign up"}/>
+                <div className={style.buttonContainer}>
+                    <Button type={"submit"} disabled={isButtonDisabled} buttonStyle={"primary"} children={"Sign up"}/>
+                </div>
+
             </form>
         </div>
     )

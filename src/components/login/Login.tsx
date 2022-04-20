@@ -54,17 +54,18 @@ function Login() {
 
     return (
         <div className={style.loginBlock}>
+            <h3>Sign in</h3>
             <form onSubmit={formik.handleSubmit}>
                 <div>
                     <Input id={"email"} name={"email"} type={"text"} placeholder={"E-mail"}
                            onChange={formik.handleChange}
                            value={formik.values.email} onBlur={formik.handleBlur}/>
-                    {formik.errors.email && formik.touched.email ? <div>{formik.errors.email}</div> : null}
+                    {formik.errors.email && formik.touched.email ? <div className={style.error}>{formik.errors.email}</div> : null}
                 </div>
                 <div>
                     <Input id={"password"} name={"password"} type={"password"} placeholder={"Password"}
                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password}/>
-                    {formik.errors.password && formik.touched.password ? <div>{formik.errors.password}</div> : null}
+                    {formik.errors.password && formik.touched.password ? <div className={style.error}>{formik.errors.password}</div> : null}
                 </div>
                 <div>
                     <CheckBox id={"rememberMe"} name={"rememberMe"} type={"checkbox"} onChange={formik.handleChange}
@@ -81,7 +82,6 @@ function Login() {
                     <NavLink to={PATH.SIGN_UP}>Sign Up</NavLink>
                 </div>
             </div>
-
         </div>
     )
 }

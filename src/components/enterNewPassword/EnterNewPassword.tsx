@@ -45,16 +45,20 @@ function EnterNewPassword() {
         )
     } else {
         return (
-            <div>
+            <div className={style.enterNewPasswordBlock}>
                 <div>Enter new password</div>
                 <form onSubmit={formik.handleSubmit}>
                     <div>
                         <Input id={"password"} name={"password"} type={"password"} placeholder={"Password"}
                                onChange={formik.handleChange} onBlur={formik.handleBlur}
                                value={formik.values.password}/>
-                        {formik.errors.password && formik.touched.password ? <div>{formik.errors.password}</div> : null}
+                        {formik.errors.password && formik.touched.password ?
+                            <div className={style.error}>{formik.errors.password}</div> : null}
                     </div>
-                    <Button buttonStyle={"primary"} type={"submit"} disabled={isButtonDisabled} children={"Send"}/>
+                    <div className={style.buttonContainer}>
+                        <Button buttonStyle={"primary"} type={"submit"} disabled={isButtonDisabled} children={"Send"}/>
+                    </div>
+
                 </form>
             </div>
         )

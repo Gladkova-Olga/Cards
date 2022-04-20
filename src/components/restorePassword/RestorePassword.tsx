@@ -18,7 +18,7 @@ function RestorePassword() {
 
     const formik = useFormik({
         initialValues: {
-            email: 'olga_gladkova@tut.by',
+            email: '',
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
@@ -37,19 +37,25 @@ function RestorePassword() {
 
     if (isRequestSuccess) {
         return (
-            <div>Check your e-mail! We've sent instruction how to recover your password there.</div>
+            <div className={style.restorePasswordBlock}>
+                Check your e-mail! We've sent instruction how to recover your password there
+            </div>
         )
     } else {
         return (
-            <div>
-                <div>Restore password</div>
+            <div className={style.restorePasswordBlock}>
+                <div>Please enter your email address to restore your password</div>
                 <form onSubmit={formik.handleSubmit}>
                     <div>
                         <Input id={"email"} name={"email"} type={"text"} placeholder={"E-mail"}
                                onChange={formik.handleChange} value={formik.values.email} onBlur={formik.handleBlur}/>
-                        {formik.errors.email && formik.touched.email ? <div>{formik.errors.email}</div> : null}
+                        {formik.errors.email && formik.touched.email ?
+                            <div className={style.error}>{formik.errors.email}</div> : null}
                     </div>
-                    <Button buttonStyle={"primary"} type={"submit"} disabled={isButtonDisabled} children={"Send"}/>
+                    <div className={style.buttonContainer}>
+                        <Button buttonStyle={"primary"} type={"submit"} disabled={isButtonDisabled} children={"Send"}/>
+                    </div>
+
                 </form>
             </div>
         )
