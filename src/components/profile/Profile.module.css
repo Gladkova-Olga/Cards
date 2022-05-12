@@ -8,32 +8,38 @@
     width: 350px;
     border-radius: 4px;
 }
+
 .items {
     padding-top: 20px;
 }
+
 .titleText {
     font-weight: bold;
     font-size: 18px;
     padding-bottom: 10px;
 }
+
 .text {
     color: #8995a2;
     padding-bottom: 10px;
 }
 
 .editProfileBlock {
-    margin: 20px;
+    text-align: center;
+    margin: 40px;
 }
+
 .editProfileItem {
     margin-bottom: 10px;
     align-items: center;
 }
+
 .btnContainer {
     padding-right: 20px;
-    width: 40%;
     display: flex;
     justify-content: center;
 }
-.btnContainer button{
-    margin:10px ;
+
+.btnContainer button {
+    margin: 10px;
 }

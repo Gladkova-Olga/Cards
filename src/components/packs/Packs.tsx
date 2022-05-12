@@ -78,13 +78,18 @@ const Packs = () => {
                 <ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}
                                     />
                 <div className={style.titlesBlock}>
-                    <div>Name
+                    <div className={style.title}>
+                        <span>Name</span>
                         <SortPacks btnName={"name"}/>
                     </div>
-                    <div>Cards
+
+                    <div className={style.title}>
+                        <span>Cards</span>
                         <SortPacks btnName={"cardsCount"}/>
                     </div>
-                    <div>Last update
+
+                    <div className={style.title}>
+                        <span>Updated</span>
                         <SortPacks btnName={"updated"}/>
                     </div>
 
@@ -93,14 +98,17 @@ const Packs = () => {
                     {cardsPacks.map((pack) => {
 
                         let date = new Date(pack.updated);
-                        let options = new Intl.DateTimeFormat("en", {
+                        let optionsDate = new Intl.DateTimeFormat("en", {
                             year: "numeric",
                             month: "numeric",
                             day: "numeric",
+                        });
+                        let optionsTime = new Intl.DateTimeFormat("en", {
                             hour: "numeric",
                             minute: "numeric",
                         });
-                        const time = options.format(date);
+                        const formatDate = optionsDate.format(date);
+                        const formatTime = optionsTime.format(date);
                         const onClickCards = () => {
                             history.push(`/cards/${pack._id}`)
                         }
@@ -111,7 +119,10 @@ const Packs = () => {
                         return <div className={style.packsBlock} key={pack._id}>
                             <div onClick={onClickCards} className={style.cardsName}>  {pack.name} </div>
                             <div>  {pack.cardsCount} </div>
-                            <div>  {time} </div>
+                            <div className={style.date}>
+                                <div>{formatDate}</div>
+                                <div>{formatTime}</div>
+                            </div>
                             {pack.user_id === myUser_id && <ModalDeletePack name={pack.name} _id={pack._id} />}
                             {pack.user_id === myUser_id && <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
                                                                                nameInit={pack.name}

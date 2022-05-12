@@ -1,6 +1,10 @@
 import React from "react";
 import {useDispatch} from "react-redux";
 import {sortPacks} from "../../../bll/packsReducer";
+import style from "./sortPack.module.css"
+import up from "../../../assets/images/icon_sort_up.png"
+import down from "../../../assets/images/icon_sorn_down.png"
+
 
 type PropsType = {
     btnName:  "name" | "cardsCount" | "updated"
@@ -29,26 +33,26 @@ const SortPacks: React.FC<PropsType> = ({btnName}) => {
     switch(btnName) {
         case "name": {
             return (
-                <>
-                    <button onClick={onClickNameUp}>up</button>
-                    <button onClick={onClickNameDown}>down</button>
-                </>
+                <div>
+                    <button className={style.btn} onClick={onClickNameUp}><img src={up} alt = {"up"}/></button>
+                    <button className={style.btn} onClick={onClickNameDown}><img src={down} alt={"down"} /></button>
+                </div>
             )
         }
         case "cardsCount": {
             return (
-                <>
-                    <button onClick={onClickCardsUp}>up</button>
-                    <button onClick={onClickCardsDown}>down</button>
-                </>
+                <div>
+                    <button className={style.btn} onClick={onClickCardsUp}><img src={up} alt = {"up"}/></button>
+                    <button className={style.btn} onClick={onClickCardsDown}><img src={down} alt={"down"} /></button>
+                </div>
             )
         }
         case "updated": {
             return (
-                <>
-                    <button onClick={onClickUpdUp}>up</button>
-                    <button onClick={onClickUpdDown}>down</button>
-                </>
+                <div>
+                    <button className={style.btn} onClick={onClickUpdUp}><img src={up} alt = {"up"}/></button>
+                    <button className={style.btn} onClick={onClickUpdDown}><img src={down} alt={"down"} /></button>
+                </div>
             )
         }
     }

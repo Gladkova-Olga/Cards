@@ -14,8 +14,7 @@ type PropsType = {
 const EditProfile: React.FC<PropsType> = ({name, avatar, onClickSave, onCancelEditProfileClick}) => {
     const [newName, setNewName] = useState(name);
     const [newAvatar, setNewAvatar] = useState(avatar);
-    // const [file64, setFile64] = useState<any>();
-    // const reader = new FileReader()
+
 
     const onChangeNewName = (e: ChangeEvent<HTMLInputElement>) => {
         setNewName(e.currentTarget.value);
@@ -23,18 +22,9 @@ const EditProfile: React.FC<PropsType> = ({name, avatar, onClickSave, onCancelEd
     const onChangeNewAvatar = (e: ChangeEvent<HTMLInputElement>) => {
         setNewAvatar(e.currentTarget.value);
     }
-    // const upload = (e: ChangeEvent<HTMLInputElement>) => {
-    //     const reader = new FileReader();
-    //     const newFile = e.target.files && e.target.files[0];
-    //     if(newFile) {
-    //         reader.onloadend = () => {
-    //             // setFile64(reader.result);
-    //             reader.readAsDataURL(newFile)
-    //         }
-    //     }
-    // }
+
     return (
-        <div>
+        <div className={style.editProfileBlock}>
                 <div className={style.editProfileItem}>
                     <Input id={"name"} name={"name"} type={"text"} placeholder={"Name"}
                            onChange={onChangeNewName} value={newName} className={styleInp.input}/>
@@ -44,12 +34,7 @@ const EditProfile: React.FC<PropsType> = ({name, avatar, onClickSave, onCancelEd
                         id={"avatar"} name={"avatar"} type={"text"} placeholder={"URL avatar"}
                         onChange={onChangeNewAvatar} value={newAvatar} className={styleInp.input}/>
                 </div>
-                {/*<div>*/}
-                {/*    <input type={"file"} name={'file'} id={'file'} accept="image/*"*/}
-                {/*           onChange={upload} className={styleInp.input}/>*/}
-                {/*    <label htmlFor="file">Change Image</label>*/}
-                {/*</div>*/}
-            {/*<img src={file64} alt={"file"}/>*/}
+
                 <div className={style.btnContainer}>
                     <Button  children={"Save"} buttonStyle={"primary"} onClick={() => onClickSave(newName, newAvatar)}/>
                     <Button children={"Cancel"} buttonStyle={"primary"} onClick={onCancelEditProfileClick}/>

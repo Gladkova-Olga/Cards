@@ -1,12 +1,10 @@
 .packContainer {
+    min-width: 100vh;
     margin: 20px;
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 1fr 3fr;
     grid-auto-rows: 100px;
-    grid-gap: 20px;
-}
-.packContainer div {
-    /*padding: 10px;*/
+    grid-gap: 30px;
 }
 .numberInput {
     width: 30px;
@@ -15,22 +13,33 @@
     margin: 20px;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(6, 200px);
+    grid-template-columns: repeat(6, 1fr);
     grid-auto-rows: 60px;
     gap: 10px;
     border-bottom: #334e6f 1px solid;
+}
+.title {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
     align-items: center;
+    justify-self: center;
+
 }
 .packsBlock {
     margin: 20px;
     display: grid;
-    grid-template-columns: repeat(6, 200px);
+    grid-template-columns: repeat(6, 1fr);
     grid-auto-rows: 100px;
     gap: 10px;
     align-items: center;
+    text-align: center;
 }
 .cardsName {
     cursor: pointer;
+}
+.date{
+    font-size: smaller;
+    text-align: center;
 }
 
 
