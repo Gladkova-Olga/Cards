@@ -6,9 +6,7 @@
     grid-auto-rows: 100px;
     grid-gap: 30px;
 }
-.numberInput {
-    width: 30px;
-}
+
 .titlesBlock{
     margin: 20px;
     padding: 0;
@@ -40,6 +38,9 @@
 .date{
     font-size: smaller;
     text-align: center;
+}
+.btnContainer {
+    margin-top: 16px;
 }
 
 

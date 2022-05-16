@@ -1,7 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import CheckBox from "../../common/checkBox/CheckBox";
 import Input from "../../common/input/Input";
-import style from "../Packs.module.css";
+import style from "./PacksSettings.module.css";
 
 type PropsType = {
     isMyPacks: boolean
@@ -41,22 +41,23 @@ const PacksSettings: React.FC<PropsType> = ({isMyPacks, onChangeMyPacks,
         <>
             <CheckBox id={"my packs"} children={"my packs"}
                       onChange={(e) => onChangeMyPacks(e.target.checked)}
-                      checked={isMyPacks}/>
+                      checked={isMyPacks} />
+            <div>
+                <Input value={searchValue} onChange={onChangeSearchValue} placeholder={"Search pack"}
+                       onKeyPress={onPressEnterSearch} className={style.item}/>
+            </div>
             <div>
                 Cards count:
             </div>
             <div>
-                Min - <Input value={minCardsCount} onChange={onChangeMinCardsCount}
-                             className={style.numberInput} onKeyPress={onPressEnterCardCount}/>
+                <Input value={minCardsCount} onChange={onChangeMinCardsCount}
+                            className={style.numberInput}  onKeyPress={onPressEnterCardCount}/> - min
             </div>
             <div>
-                Max - <Input value={maxCardsCount} onChange={onChangeMaxCardsCount}
-                             onKeyPress={onPressEnterCardCount}/>
+                <Input className={style.numberInput} value={maxCardsCount} onChange={onChangeMaxCardsCount}
+                             onKeyPress={onPressEnterCardCount}/>  - max
             </div>
-            <div>
-                <Input value={searchValue} onChange={onChangeSearchValue} placeholder={"Search pack"}
-                       onKeyPress={onPressEnterSearch}/>
-            </div>
+
         </>
     )
 }

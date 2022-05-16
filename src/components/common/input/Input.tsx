@@ -7,10 +7,12 @@ type InputPropsType = DefaultInputPropsType & {
 
 }
 
-function Input({type, onChange, ...rest}: InputPropsType) {
+function Input({type, onChange, className, ...rest}: InputPropsType) {
+
+    const finalInputClassName = `${style.input} ${className ? className : ''}`
 
     return (
-        <input className={style.input} type={type} onChange={onChange} {...rest} />
+        <input className={finalInputClassName} type={type} onChange={onChange} {...rest} />
     )
 
 }

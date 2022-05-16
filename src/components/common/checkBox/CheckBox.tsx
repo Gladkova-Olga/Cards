@@ -6,11 +6,12 @@ type CheckBoxPropsType = DefaultInputPropsType &{
 
 }
 
-function CheckBox({type, id,  children, onChange, checked, name, ...rest}: CheckBoxPropsType) {
+function CheckBox({type, id,  children, onChange, checked, name, className, ...rest}: CheckBoxPropsType) {
+    const finalInputClassName = `${style.checkBox} ${className ? className : ''}`
 
     return (
         <div>
-            <input className={style.checkBox} type={"checkbox"} id={id} onChange={onChange} checked={checked}
+            <input className={finalInputClassName} type={"checkbox"} id={id} onChange={onChange} checked={checked}
                  name={name}  {...rest}/>
             <label className={style.label} htmlFor={id}>{children}</label>
         </div>

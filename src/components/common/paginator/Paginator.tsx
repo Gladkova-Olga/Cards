@@ -10,8 +10,10 @@ type PropsType = {
     onSwitchPageCount: (pageCount: number) => void
 }
 
-const Paginator: React.FC<PropsType> = ({pageCount, totalItemsCount,
-                                            portionSize, onPageChanges, currentPage, onSwitchPageCount}) => {
+const Paginator: React.FC<PropsType> = ({
+                                            pageCount, totalItemsCount,
+                                            portionSize, onPageChanges, currentPage, onSwitchPageCount
+                                        }) => {
     const onChangePageCount = (e: ChangeEvent<HTMLSelectElement>) => {
         onSwitchPageCount(+e.target.value);
     };
@@ -32,32 +34,51 @@ const Paginator: React.FC<PropsType> = ({pageCount, totalItemsCount,
     }
 
 
-return (
-    <div>
-        <select name={"pageCount"} id={"pageCount"} value={pageCount.toString()} onChange={onChangePageCount}
-                className={style.select}>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={30}>30</option>
-            <option value={40}>40</option>
-            <option value={50}>50</option>
-        </select>
-        <div className={style.paginator}>
-            <button name={"prev"} onClick={onClickPrev} disabled={portionNumber <= 1}>prev</button>
-            {pages
-                .filter(p => p === 1 || p >= leftPortionPageNumber && p <= rightPortionPageNumber || p === allPagesCount)
-                .map(p => {
-                    return (
-                        <span className={p === currentPage ? style.selectedPage : style.pageNumber} key={p}
-                              onClick={() => onPageChanges(p)} >{p}</span>
-                )
-            })
-            }
-            <button name={"next"} onClick={onClickNext} disabled={portionNumber >= portionCount}>next</button>
-        </div>
+    return (
+        <div className={style.paginatorBlock}>
+            <div>
+                <span className={style.label}>items per page</span>
 
-    </div>
-)
+                <select name={"pageCount"} id={"pageCount"} value={pageCount.toString()} onChange={onChangePageCount}
+                        className={style.select}>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                    <option value={30}>30</option>
+                    <option value={40}>40</option>
+                    <option value={50}>50</option>
+                </select>
+            </div>
+            <div className={style.paginator}>
+                {portionNumber > 1 ?
+                    <button name={"prev"} onClick={onClickPrev}  className={style.btn}>prev
+                    </button> : ""
+
+                }
+
+                {/*<button name={"prev"} onClick={onClickPrev} disabled={portionNumber <= 1} className={style.btn}>prev*/}
+                {/*</button>*/}
+                {pages
+                    .filter(p => p === 1 || p >= leftPortionPageNumber && p <= rightPortionPageNumber || p === allPagesCount)
+                    .map(p => {
+                        return (
+                            <span className={p === currentPage ? style.selectedPage : style.pageNumber} key={p}
+                                  onClick={() => onPageChanges(p)}>{p}</span>
+                        )
+                    })
+                }
+                {portionNumber < portionCount ?
+                    <button name={"next"} onClick={onClickNext} disabled={portionNumber >= portionCount}
+                            className={style.btn}>
+                        next
+                    </button> : ""}
+                {/*<button name={"next"} onClick={onClickNext} disabled={portionNumber >= portionCount}*/}
+                {/*        className={style.btn}>*/}
+                {/*    next*/}
+                {/*</button>*/}
+            </div>
+
+        </div>
+    )
 }
 
 export default Paginator;

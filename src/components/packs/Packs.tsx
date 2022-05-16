@@ -67,16 +67,19 @@ const Packs = () => {
     return (
         <div className={style.packContainer}>
             <div>
-
                 <PacksSettings isMyPacks={isMyPacks} onChangeMyPacks={onChangeMyPacks}
                                onPressKeyCardCount={onPressKeyCardCount} onPressKeySearch={onPressKeySearch}/>
+                <div className={style.btnContainer}>
+                    <ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}
+                    />
+                </div>
 
             </div>
             <div>
                 <Paginator pageCount={pageCount} portionSize={10} totalItemsCount={cardPacksTotalCount}
                            onPageChanges={onPageChange} currentPage={page} onSwitchPageCount={onSwitchPageCount}/>
-                <ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}
-                                    />
+                {/*<ModalAddUpdatePack buttonName={"Add"} _id={''} nameInit={''} isPrivateInit={false}*/}
+                {/*                    />*/}
                 <div className={style.titlesBlock}>
                     <div className={style.title}>
                         <span>Name</span>
