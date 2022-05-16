@@ -54,11 +54,9 @@ const Paginator: React.FC<PropsType> = ({
                     </button> : ""
 
                 }
-
-                {/*<button name={"prev"} onClick={onClickPrev} disabled={portionNumber <= 1} className={style.btn}>prev*/}
-                {/*</button>*/}
+                
                 {pages
-                    .filter(p => p === 1 || p >= leftPortionPageNumber && p <= rightPortionPageNumber || p === allPagesCount)
+                    .filter(p =>  p >= leftPortionPageNumber && p <= rightPortionPageNumber )
                     .map(p => {
                         return (
                             <span className={p === currentPage ? style.selectedPage : style.pageNumber} key={p}
@@ -67,14 +65,9 @@ const Paginator: React.FC<PropsType> = ({
                     })
                 }
                 {portionNumber < portionCount ?
-                    <button name={"next"} onClick={onClickNext} disabled={portionNumber >= portionCount}
-                            className={style.btn}>
+                    <button name={"next"} onClick={onClickNext} className={style.btn}>
                         next
                     </button> : ""}
-                {/*<button name={"next"} onClick={onClickNext} disabled={portionNumber >= portionCount}*/}
-                {/*        className={style.btn}>*/}
-                {/*    next*/}
-                {/*</button>*/}
             </div>
 
         </div>
