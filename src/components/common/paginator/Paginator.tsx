@@ -54,7 +54,7 @@ const Paginator: React.FC<PropsType> = ({
                     </button> : ""
 
                 }
-                
+
                 {pages
                     .filter(p =>  p >= leftPortionPageNumber && p <= rightPortionPageNumber )
                     .map(p => {

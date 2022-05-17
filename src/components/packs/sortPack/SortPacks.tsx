@@ -7,7 +7,7 @@ import down from "../../../assets/images/icon_sorn_down.png"
 
 
 type PropsType = {
-    btnName:  "name" | "cardsCount" | "updated"
+    btnName: "name" | "cardsCount" | "updated"
 }
 const SortPacks: React.FC<PropsType> = ({btnName}) => {
     const dispatch = useDispatch();
@@ -30,28 +30,28 @@ const SortPacks: React.FC<PropsType> = ({btnName}) => {
     const onClickUpdDown = () => {
         dispatch(sortPacks("0updated"))
     }
-    switch(btnName) {
+    switch (btnName) {
         case "name": {
             return (
                 <div>
-                    <button className={style.btn} onClick={onClickNameUp}><img src={up} alt = {"up"}/></button>
-                    <button className={style.btn} onClick={onClickNameDown}><img src={down} alt={"down"} /></button>
+                    <button className={style.btn} onClick={onClickNameUp}><img src={up} alt={"up"}/></button>
+                    <button className={style.btn} onClick={onClickNameDown}><img src={down} alt={"down"}/></button>
                 </div>
             )
         }
         case "cardsCount": {
             return (
                 <div>
-                    <button className={style.btn} onClick={onClickCardsUp}><img src={up} alt = {"up"}/></button>
-                    <button className={style.btn} onClick={onClickCardsDown}><img src={down} alt={"down"} /></button>
+                    <button className={style.btn} onClick={onClickCardsUp}><img src={up} alt={"up"}/></button>
+                    <button className={style.btn} onClick={onClickCardsDown}><img src={down} alt={"down"}/></button>
                 </div>
             )
         }
         case "updated": {
             return (
                 <div>
-                    <button className={style.btn} onClick={onClickUpdUp}><img src={up} alt = {"up"}/></button>
-                    <button className={style.btn} onClick={onClickUpdDown}><img src={down} alt={"down"} /></button>
+                    <button className={style.btn} onClick={onClickUpdUp}><img src={up} alt={"up"}/></button>
+                    <button className={style.btn} onClick={onClickUpdDown}><img src={down} alt={"down"}/></button>
                 </div>
             )
         }

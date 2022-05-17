@@ -66,48 +66,60 @@ const Cards = () => {
                 <CardsSettings onPressKeyQuestionSearch={onPressKeyQuestionSearch}
                                onPressKeyAnswerSearch={onPressKeyAnswerSearch} onPressKeyGrade={onPressKeyGrade}
                 />
+                <div className={style.btnContainer}>
+                    <ModalAddUpdateCard buttonName={"Add"} questionInit={""} answerInit={""} _id={""}
+                                        cardsPack_id={cardsPack_id} gradeInit={0}/>
+                </div>
             </div>
             <div>
                 <Paginator pageCount={pageCount} totalItemsCount={cardsTotalCount} portionSize={10}
                            onPageChanges={onPageChange} currentPage={page} onSwitchPageCount={onSwitchPageCount}/>
-                <ModalAddUpdateCard buttonName={"Add"} questionInit={""} answerInit={""} _id={""}
-                                    cardsPack_id={cardsPack_id} gradeInit={0}/>
+
                 <div className={style.titlesBlock}>
-                    <div>Question
+                    <div className={style.title}>
+                        <span>Question</span>
                         <SortCards btnName={'question'}/>
                     </div>
-                    <div>Answer
+                    <div className={style.title}>
+                        <span>Answer</span>
                         <SortCards btnName={"answer"}/>
                     </div>
-                    <div>Grades
+                    <div className={style.title}>
+                        <span>Grades</span>
                         <SortCards btnName={"grade"}/>
                     </div>
-                    <div>Last update
+                    <div className={style.title}>
+                        <span>Updated</span>
                         <SortCards btnName={'updated'}/>
                     </div>
-                    {/*<div>Delete</div>*/}
-                    {/*<div>Update</div>*/}
+
 
                 </div>
                 {(cards.length > 0 && cardsPack_id === cards[0].cardsPack_id ?
                     <div>
                         {cards.map((c) => {
                             const date = new Date(c.updated);
-                            let options = new Intl.DateTimeFormat('en', {
+                            let optionsDate = new Intl.DateTimeFormat("en", {
                                 year: "numeric",
                                 month: "numeric",
                                 day: "numeric",
+                            });
+                            let optionsTime = new Intl.DateTimeFormat("en", {
                                 hour: "numeric",
                                 minute: "numeric",
                             });
-                            const timeUpd = options.format(date);
+                            const formatDate = optionsDate.format(date);
+                            const formatTime = optionsTime.format(date);
                             const grade = +c.grade.toFixed(2)
                             return (
                                 <div className={style.cardsBlock} key={c._id}>
                                     <div>{c.question}</div>
                                     <div>{c.answer}</div>
                                     <div>{grade}</div>
-                                    <div>{timeUpd}</div>
+                                    <div className={style.date}>
+                                        <div>{formatDate}</div>
+                                        <div>{formatTime}</div>
+                                    </div>
                                     <ModalDeleteCard _id={c._id} cardsPack_id={c.cardsPack_id}/>
                                     <ModalAddUpdateCard buttonName={"Update"} questionInit={c.question}
                                                         answerInit={c.answer}

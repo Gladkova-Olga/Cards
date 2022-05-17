@@ -2,12 +2,12 @@
     min-width: 100vh;
     margin: 20px;
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 5fr;
     grid-auto-rows: 100px;
     grid-gap: 30px;
 }
 
-.titlesBlock{
+.titlesBlock {
     margin: 20px;
     padding: 0;
     display: grid;
@@ -16,13 +16,14 @@
     gap: 10px;
     border-bottom: #334e6f 1px solid;
 }
+
 .title {
     display: grid;
     grid-template-columns: 3fr 1fr;
     align-items: center;
     justify-self: center;
-
 }
+
 .packsBlock {
     margin: 20px;
     display: grid;
@@ -32,13 +33,16 @@
     align-items: center;
     text-align: center;
 }
+
 .cardsName {
     cursor: pointer;
 }
-.date{
+
+.date {
     font-size: smaller;
     text-align: center;
 }
+
 .btnContainer {
     margin-top: 16px;
 }
