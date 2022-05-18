@@ -9,10 +9,10 @@ import {
     setMyPacks,
     setPackName, setPage, setPageCount, SortPackConditionType, sortPacks,
 } from "../../bll/packsReducer";
-import ModalAddUpdatePack from "./ModalAddUpdatePack";
+import ModalAddUpdatePack from "./modals/ModalAddUpdatePack";
 import {Redirect, useHistory, useParams} from "react-router-dom";
 import {PATH} from "../routes/Routes";
-import ModalDeletePack from "./ModalDeletePack";
+import ModalDeletePack from "./modals/ModalDeletePack";
 import Paginator from "../common/paginator/Paginator";
 import SortPacks from "./sortPack/SortPacks";
 import PacksSettings from "./packsSettings/PacksSettings";

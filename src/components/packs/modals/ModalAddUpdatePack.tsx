@@ -1,10 +1,11 @@
 import React, {ChangeEvent, useState} from "react";
-import Modal from "../common/modal/Modal";
+import Modal from "../../common/modal/Modal";
 import {useDispatch} from "react-redux";
-import {addPack, updatePack} from "../../bll/packsReducer";
-import Button from "../common/button/Button";
-import Input from "../common/input/Input";
-import style from "../common/checkBox/CheckBox.module.css";
+import {addPack, updatePack} from "../../../bll/packsReducer";
+import Button from "../../common/button/Button";
+import Input from "../../common/input/Input";
+import style from "../../common/checkBox/CheckBox.module.css";
+import s from "./ModalAddUpdatePack.module.css"
 
 type PropsType = {
     buttonName: "Add" | "Update"
@@ -13,8 +14,10 @@ type PropsType = {
     isPrivateInit: boolean
 }
 
-const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit,
-                                                     isPrivateInit}) => {
+const ModalAddUpdatePack: React.FC<PropsType> = ({
+                                                     buttonName, _id, nameInit,
+                                                     isPrivateInit
+                                                 }) => {
     const dispatch = useDispatch();
     const [activeAddPack, setActiveAddPack] = useState(false);
     const [title, setTitle] = useState(nameInit);
@@ -31,7 +34,7 @@ const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit,
 
     }
     const onClickSave = () => {
-        if(buttonName === 'Add'){
+        if (buttonName === 'Add') {
             dispatch(addPack(title, isPrivate));
         } else {
             dispatch(updatePack(_id, title, isPrivate))
@@ -50,16 +53,19 @@ const ModalAddUpdatePack: React.FC<PropsType> = ({buttonName, _id, nameInit,
         <div>
             <Button onClick={onClickAddPackHandler} buttonStyle={"secondary"} children={buttonName}/>
             <Modal active={activeAddPack} setActive={setActiveAddPack}>
-                <Input type={"text"} placeholder={"Cards title"} value={title} onChange={onChangeTitle}/>
+                <Input type={"text"} placeholder={"Cards title"} value={title}
+                       onChange={onChangeTitle} className={s.input}/>
 
                 <div>
-                    <input className={style.checkBox} type={"checkbox"} id={_id} onChange={onChangeIsPrivate} checked={isPrivate}
-                           />
+                    <input className={style.checkBox} type={"checkbox"} id={_id} onChange={onChangeIsPrivate}
+                           checked={isPrivate}/>
                     <label className={style.label} htmlFor={_id}>private pack</label>
                 </div>
                 <div>
-                    <Button buttonStyle={"secondary"} children={"Save"} onClick={onClickSave} />
-                    <Button buttonStyle={"secondary"} children={"Cancel"} onClick={onClickCancel} />
+                    <Button buttonStyle={"secondary"} children={"Save"} onClick={onClickSave}
+                            className={s.btnContainer}/>
+                    <Button buttonStyle={"secondary"} children={"Cancel"} onClick={onClickCancel}
+                            className={s.btnContainer}/>
                 </div>
             </Modal>
         </div>
