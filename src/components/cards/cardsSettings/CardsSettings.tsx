@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import Input from "../../common/input/Input";
+import style from "./CardsSettings.module.css"
 
 
 type PropsType = {
@@ -49,20 +50,20 @@ const CardsSettings: React.FC<PropsType> = ({onPressKeyQuestionSearch, onPressKe
                 Grade:
             </div>
             <div>
-                Min - <Input value={min} onChange={onChangeMinGrade}
-                             onKeyPress={onPressEnterGrade} placeholder={"Min grade"}/>
+                <Input className={style.numberInput} value={min} onChange={onChangeMinGrade}
+                       onKeyPress={onPressEnterGrade} placeholder={"Min grade"}/> - min
             </div>
             <div>
-                Max - <Input value={max} onChange={onChangeMaxGrade}
-                             onKeyPress={onPressEnterGrade} placeholder={"Max grade"}/>
+                <Input className={style.numberInput} value={max} onChange={onChangeMaxGrade}
+                       onKeyPress={onPressEnterGrade} placeholder={"Max grade"}/> - max
             </div>
             <div>
                 <Input value={questionValue} onChange={onChangeQuestionValue} placeholder={"Search question"}
-                       onKeyPress={onPressEnterSearchQuestion}/>
+                       onKeyPress={onPressEnterSearchQuestion} className={style.item}/>
             </div>
             <div>
                 <Input value={answerValue} onChange={onChangeAnswerValue} placeholder={"Search answer"}
-                       onKeyPress={onPressEnterSearchAnswer}/>
+                       onKeyPress={onPressEnterSearchAnswer} className={style.item}/>
             </div>
         </>
     )
