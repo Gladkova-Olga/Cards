@@ -7,10 +7,12 @@ type ButtonPropsType = DefaultButtonPropsType &{
 
 type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
 
-const Button: React.FC<ButtonPropsType> = ({buttonStyle, ...rest}) => {
+const Button: React.FC<ButtonPropsType> = ({buttonStyle, className, ...rest}) => {
+    const finalInputClassName = `${buttonStyle === "primary" ? style.buttonPrimary : style.buttonSecondary} ${className 
+        ? className : ''}`
 
     return (
-        <button className={buttonStyle === "primary" ? style.buttonPrimary : style.buttonSecondary } {...rest} />
+        <button className={finalInputClassName} {...rest} />
     )
 
 }

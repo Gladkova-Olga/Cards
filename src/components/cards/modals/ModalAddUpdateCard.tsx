@@ -1,9 +1,10 @@
 import React, {ChangeEvent, useState} from "react";
-import Modal from "../common/modal/Modal";
+import Modal from "../../common/modal/Modal";
 import {useDispatch} from "react-redux";
-import {addCard, updateCard} from "../../bll/cardsReducer";
-import Button from "../common/button/Button";
-import Input from "../common/input/Input";
+import {addCard, updateCard} from "../../../bll/cardsReducer";
+import Button from "../../common/button/Button";
+import Input from "../../common/input/Input";
+import style from "./ModalAddUpdatePack.module.css"
 
 type PropsType = {
     buttonName: "Add" | "Update"
@@ -14,7 +15,8 @@ type PropsType = {
     gradeInit: number
 }
 
-const ModalAddUpdatePack: React.FC<PropsType> =
+
+const ModalAddUpdateCard: React.FC<PropsType> =
     ({buttonName, questionInit, answerInit, _id, cardsPack_id, gradeInit}) => {
         const dispatch = useDispatch();
         const [active, setActive] = useState(false);
@@ -51,15 +53,18 @@ const ModalAddUpdatePack: React.FC<PropsType> =
                 <Button children={buttonName} buttonStyle={"secondary"} onClick={onClickAddCardHandler}/>
                 <Modal active={active} setActive={setActive}>
                     <Input name={"question"} placeholder={"Question"} value={question}
-                           onChange={onChangeQuestion}/>
-                    <Input name={"answer"} placeholder={"Answer"} value={answer} onChange={onChangeAnswer}/>
+                           onChange={onChangeQuestion} className={style.input}/>
+                    <Input name={"answer"} placeholder={"Answer"} value={answer} onChange={onChangeAnswer}
+                           className={style.input}/>
                     <div>
-                        <Button children={"Save"} buttonStyle={"secondary"} onClick={onClickSave}/>
-                        <Button children={"Cancel"} buttonStyle={"secondary"} onClick={onClickCancel}/>
+                        <Button children={"Save"} buttonStyle={"secondary"}
+                                onClick={onClickSave} className={style.btnContainer}/>
+                        <Button children={"Cancel"} buttonStyle={"secondary"}
+                                onClick={onClickCancel} className={style.btnContainer}/>
                     </div>
                 </Modal>
             </div>
         )
     }
 
-export default ModalAddUpdatePack;
+export default ModalAddUpdateCard;

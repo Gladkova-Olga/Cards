@@ -13,8 +13,8 @@ import {
     setPageCount,
     setQuestionSearch
 } from "../../bll/cardsReducer";
-import ModalAddUpdateCard from "./ModalAddUpdateCard";
-import ModalDeleteCard from "./ModalDeleteCard";
+import ModalAddUpdateCard from "./modals/ModalAddUpdateCard";
+import ModalDeleteCard from "./modals/ModalDeleteCard";
 import CardsSettings from "./cardsSettings/CardsSettings";
 import SortCards from "./sortCards/SortCards";
 import Paginator from "../common/paginator/Paginator";
