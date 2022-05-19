@@ -1,28 +1,40 @@
 .usersContainer {
     margin: 20px;
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 1fr 5fr;
     grid-auto-rows: 100px;
-    grid-gap: 20px;
+    grid-gap: 30px;
 }
-.titlesBlock{
+
+.titlesBlock {
     margin: 20px;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(3, 250px);
+    grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: 60px;
     gap: 10px;
     border-bottom: #334e6f 1px solid;
     align-items: center;
 }
 
+.title {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    align-items: center;
+    justify-self: center;
+}
+
 .usersBlock {
     margin: 20px;
     display: grid;
-    grid-template-columns: repeat(3, 250px);
+    grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: 100px;
     gap: 10px;
+    align-items: center;
+    text-align: center;
+
 }
+
 .description {
     color: #8995a2;
     font-size: smaller;

@@ -1,6 +1,9 @@
 import React from "react";
 import {useDispatch} from "react-redux";
-import {setSortUsersCondition} from "../../bll/usersReduser";
+import {setSortUsersCondition} from "../../../bll/usersReduser";
+import up from "../../../assets/images/icon_sort_up.png"
+import down from "../../../assets/images/icon_sorn_down.png"
+import style from "./sortUsers.module.css"
 
 type PropsType = {
     btnName:  "name" | "publicCardPacksCount"
@@ -24,18 +27,18 @@ const SortUsers: React.FC<PropsType> = ({btnName}) => {
     switch(btnName) {
         case "name": {
             return (
-                <>
-                    <button onClick={onClickNameUp}>up</button>
-                    <button onClick={onClickNameDown}>down</button>
-                </>
+                <div>
+                    <button onClick={onClickNameUp} className={style.btn}><img src={up} alt={"up"}/></button>
+                    <button onClick={onClickNameDown} className={style.btn}><img src={down} alt={"down"}/></button>
+                </div>
             )
         }
         case "publicCardPacksCount": {
             return (
-                <>
-                    <button onClick={onClickPacksUp}>up</button>
-                    <button onClick={onClickPacksDown}>down</button>
-                </>
+                <div>
+                    <button onClick={onClickPacksUp} className={style.btn}><img src={up} alt={"up"}/></button>
+                    <button onClick={onClickPacksDown} className={style.btn}><img src={down} alt={"down"}/></button>
+                </div>
             )
         }
     }

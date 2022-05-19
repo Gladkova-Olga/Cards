@@ -9,9 +9,9 @@ import style from "./Users.module.css";
 import Paginator from "../common/paginator/Paginator";
 import {setPage, setPageCount} from "../../bll/usersReduser";
 import Button from "../common/button/Button";
-import SortUsers from "./sortUsers";
+import SortUsers from "./sortUsers/sortUsers";
 import {setMyPacks} from "../../bll/packsReducer";
-import UsersSettings from "./UsersSettings";
+import UsersSettings from "./usersSettings/UsersSettings";
 
 
 const Users: React.FC = () => {
@@ -60,10 +60,12 @@ const Users: React.FC = () => {
                 <Paginator pageCount={pageCount} totalItemsCount={usersTotalCount} portionSize={10}
                            onPageChanges={onPageChange} currentPage={page} onSwitchPageCount={onSwitchPageCount}/>
                 <div className={style.titlesBlock}>
-                    <div>Name
+                    <div className={style.title}>
+                        <span>Name</span>
                         <SortUsers btnName={'name'}/>
                     </div>
-                    <div>Public packs
+                    <div className={style.title}>
+                        <span>Public packs</span>
                         <SortUsers btnName={"publicCardPacksCount"}/>
                     </div>
 
@@ -83,9 +85,10 @@ const Users: React.FC = () => {
 
                             </div>
                             <div>{u.publicCardPacksCount}</div>
+                            {u.publicCardPacksCount != 0 && <div><Button buttonStyle={'secondary'} children={"Packs"}
+                                onClick={() => onClickPacks(u._id)}/></div>}
 
-                            <div><Button buttonStyle={'secondary'} children={"Packs"}
-                                         onClick={() => onClickPacks(u._id)}/></div>
+
 
                         </div>
                     )

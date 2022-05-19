@@ -38,7 +38,7 @@ const Packs = () => {
     useEffect(() => {
         dispatch(fetchPacks())
 
-    }, [isMyPacks, minCards, maxCards, packName, sortPacksCondition, pageCount, page, myUser_id]);
+    }, [isLoggedIn, isMyPacks, minCards, maxCards, packName, sortPacksCondition, pageCount, page, myUser_id]);
 
 
     const onChangeMyPacks = (isMyPack: boolean) => {
