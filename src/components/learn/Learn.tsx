@@ -6,8 +6,9 @@ import {PATH} from "../routes/Routes";
 import React, {useCallback, useEffect, useState} from "react";
 import {addNewGrade, fetchCards} from "../../bll/cardsReducer";
 import Button from "../common/button/Button";
-import LearnAnswer from "./LearnAnswer";
-import ModalStopLearning from "./ModalStopLearning";
+import LearnAnswer from "./learnAnswer/LearnAnswer";
+import ModalStopLearning from "./modals/ModalStopLearning";
+import style from "./Learn.module.css"
 
 const getCard = (cards: CardType[]) => {
     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
@@ -70,9 +71,9 @@ const Learn = () => {
     }
     if (cards.length > 0 && cardsPack_id === cards[0].cardsPack_id) {
         return (
-            <div>
-                <ModalStopLearning onClickStopHandler={onClickStopHandler}/>
-                <div>{card.question}</div>
+            <div className={style.learnContainer}>
+                {/*<ModalStopLearning onClickStopHandler={onClickStopHandler}/>*/}
+                <div className={style.text}>{card.question}</div>
                 {showAnswer
                     ? <LearnAnswer answer={card.answer} grade={card.grade} card_id={card._id}
                                    onCLickNext={onCLickNext}/>
@@ -81,6 +82,7 @@ const Learn = () => {
                         <Button buttonStyle={"secondary"} children={"Answer"} onClick={() => setShowAnswer(true)}/>
                     </>
                 }
+                <ModalStopLearning onClickStopHandler={onClickStopHandler}/>
             </div>
         )
     } else {

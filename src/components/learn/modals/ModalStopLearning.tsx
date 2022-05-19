@@ -1,6 +1,7 @@
 import React, {useState} from "react";
-import Button from "../common/button/Button";
-import Modal from "../common/modal/Modal";
+import Button from "../../common/button/Button";
+import Modal from "../../common/modal/Modal";
+import style from "./ModalStopLearning.module.css"
 
 type PropsType = {
     onClickStopHandler: () => void
@@ -21,12 +22,12 @@ const ModalStopLearning:React.FC<PropsType> = ({onClickStopHandler}) => {
 
     return (
         <>
-            <Button buttonStyle={"primary"} children={"Stop"} onClick={onCLickStop} />
+            <Button buttonStyle={"primary"} children={"Stop"} onClick={onCLickStop} className={style.btn} />
             <Modal active={active} setActive={onCLickStop}>
                 <div>Do you really want to stop your learning?</div>
                 <div>
-                    <Button onClick={onClickYes} buttonStyle={"secondary"} children={"Yes"}/>
-                    <Button onClick={onClickNo} buttonStyle={"secondary"} children={"No"}/>
+                    <Button onClick={onClickYes} buttonStyle={"secondary"} children={"Yes"} className={style.btnContainer}/>
+                    <Button onClick={onClickNo} buttonStyle={"secondary"} children={"No"} className={style.btnContainer}/>
                 </div>
 
             </Modal>

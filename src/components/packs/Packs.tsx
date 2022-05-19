@@ -7,10 +7,10 @@ import {
     fetchPacks,
     setCardsCount,
     setMyPacks,
-    setPackName, setPage, setPageCount, SortPackConditionType, sortPacks,
+    setPackName, setPage, setPageCount, SortPackConditionType,
 } from "../../bll/packsReducer";
 import ModalAddUpdatePack from "./modals/ModalAddUpdatePack";
-import {Redirect, useHistory, useParams} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import ModalDeletePack from "./modals/ModalDeletePack";
 import Paginator from "../common/paginator/Paginator";
@@ -124,11 +124,11 @@ const Packs = () => {
                                 <div>{formatDate}</div>
                                 <div>{formatTime}</div>
                             </div>
-                            {pack.user_id === myUser_id && <ModalDeletePack name={pack.name} _id={pack._id} />}
+                            {pack.user_id === myUser_id && <ModalDeletePack name={pack.name} _id={pack._id}/>}
                             {pack.user_id === myUser_id && <ModalAddUpdatePack buttonName={"Update"} _id={pack._id}
                                                                                nameInit={pack.name}
                                                                                isPrivateInit={pack.private}
-                                                                               />}
+                            />}
 
                             {pack.cardsCount > 0 &&
                                 <div>
